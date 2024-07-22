@@ -11,7 +11,6 @@ function toggleColorMode() {
 
 const links = new Map([
   ["Sobre mim", "/sobre-mim"],
-  ["Habilidades", "/habilidades"],
   ["Projetos", "/projetos"],
   ["Open Source", "/opensource"],
   ["Contato", "/contato"],
