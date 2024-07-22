@@ -2,7 +2,9 @@
   <div id="sobre-mim" class="about__grid">
     <div class="about__card">
       <h2>Sobre mim</h2>
-      <div class="about__text">About me</div>
+      <div class="about__text">
+        <ContentDoc path="aboutme" />
+      </div>
     </div>
     <div class="about">
       <div class="about__bubble">

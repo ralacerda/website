@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxt/eslint", "@nuxtjs/color-mode", "@nuxt/icon", "@nuxt/image"],
+  modules: [
+    "@nuxt/eslint",
+    "@nuxtjs/color-mode",
+    "@nuxt/icon",
+    "@nuxt/image",
+    "@nuxt/content"
+  ],
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
 
