@@ -12,13 +12,4 @@ const { data: projects } = useAsyncData("projects", () =>
     :key="project.slug"
     :project="project"
   />
-
-  <button id="showMore">Mostrar mais projetos</button>
 </template>
-
-<style lang="scss" scoped>
-button {
-  margin-top: var(--space-l);
-  @include border-button;
-}
-</style>

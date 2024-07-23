@@ -35,4 +35,8 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  content: {
+    contentHead: false,
+  },
 });

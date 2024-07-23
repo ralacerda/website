@@ -56,16 +56,6 @@ const links = new Map([
   </nav>
 </template>
 
-<!-- 
-<script>
-const toggleButton = document.getElementById("navbar-button");
-const navigationLinks = document.querySelector(".navbar__right");
-
-toggleButton?.addEventListener("click", () => {
-  navigationLinks?.toggleAttribute("data-active");
-});
-</script> -->
-
 <style lang="scss">
 .navbar {
   position: sticky;

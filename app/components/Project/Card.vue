@@ -15,7 +15,7 @@ defineProps<{
           project.link
         }}</a>
         <div class="project__description">
-          <ContentDoc :path="project._path" :head="false" />
+          <ContentDoc :path="project._path" />
         </div>
         <a href="{project.repoLink}" target="_blank"> Repositório do projeto</a>
         <ul class="project__icons" role="list">
