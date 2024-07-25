@@ -17,7 +17,7 @@ defineProps<{
         <div class="project__description">
           <ContentDoc :path="project._path" />
         </div>
-        <a href="{project.repoLink}" target="_blank"> Repositório do projeto</a>
+        <a :href="project.repoLink" target="_blank"> Repositório do projeto</a>
         <ul class="project__icons" role="list">
           <li v-for="icon in project.tech" :key="icon" :data-tooltip="icon">
             <TechIcon :name="icon" />
