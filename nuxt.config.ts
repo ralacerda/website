@@ -49,4 +49,8 @@ export default defineNuxtConfig({
       "Desenvolvedor Web com conhecimento de VueJS, Nuxt e Typescript",
     defaultLocale: "pt",
   },
+
+  image: {
+    provider: "ipx",
+  },
 });
