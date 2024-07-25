@@ -22,7 +22,8 @@
     "@iconify-json/bx": "^1.1.10",
     "@nuxt/icon": "^1.1.1",
     "@nuxt/image": "^1.7.0",
-    "@nuxtjs/color-mode": "^3.4.2"
+    "@nuxtjs/color-mode": "^3.4.2",
+    "@nuxtjs/seo": "2.0.0-rc.16"
   },
   "pnpm": {
     "supportedArchitectures": {

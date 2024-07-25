@@ -6,7 +6,9 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxt/content",
+    "@nuxtjs/seo",
   ],
+
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
 
@@ -38,5 +40,13 @@ export default defineNuxtConfig({
 
   content: {
     contentHead: false,
+  },
+
+  site: {
+    url: "https://renatolacerda.com",
+    name: "Renato Lacerda",
+    description:
+      "Desenvolvedor Web com conhecimento de VueJS, Nuxt e Typescript",
+    defaultLocale: "pt",
   },
 });
