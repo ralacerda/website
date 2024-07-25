@@ -40,7 +40,7 @@ const links = new Map([
             <NuxtLink :to="link" class="navbar__link"> {{ label }} </NuxtLink>
           </li>
         </ul>
-        <button class="navbar__theme-button">
+        <button class="navbar__theme-button" title="Mudar tema">
           <Transition name="fade" mode="out-in">
             <Icon
               v-if="!$colorMode.unknown"
