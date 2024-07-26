@@ -26,12 +26,10 @@ const links = new Map([
           id="navbar-button"
           class="navbar__button"
           aria-label="Toggle navigation menu"
+          @click="open = !open"
         >
-          <Icon
-            :name="open ? 'mdi:close' : 'bx:menu'"
-            size="1.25em"
-            @click="open = !open"
-          />
+          <Icon v-show="open" name="mdi:close" size="1.25em" />
+          <Icon v-show="!open" name="bx:menu" size="1.25em" />
         </button>
       </header>
       <div class="navbar__right" :data-active="open || null">
@@ -40,16 +38,23 @@ const links = new Map([
             <NuxtLink :to="link" class="navbar__link"> {{ label }} </NuxtLink>
           </li>
         </ul>
-        <button class="navbar__theme-button" title="Mudar tema">
-          <Transition name="fade" mode="out-in">
-            <Icon
-              v-if="!$colorMode.unknown"
-              :key="$colorMode.value"
-              size="1.25em"
-              :name="$colorMode.value === 'light' ? 'bx:moon' : 'bx:sun'"
-              @click="toggleColorMode"
-            />
-          </Transition>
+        <button
+          class="navbar__theme-button"
+          title="Mudar tema"
+          @click="toggleColorMode"
+        >
+          <Icon
+            v-if="!$colorMode.unknown"
+            v-show="$colorMode.value === 'light'"
+            size="1.25em"
+            name="bx:moon"
+          />
+          <Icon
+            v-if="!$colorMode.unknown"
+            v-show="$colorMode.value === 'dark'"
+            size="1.25em"
+            name="bx:sun"
+          />
         </button>
       </div>
     </div>
