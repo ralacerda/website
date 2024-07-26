@@ -36,6 +36,7 @@ export default defineNuxtConfig({
         prefix: "logos",
       },
     ],
+    collections: ["bx", "mdi"],
   },
 
   content: {

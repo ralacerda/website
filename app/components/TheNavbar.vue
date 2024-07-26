@@ -28,7 +28,7 @@ const links = new Map([
           aria-label="Toggle navigation menu"
         >
           <Icon
-            :name="open ? 'ic:baseline-close' : 'bx:menu'"
+            :name="open ? 'mdi:close' : 'bx:menu'"
             size="1.25em"
             @click="open = !open"
           />
