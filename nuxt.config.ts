@@ -36,6 +36,8 @@ export default defineNuxtConfig({
         prefix: "logos",
       },
     ],
+    provider: "iconify",
+    serverBundle: false,
   },
 
   content: {
