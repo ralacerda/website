@@ -108,7 +108,7 @@
 }
 
 .about__bubble {
-  @include shadow;
+  box-shadow: var(--shadow-soft);
   // width: calc(100% - var(--left-margin) * 2);
   line-height: 1.5;
   margin-bottom: var(--space-xl);

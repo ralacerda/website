@@ -138,7 +138,7 @@ textarea {
   button {
     @include border-button;
     margin-top: var(--space-s);
-    @include shadow;
+    box-shadow: var(--shadow-soft);
     background-color: var(--bg-primary);
     color: var(--fg);
     cursor: pointer;

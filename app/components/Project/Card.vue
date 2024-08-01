@@ -87,7 +87,7 @@ defineProps<{
   border-radius: 3px;
   background-color: var(--bg-secondary);
 
-  @include shadow;
+  box-shadow: var(--shadow-soft);
 
   &:hover {
     transform: translate(-0.5rem, -0.5rem);

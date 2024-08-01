@@ -81,3 +81,9 @@
 
   --content-size: clamp(16rem, 90vw, 90rem);
 }
+
+// Shadows
+:root {
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

@@ -76,7 +76,7 @@ const links = new Map([
 }
 
 .navbar.sticky {
-  @include shadow;
+  box-shadow: var(--shadow-soft);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   background-color: var(--bg-transparent);
