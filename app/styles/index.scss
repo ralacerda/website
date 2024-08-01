@@ -12,7 +12,8 @@ body {
 }
 
 main > * {
-  @include centered-content;
+  width: var(--content-size);
+  margin-inline: auto;
   margin-top: var(--space-xl-2xl);
   scroll-margin-top: 4rem;
 }

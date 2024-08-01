@@ -83,7 +83,8 @@ const links = new Map([
 }
 
 .navbar__container {
-  @include centered-content;
+  width: var(--content-size);
+  margin-inline: auto;
   padding: 1.2rem 0.6rem;
   display: flex;
   justify-content: space-between;
