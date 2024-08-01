@@ -15,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="contato" class="contact">
+  <div id="contato" class="contact card">
     <h2>Contato</h2>
     <div class="contact__text">
       <ContactMeText />
@@ -63,10 +63,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.contact {
-  @include card;
-}
-
 .contact__grid {
   display: flex;
   gap: var(--space-m);
@@ -75,7 +71,7 @@ onMounted(() => {
 }
 
 p {
-  @include card-max-width;
+  max-width: --card-max-width;
   width: 100%;
 }
 
@@ -97,13 +93,13 @@ label {
   display: flex;
   align-items: center;
   column-gap: 0.4rem;
-  @include card-max-width;
+  max-width: --card-max-width;
 }
 
 input,
 textarea {
   flex: 1 1 30ch;
-  @include card-max-width;
+  max-width: --card-max-width;
   width: 100%;
   border: 1px solid var(--bg-secondary);
   border-radius: 4px;
@@ -137,6 +133,7 @@ textarea {
 
   button {
     @include border-button;
+    width: fit-content;
     margin-top: var(--space-s);
     box-shadow: var(--shadow-soft);
     background-color: var(--bg-primary);

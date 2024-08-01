@@ -78,8 +78,12 @@
   --space-2xl-3xl: clamp(3rem, calc(2.14rem + 4.29vw), 6rem);
 
   --space-xl-3xl: clamp(2.25rem, calc(1.18rem + 5.36vw), 6rem);
+}
 
+// Sizes
+:root {
   --content-size: clamp(16rem, 90vw, 90rem);
+  --card-max-width: calc(clamp(16rem, 90vw, 90rem) - (2 * var(--space-l-xl)));
 }
 
 // Shadows

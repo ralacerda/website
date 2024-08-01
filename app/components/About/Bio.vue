@@ -1,6 +1,6 @@
 <template>
   <div id="sobre-mim" class="about__grid">
-    <div class="about__card">
+    <div class="about__card card">
       <h2>Sobre mim</h2>
       <div class="about__text">
         <ContentDoc path="aboutme" />
@@ -51,8 +51,6 @@
 }
 
 .about__card {
-  @include card;
-
   h2 {
     font-size: var(--step-3);
   }

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="projects">
+    <div class="projects card">
       <h2>Projetos</h2>
       <ProjectList />
     </div>
@@ -9,7 +9,6 @@
 
 <style lang="scss" scoped>
 .projects {
-  @include card;
   position: relative;
 }
 

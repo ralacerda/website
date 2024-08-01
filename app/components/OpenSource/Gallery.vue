@@ -32,7 +32,7 @@ const pullrequestsInfo = [
 </script>
 
 <template>
-  <div id="opensource" class="opensource">
+  <div id="opensource" class="opensource card">
     <div class="opensource__card">
       <h2>Open Source</h2>
       <div class="card__text">
@@ -134,7 +134,6 @@ h2 {
 }
 
 .opensource {
-  @include card;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr));
   justify-items: start;

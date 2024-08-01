@@ -1,6 +1,6 @@
 <template>
   <div id="habilidades" class="skills">
-    <div class="skills__card">
+    <div class="skills__card card">
       <Icon name="mdi:lightbulb-variant-outline" class="skills__icon" />
       <h2>Fluência em Línguas Estrangeiras</h2>
       <p>
@@ -9,7 +9,7 @@
       </p>
     </div>
 
-    <div class="skills__card">
+    <div class="skills__card card">
       <Icon name="mdi:console-line" class="skills__icon" />
       <h2>Linux e Linha de Comando</h2>
       <p>
@@ -18,7 +18,7 @@
       </p>
     </div>
 
-    <div class="skills__card">
+    <div class="skills__card card">
       <Icon name="mdi:airplane" class="skills__icon" />
       <h2>Aprendizado Contínuo</h2>
       <p>
@@ -53,7 +53,6 @@ h2 {
 }
 
 .skills__card {
-  @include card;
   flex: 1 0 200px;
   box-sizing: content-box;
 }
