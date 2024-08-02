@@ -1,6 +1,5 @@
 @import "variables";
 @import "reset";
-@import "mixins";
 
 body {
   color: var(--fg);
@@ -43,4 +42,31 @@ a {
   box-shadow: var(--shadow-soft);
   border-radius: 0.5rem;
   padding: var(--space-m) var(--space-l-xl);
+}
+
+.border-button {
+  --bg-color: var(--danger);
+
+  background-color: inherit;
+  display: block;
+  width: fit-content;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 200ms, color 200ms, border-color 200ms;
+  border: solid 1px var(--bg-color);
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--fg);
+  line-height: 1.4;
+  box-shadow: var(--shadow-soft);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--neutral-900);
+    background-color: var(--bg-color);
+  }
+
+  &:active:not(:disabled) {
+    --bg-color: var(--danger-dark);
+  }
 }

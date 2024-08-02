@@ -18,17 +18,6 @@ export default defineNuxtConfig({
 
   css: ["~/styles/index.scss"],
 
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData:
-            '@use "~/styles/_variables.scss" as *; @use "~/styles/_mixins.scss" as *;',
-        },
-      },
-    },
-  },
-
   icon: {
     customCollections: [
       {

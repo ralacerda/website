@@ -52,7 +52,7 @@ onMounted(() => {
               aria-label="Mensagem"
             />
           </div>
-          <button type="submit">Enviar mensagem</button>
+          <button type="submit" class="border-button">Enviar mensagem</button>
         </form>
       </div>
       <div class="contact__social">
@@ -132,13 +132,7 @@ textarea {
   flex: 1 1 600px;
 
   button {
-    @include border-button;
-    width: fit-content;
     margin-top: var(--space-s);
-    box-shadow: var(--shadow-soft);
-    background-color: var(--bg-primary);
-    color: var(--fg);
-    cursor: pointer;
   }
 }
 

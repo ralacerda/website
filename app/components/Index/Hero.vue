@@ -15,7 +15,9 @@
       <div class="hero__text">
         <h1 class="hero__name">Olá, eu sou o Renato</h1>
         <div class="hero__position">Desenvolvedor Front End</div>
-        <NuxtLink class="hero__cta" to="/projetos"> Meus projetos</NuxtLink>
+        <NuxtLink class="hero__cta border-button" to="/projetos">
+          Meus projetos</NuxtLink
+        >
       </div>
     </div>
   </div>
@@ -72,9 +74,7 @@
 }
 
 .hero__cta {
-  width: fit-content;
   margin-inline: auto;
   font-size: var(--step-2);
-  @include border-button;
 }
 </style>
