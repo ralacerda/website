@@ -27,7 +27,7 @@
 .flex {
   display: flex;
   flex-direction: row;
-  column-gap: var(--space-l);
+  column-gap: var(--space-xl);
   row-gap: var(--space-l);
   padding-inline: 1rem;
   justify-content: center;
@@ -57,7 +57,6 @@
 }
 
 .text {
-  text-align: center;
   display: grid;
   align-content: center;
   line-height: 1.2;
@@ -69,12 +68,10 @@
 
 .position {
   font-size: var(--step-3);
-  margin-top: var(--space-xs);
   margin-bottom: var(--space-m);
 }
 
 .cta {
-  margin-inline: auto;
   font-size: var(--step-2);
 }
 </style>
