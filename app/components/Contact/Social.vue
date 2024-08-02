@@ -50,10 +50,10 @@
   text-decoration: none;
 
   &:hover {
-    color: var(--danger);
+    color: var(--red);
 
     &::before {
-      background-color: var(--danger);
+      background-color: var(--red);
       transform: scaleX(300%);
       transition: transform 150ms, color 100ms;
     }

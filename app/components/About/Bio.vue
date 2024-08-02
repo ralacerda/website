@@ -73,7 +73,7 @@
 
   &::after {
     position: absolute;
-    background-color: var(--danger);
+    background-color: var(--red);
     width: var(--line-width);
     // height: calc(100% + (var(--distance) * 2));
     height: calc(100% + (var(--distance)));
@@ -124,7 +124,7 @@
   top: calc((var(--step-0) * 0.75) + 0.5rem - (var(--circle-size) / 4));
   border-radius: 100%;
   background-color: var(--bg);
-  border: solid 3px var(--danger);
+  border: solid 3px var(--red);
   position: absolute;
 }
 
@@ -136,6 +136,6 @@
   top: calc((var(--step-0) * 0.75) + 0.5rem + (var(--line-width) / 4));
   position: absolute;
   left: calc((var(--left-margin) * -1) - (var(--circle-size) / 4));
-  background-color: var(--danger);
+  background-color: var(--red);
 }
 </style>

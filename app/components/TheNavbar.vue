@@ -112,7 +112,7 @@ const links = new Map([
 }
 
 .link {
-  background: linear-gradient(var(--danger) 0 0) calc(100% - var(--p, 0%)) 90% /
+  background: linear-gradient(var(--red) 0 0) calc(100% - var(--p, 0%)) 90% /
     var(--p, 0%) 2px no-repeat;
   transition: 150ms, background-position 0s;
 

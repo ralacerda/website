@@ -69,7 +69,7 @@ li {
 
   &:hover,
   &:focus-visible {
-    color: var(--danger);
+    color: var(--red);
 
     &::after {
       opacity: 1;

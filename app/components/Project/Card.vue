@@ -96,6 +96,6 @@ defineProps<{
 
 .screenshot-background {
   border-radius: 4px;
-  background-color: var(--danger);
+  background-color: var(--red);
 }
 </style>

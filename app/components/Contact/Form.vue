@@ -116,10 +116,10 @@ textarea {
   &.error {
     background-color: var(--form-background);
     box-shadow: 0 0 2px 1px var(--form-hl-shadows);
-    border: 1px solid var(--danger);
+    border: 1px solid var(--red);
 
     &:is(:active, :focus) {
-      border: 1px solid var(--danger);
+      border: 1px solid var(--red);
     }
   }
 }

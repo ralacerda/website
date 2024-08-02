@@ -32,7 +32,7 @@ a {
 
   &:hover {
     color: var(--fg);
-    text-decoration-color: var(--danger);
+    text-decoration-color: var(--red);
   }
 }
 
@@ -45,7 +45,7 @@ a {
 }
 
 .border-button {
-  --bg-color: var(--danger);
+  --bg-color: var(--red);
 
   background-color: inherit;
   display: block;
@@ -53,12 +53,13 @@ a {
   cursor: pointer;
   text-decoration: none;
   transition: background-color 200ms, color 200ms, border-color 200ms;
-  border: solid 1px var(--bg-color);
+  border: solid 2px var(--bg-color);
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
   color: var(--fg);
   line-height: 1.4;
   box-shadow: var(--shadow-soft);
+  font-weight: 500;
 
   &:hover,
   &:focus-visible {
@@ -67,6 +68,6 @@ a {
   }
 
   &:active:not(:disabled) {
-    --bg-color: var(--danger-dark);
+    --bg-color: var(--red-dark);
   }
 }
