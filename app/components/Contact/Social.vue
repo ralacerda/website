@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .social {
   flex: 1 1 180px;
   margin-top: 0.2rem;

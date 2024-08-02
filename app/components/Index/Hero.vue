@@ -1,6 +1,6 @@
 <template>
   <div class="hero">
-    <div class="hero__flex">
+    <div class="flex">
       <NuxtImg
         alt="Foto de Renato"
         src="/images/hero-image.png"
@@ -10,12 +10,12 @@
         preload
         format="webp"
         quality="100"
-        class="hero__image"
+        class="image"
       />
-      <div class="hero__text">
-        <h1 class="hero__name">Olá, eu sou o Renato</h1>
-        <div class="hero__position">Desenvolvedor Front End</div>
-        <NuxtLink class="hero__cta border-button" to="/projetos">
+      <div class="text">
+        <h1 class="name">Olá, eu sou o Renato</h1>
+        <div class="position">Desenvolvedor Front End</div>
+        <NuxtLink class="cta border-button" to="/projetos">
           Meus projetos</NuxtLink
         >
       </div>
@@ -23,8 +23,8 @@
   </div>
 </template>
 
-<style lang="scss">
-.hero__flex {
+<style lang="scss" scoped>
+.flex {
   display: flex;
   flex-direction: row;
   column-gap: var(--space-l);
@@ -40,7 +40,7 @@
   }
 }
 
-.hero__image {
+.image {
   max-height: 400px;
   max-width: 400px;
   box-shadow: 2px -4px 0 4px var(--danger);
@@ -56,24 +56,24 @@
   }
 }
 
-.hero__text {
+.text {
   text-align: center;
   display: grid;
   align-content: center;
   line-height: 1.2;
 }
 
-.hero__name {
+.name {
   font-size: var(--step-4);
 }
 
-.hero__position {
+.position {
   font-size: var(--step-3);
   margin-top: var(--space-xs);
   margin-bottom: var(--space-m);
 }
 
-.hero__cta {
+.cta {
   margin-inline: auto;
   font-size: var(--step-2);
 }

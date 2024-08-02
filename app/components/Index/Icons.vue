@@ -29,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ul class="icon-list content" role="list">
+  <ul class="icon-list" role="list">
     <li v-for="[label, icon] in icons" :key="icon" :data-tooltip="label">
       <TechIcon :name="icon" />
     </li>

@@ -1,62 +1,62 @@
 <template>
-  <div id="sobre-mim" class="about__grid">
-    <div class="about__card card">
+  <div id="sobre-mim" class="grid">
+    <div class="content card">
       <h2>Sobre mim</h2>
-      <div class="about__text">
+      <div class="text">
         <ContentDoc path="aboutme" />
       </div>
     </div>
     <div class="about">
-      <div class="about__bubble">
-        <h3 class="bubble__title">Programa Desenvolve Fullstack</h3>
-        <div class="bubble__location">Grupo Boticário - Alura</div>
-        <div class="bubble__logo">
+      <div class="bubble">
+        <h3 class="title">Programa Desenvolve Fullstack</h3>
+        <div class="location">Grupo Boticário - Alura</div>
+        <div class="logo">
           <Icon name="logos:desenvolva" mode="svg" />
         </div>
-        <div class="bubble__date">2023</div>
+        <div class="date">2023</div>
       </div>
-      <div class="about__bubble">
-        <h3 class="bubble__title">Mestrado em Ecologia</h3>
-        <div class="bubble__location">Universidade de Campinas</div>
-        <div class="bubble__logo">
+      <div class="bubble">
+        <h3 class="title">Mestrado em Ecologia</h3>
+        <div class="location">Universidade de Campinas</div>
+        <div class="logo">
           <Icon name="logos:unicamp" mode="svg" />
         </div>
-        <div class="bubble__date">2019 - 2023</div>
+        <div class="date">2019 - 2023</div>
       </div>
-      <div class="about__bubble">
-        <h3 class="bubble__title">Ciências Sem Fronteiras</h3>
-        <div class="bubble__location">University of Southampton</div>
-        <div class="bubble__logo">
+      <div class="bubble">
+        <h3 class="title">Ciências Sem Fronteiras</h3>
+        <div class="location">University of Southampton</div>
+        <div class="logo">
           <Icon name="logos:southampton" mode="svg" />
         </div>
-        <div class="bubble__date">2013 - 2014</div>
+        <div class="date">2013 - 2014</div>
       </div>
-      <div class="about__bubble">
-        <h3 class="bubble__title">Graduação em Ciências Biológicas</h3>
-        <div class="bubble__location">Universidade de São Paulo</div>
-        <div class="bubble__logo">
+      <div class="bubble">
+        <h3 class="title">Graduação em Ciências Biológicas</h3>
+        <div class="location">Universidade de São Paulo</div>
+        <div class="logo">
           <Icon name="logos:usp" mode="svg" />
         </div>
-        <div class="bubble__date">2010 - 2015</div>
+        <div class="date">2010 - 2015</div>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.about__grid {
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
   row-gap: var(--space-2xl);
 }
 
-.about__card {
+.content {
   h2 {
     font-size: var(--step-3);
   }
 }
 
-.about__text {
+.text {
   margin-top: var(--space-m);
 }
 
@@ -84,7 +84,7 @@
   }
 }
 
-.bubble__logo {
+.logo {
   color: var(--bg-details);
   width: var(--space-xl-2xl);
   height: var(--space-xl-2xl);
@@ -100,14 +100,13 @@
   }
 }
 
-.bubble__title {
+.title {
   font-size: var(--step-1);
   padding-right: calc(var(--space-xl-2xl) + 0.5rem);
 }
 
-.about__bubble {
+.bubble {
   box-shadow: var(--shadow-soft);
-  // width: calc(100% - var(--left-margin) * 2);
   line-height: 1.5;
   margin-bottom: var(--space-xl);
   background-color: var(--bg-secondary);
@@ -117,7 +116,7 @@
   position: relative;
 }
 
-.about__bubble::before {
+.bubble::before {
   content: "";
   width: var(--circle-size);
   height: var(--circle-size);
@@ -129,7 +128,7 @@
   position: absolute;
 }
 
-.about__bubble::after {
+.bubble::after {
   content: "";
   z-index: -5;
   height: var(--line-width);

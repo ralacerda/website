@@ -1,7 +1,7 @@
 <template>
   <div id="habilidades" class="skills">
-    <div class="skills__card card">
-      <Icon name="mdi:lightbulb-variant-outline" class="skills__icon" />
+    <div class="block card">
+      <Icon name="mdi:lightbulb-variant-outline" class="icon" />
       <h2>Fluência em Línguas Estrangeiras</h2>
       <p>
         Durante um ano, vivi e estudei na Inglaterra, o que me possibilitou
@@ -9,8 +9,8 @@
       </p>
     </div>
 
-    <div class="skills__card card">
-      <Icon name="mdi:console-line" class="skills__icon" />
+    <div class="block card">
+      <Icon name="mdi:console-line" class="icon" />
       <h2>Linux e Linha de Comando</h2>
       <p>
         Utilizo GNU/Linux como sistema operacional, o que me forneceu
@@ -18,8 +18,8 @@
       </p>
     </div>
 
-    <div class="skills__card card">
-      <Icon name="mdi:airplane" class="skills__icon" />
+    <div class="block card">
+      <Icon name="mdi:airplane" class="icon" />
       <h2>Aprendizado Contínuo</h2>
       <p>
         Gosto de estar sempre atualizado e aprender novas tecnologias e
@@ -37,7 +37,7 @@ h2 {
   line-height: 1.2;
 }
 
-.skills__icon {
+.icon {
   margin-inline: auto;
   font-size: var(--step-3);
   color: var(--bg-details);
@@ -52,7 +52,7 @@ h2 {
   text-align: center;
 }
 
-.skills__card {
+.block {
   flex: 1 0 200px;
   box-sizing: content-box;
 }

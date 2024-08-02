@@ -1,7 +1,7 @@
 <template>
-  <div class="footer">
+  <footer>
     Renato Lacerda · 2024
-    <ul class="footer__social" role="list">
+    <ul class="social" role="list">
       <li>
         <a target="_blank" href="https://www.linkedin.com/in/renato-ac-lacerda/"
           >Linkedin</a
@@ -20,18 +20,18 @@
         >
       </li>
     </ul>
-  </div>
+  </footer>
 </template>
 
 <style lang="scss" scoped>
-.footer__social {
+.social {
   display: flex;
   justify-content: center;
   gap: var(--space-xs-s);
   margin-top: var(--space-2xs);
 }
 
-.footer {
+footer {
   font-size: var(--step--1);
   text-align: center;
   margin-top: var(--space-l-xl);

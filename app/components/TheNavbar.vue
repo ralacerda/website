@@ -19,12 +19,12 @@ const links = new Map([
 
 <template>
   <nav class="navbar" :class="{ sticky: y > 0 }">
-    <div class="navbar__container">
-      <header class="navbar__title">
+    <div class="container">
+      <header class="title">
         <div><NuxtLink href="/">Renato Lacerda</NuxtLink></div>
         <button
           id="navbar-button"
-          class="navbar__button"
+          class="button"
           aria-label="Toggle navigation menu"
           @click="open = !open"
         >
@@ -32,14 +32,14 @@ const links = new Map([
           <Icon v-show="!open" name="bx:menu" size="1.25em" />
         </button>
       </header>
-      <div class="navbar__right" :data-active="open || null">
-        <ul role="list" class="navbar__navigation">
+      <div class="right" :data-active="open || null">
+        <ul role="list" class="navigation">
           <li v-for="[label, link] in links" :key="link">
-            <NuxtLink :to="link" class="navbar__link"> {{ label }} </NuxtLink>
+            <NuxtLink :to="link" class="link"> {{ label }} </NuxtLink>
           </li>
         </ul>
         <button
-          class="navbar__theme-button"
+          class="theme-button"
           title="Mudar tema"
           @click="toggleColorMode"
         >
@@ -82,7 +82,7 @@ const links = new Map([
   background-color: var(--bg-transparent);
 }
 
-.navbar__container {
+.container {
   width: var(--content-size);
   margin-inline: auto;
   padding: 1.2rem 0.6rem;
@@ -90,7 +90,7 @@ const links = new Map([
   justify-content: space-between;
 }
 
-.navbar__title {
+.title {
   font-size: var(--step-1);
   font-weight: 600;
   flex-shrink: 0;
@@ -99,19 +99,19 @@ const links = new Map([
   justify-content: space-between;
 }
 
-.navbar__right {
+.right {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
 
-.navbar__navigation {
+.navigation {
   display: flex;
   gap: 0rem 2rem;
   align-items: center;
 }
 
-.navbar__link {
+.link {
   background: linear-gradient(var(--danger) 0 0) calc(100% - var(--p, 0%)) 90% /
     var(--p, 0%) 2px no-repeat;
   transition: 150ms, background-position 0s;
@@ -122,7 +122,7 @@ const links = new Map([
   }
 }
 
-.navbar__button {
+.button {
   display: none;
   background: none;
   color: var(--fg);
@@ -131,26 +131,26 @@ const links = new Map([
 }
 
 @media (max-width: 960px) {
-  .navbar__button {
+  .button {
     display: unset;
   }
 
-  .navbar__right {
+  .right {
     display: none;
   }
 
-  .navbar__container {
+  .container {
     flex-direction: column;
   }
 
-  .navbar__right[data-active] {
+  .right[data-active] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .navbar__navigation {
+  .navigation {
     flex-direction: column;
     align-items: flex-start;
     li {
@@ -159,7 +159,7 @@ const links = new Map([
   }
 }
 
-.navbar__theme-button {
+.theme-button {
   min-width: 20px;
 }
 

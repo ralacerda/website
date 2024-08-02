@@ -33,9 +33,9 @@ const pullrequestsInfo = [
 
 <template>
   <div id="opensource" class="opensource card">
-    <div class="opensource__card">
+    <div class="content">
       <h2>Open Source</h2>
-      <div class="card__text">
+      <div class="text">
         <p>
           Sou entusiasta da cultura de Open Source e acredito no poder da
           colaboração e compartilhamento de conhecimento. Ao longo dos anos,
@@ -60,12 +60,8 @@ const pullrequestsInfo = [
       </div>
     </div>
 
-    <div class="opensource__gallery">
-      <div
-        v-for="(pr, index) in pullrequestsInfo"
-        :key="pr.url"
-        class="gallery__image"
-      >
+    <div class="gallery">
+      <div v-for="(pr, index) in pullrequestsInfo" :key="pr.url" class="image">
         <a :href="pr.url" target="_blank">
           <NuxtImg
             :src="`/images/pullrequests/pullrequest${index}.png`"
@@ -83,23 +79,23 @@ h2 {
   font-size: var(--step-3);
 }
 
-.opensource__card {
+.content {
   flex-grow: 1;
   max-width: 60ch;
 }
 
-.card__text {
+.text {
   margin-top: var(--space-m);
 }
-.opensource__gallery:hover .gallery__image:not(:hover) {
+.gallery:hover .image:not(:hover) {
   filter: saturate(0.1);
 }
 
-.opensource__gallery {
+.gallery {
   --overlap: var(--space-xl);
 }
 
-.opensource__gallery .gallery__image {
+.gallery .image {
   display: block;
   flex-grow: 0;
   isolation: isolate;
@@ -108,7 +104,7 @@ h2 {
   position: relative;
 }
 
-.opensource__gallery .gallery__image a::after {
+.gallery .image a::after {
   content: "";
   background: linear-gradient(to top, #00000040 10%, transparent);
   bottom: 0;
@@ -119,16 +115,16 @@ h2 {
   z-index: 5;
 }
 
-.opensource__gallery .gallery__image + .gallery__image {
+.gallery .image + .image {
   margin-top: calc(var(--overlap) * -1);
 }
 
-.opensource__gallery .gallery__image:hover:not(:last-child) {
+.gallery .image:hover:not(:last-child) {
   transform: translateY(calc(var(--overlap) * -1 * 0.6));
 }
 
 @media (max-width: 660px) {
-  .opensource__gallery {
+  .gallery {
     --overlap: 0;
   }
 }
