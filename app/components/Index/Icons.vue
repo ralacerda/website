@@ -3,14 +3,15 @@ import { animate, stagger, spring } from "motion";
 const icons = [
   ["Git", "git"],
   ["GitHub", "github"],
-  ["HTML5", "html5"],
-  ["CSS3", "css3"],
-  ["SASS", "sass"],
   ["Javascript", "javascript"],
   ["Typescript", "typescript"],
+  ["React", "react"],
   ["Vue", "vuedotjs"],
   ["Nuxt", "nuxtdotjs"],
-  ["Astro", "astro"],
+  ["Vitest", "vitest"],
+  ["Cypress", "cypress"],
+  ["Storybook", "storybook"],
+  ["Go", "go"],
 ];
 
 onMounted(() => {
