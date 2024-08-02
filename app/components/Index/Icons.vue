@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { animate, stagger, spring } from "motion";
 const icons = [
   ["Git", "git"],
   ["GitHub", "github"],
@@ -13,25 +12,16 @@ const icons = [
   ["Storybook", "storybook"],
   ["Go", "go"],
 ];
-
-onMounted(() => {
-  animate(
-    ".icon-list li",
-    {
-      opacity: [0, 1],
-      y: [80, 0],
-    },
-    {
-      delay: stagger(0.05),
-      easing: spring({ stiffness: 200, damping: 30 }),
-    }
-  );
-});
 </script>
 
 <template>
   <ul class="icon-list" role="list">
-    <li v-for="[label, icon] in icons" :key="icon" :data-tooltip="label">
+    <li
+      v-for="([label, icon], index) in icons"
+      :key="icon"
+      :data-tooltip="label"
+      :style="{ '--index': index }"
+    >
       <TechIcon :name="icon" />
     </li>
   </ul>
@@ -49,6 +39,9 @@ onMounted(() => {
 
 li {
   opacity: 0;
+  animation: slide-in 0.7s forwards;
+  animation-timing-function: cubic-bezier(0.39, 0.53, 0.17, 0.99);
+  animation-delay: calc(var(--index) * 0.05s);
 
   &::after {
     content: attr(data-tooltip);
@@ -75,6 +68,18 @@ li {
       opacity: 1;
       transform: translate(-50%, -0.3rem);
     }
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(80px);
+    color: var(--red-dark);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
