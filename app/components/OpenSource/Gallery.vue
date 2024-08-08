@@ -66,7 +66,8 @@ const pullrequestsInfo = [
           <NuxtImg
             :src="`/images/pullrequests/pullrequest${index}.png`"
             alt=""
-            lazy
+            height="106"
+            width="610"
           />
         </a>
       </div>
@@ -102,17 +103,10 @@ h2 {
   transition: 200ms;
   border: 1px solid #00000060;
   position: relative;
-}
 
-.gallery .image a::after {
-  content: "";
-  background: linear-gradient(to top, #00000040 10%, transparent);
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-
-  position: absolute;
-  z-index: 5;
+  img {
+    height: auto;
+  }
 }
 
 .gallery .image + .image {

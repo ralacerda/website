@@ -33,7 +33,9 @@ defineProps<{
             width="600"
             height="400"
             format="webp"
+            quality="85"
             aspect-ratio="3:2"
+            lazy
           />
         </a>
       </div>

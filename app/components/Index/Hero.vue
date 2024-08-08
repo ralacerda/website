@@ -4,12 +4,12 @@
       <NuxtImg
         alt="Foto de Renato"
         src="/images/hero-image.jpeg"
-        aspect-ratio="1:1"
-        height="400"
-        width="400"
+        height="747"
+        width="748"
+        sizes="260px lg:400px"
         preload
         format="webp"
-        quality="100"
+        quality="85"
         class="image"
       />
       <div class="text">
