@@ -42,4 +42,8 @@ export default defineNuxtConfig({
   image: {
     provider: "ipx",
   },
+
+  nitro: {
+    compressPublicAssets: true,
+  },
 });
