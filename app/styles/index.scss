@@ -8,6 +8,7 @@ body {
     "Cantarell", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   font-size: var(--step-0);
+  transition: background-color 200ms;
 }
 
 main > * {
@@ -42,6 +43,7 @@ a {
   box-shadow: var(--shadow-soft);
   border-radius: 0.5rem;
   padding: var(--space-m) var(--space-l-xl);
+  transition: background-color 200ms 100ms;
 }
 
 .border-button {
