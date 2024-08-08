@@ -5,8 +5,8 @@
         alt="Foto de Renato"
         src="/images/hero-image.jpeg"
         aspect-ratio="1:1"
-        height="600"
-        width="600"
+        height="400"
+        width="400"
         preload
         format="webp"
         quality="100"
