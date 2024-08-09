@@ -1,6 +1,13 @@
 <template>
   <div class="hero">
-    <div class="flex">
+    <div class="grid">
+      <div class="text">
+        <h1 class="name">Olá, eu sou o Renato</h1>
+        <div class="position">Desenvolvedor Web</div>
+        <NuxtLink class="cta border-button" to="/projetos">
+          Meus projetos</NuxtLink
+        >
+      </div>
       <NuxtImg
         alt="Foto de Renato"
         src="/images/hero-image.jpeg"
@@ -12,41 +19,34 @@
         quality="85"
         class="image"
       />
-      <div class="text">
-        <h1 class="name">Olá, eu sou o Renato</h1>
-        <div class="position">Desenvolvedor Front End</div>
-        <NuxtLink class="cta border-button" to="/projetos">
-          Meus projetos</NuxtLink
-        >
-      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.flex {
-  display: flex;
-  flex-direction: row;
+.grid {
+  display: grid;
+  grid-template-areas: "text image";
   column-gap: var(--space-xl);
   row-gap: var(--space-l);
   padding-inline: 1rem;
-  justify-content: center;
-  align-items: center;
 
-  @media (max-width: 960px) {
-    & {
-      flex-direction: column;
-    }
+  @media (width <= 960px) {
+    grid-template-areas:
+      "image"
+      "text";
   }
 }
 
 .image {
+  grid-area: image;
   max-height: 400px;
   max-width: 400px;
   box-shadow: 2px -4px 0 4px var(--red);
   background-color: var(--red);
   border-radius: 100%;
   aspect-ratio: 1 / 1;
+  justify-self: center;
 
   @media (max-width: 960px) {
     & {
@@ -57,21 +57,31 @@
 }
 
 .text {
+  grid-area: text;
   display: grid;
   align-content: center;
   line-height: 1.2;
+
+  @media (width <= 960px) {
+    text-align: center;
+  }
 }
 
 .name {
   font-size: var(--step-4);
+  margin-bottom: var(--space-xs);
 }
 
 .position {
   font-size: var(--step-3);
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-l);
 }
 
 .cta {
   font-size: var(--step-2);
+
+  @media (width <= 960px) {
+    margin-inline: auto;
+  }
 }
 </style>

@@ -1,16 +1,27 @@
 <script setup lang="ts">
+// const icons = [
+//   ["Git", "git"],
+//   ["GitHub", "github"],
+//   ["Javascript", "javascript"],
+//   ["Typescript", "typescript"],
+//   ["React", "react"],
+//   ["Vue", "vuedotjs"],
+//   ["Nuxt", "nuxtdotjs"],
+//   ["Vitest", "vitest"],
+//   ["Cypress", "cypress"],
+//   ["Storybook", "storybook"],
+//   ["Go", "go"],
+// ];
+
 const icons = [
-  ["Git", "git"],
-  ["GitHub", "github"],
-  ["Javascript", "javascript"],
   ["Typescript", "typescript"],
-  ["React", "react"],
   ["Vue", "vuedotjs"],
   ["Nuxt", "nuxtdotjs"],
-  ["Vitest", "vitest"],
+  ["React", "react"],
   ["Cypress", "cypress"],
+  ["Vitest", "vitest"],
   ["Storybook", "storybook"],
-  ["Go", "go"],
+  ["Firebase", "firebase"],
 ];
 </script>
 

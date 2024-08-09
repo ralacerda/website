@@ -83,7 +83,7 @@
 
 // Sizes
 :root {
-  --content-size: clamp(16rem, 90vw, 90rem);
+  --content-size: clamp(16rem, 90vw, 70rem);
   --card-max-width: calc(clamp(16rem, 90vw, 90rem) - (2 * var(--space-l-xl)));
 }
 
