@@ -8,7 +8,7 @@ screenshots: [images/projects/project-oscar.png]
 repoLink: https://github.com/ralacerda/sequela-movie-app
 ---
 
-Este projeto buscou criar uma forma fácil de mostrar os filmes indicados e vencedores do Oscar de cada ano. Além de uma visão geral de todos os filmes indicados naquele determinado ano, há também uma página dedicada para cada categoria de premiação.
+Um site para você fácils encontrar os filmes indicados e vencedores do Oscar de cada ano. Além de uma visão geral de todos os filmes indicados naquele determinado ano, há também uma página dedicada para cada categoria de premiação.
 
 O primeiro desafio do projeto foi coletar as informações de cada filme nomeado. Escrevi um script em **NodeJS** para organizar os filmes a partir de uma lista de indicados, acessar uma **REST API** e um banco de dados (**MongoDB**) e cruzar as informações de cada filme.
 
