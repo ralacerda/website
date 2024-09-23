@@ -7,38 +7,36 @@
       </div>
     </div>
     <div class="about">
-      <div class="bubble">
-        <h3 class="title">Programa Desenvolve Fullstack</h3>
-        <div class="location">Grupo Boticário - Alura</div>
-        <div class="logo">
-          <Icon name="logos:desenvolva" mode="svg" />
-        </div>
-        <div class="date">2023</div>
-      </div>
-      <div class="bubble">
-        <h3 class="title">Mestrado em Ecologia</h3>
-        <div class="location">Universidade de Campinas</div>
-        <div class="logo">
-          <Icon name="logos:unicamp" mode="svg" />
-        </div>
-        <div class="date">2019 - 2023</div>
-      </div>
-      <div class="bubble">
-        <h3 class="title">Ciências Sem Fronteiras</h3>
-        <div class="location">University of Southampton</div>
-        <div class="logo">
-          <Icon name="logos:southampton" mode="svg" />
-        </div>
-        <div class="date">2013 - 2014</div>
-      </div>
-      <div class="bubble">
-        <h3 class="title">Graduação em Ciências Biológicas</h3>
-        <div class="location">Universidade de São Paulo</div>
-        <div class="logo">
-          <Icon name="logos:usp" mode="svg" />
-        </div>
-        <div class="date">2010 - 2015</div>
-      </div>
+      <AboutBioCard
+        name="Desenvolvedor Front End"
+        location="Skylar"
+        icon="logos:skylar"
+        date="2023 - Atual"
+      />
+      <AboutBioCard
+        name="MBA - Engenharia de Software"
+        location="Universidade de São Paulo"
+        icon="logos:usp"
+        date="2024 - 2025"
+      />
+      <AboutBioCard
+        name="Programa Desenvolve Fullstack"
+        location="Grupo Boticário - Alura"
+        icon="logos:desenvolva"
+        date="2023"
+      />
+      <AboutBioCard
+        name="Ciências Sem Fronteiras"
+        location="University of Southampton"
+        icon="logos:southampton"
+        date="2013 - 2014"
+      />
+      <AboutBioCard
+        name="Graduação em Ciências Biológicas"
+        location="Universidade de São Paulo"
+        icon="logos:usp"
+        date="2010 - 2015"
+      />
     </div>
   </div>
 </template>
@@ -51,6 +49,7 @@
 }
 
 .content {
+  align-self: start;
   h2 {
     font-size: var(--step-3);
   }
@@ -82,60 +81,5 @@
     content: "";
     z-index: -10;
   }
-}
-
-.logo {
-  color: var(--bg-details);
-  width: var(--space-xl-2xl);
-  height: var(--space-xl-2xl);
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-
-  svg {
-    fill: currentColor;
-    height: var(--space-xl-2xl);
-    width: 100%;
-    opacity: 0.5;
-  }
-}
-
-.title {
-  font-size: var(--step-1);
-  padding-right: calc(var(--space-xl-2xl) + 0.5rem);
-}
-
-.bubble {
-  box-shadow: var(--shadow-soft);
-  line-height: 1.5;
-  margin-bottom: var(--space-xl);
-  background-color: var(--bg-secondary);
-  border-radius: 10px;
-  padding: 0.5rem 1rem;
-  margin-left: calc(var(--left-margin) * 2);
-  position: relative;
-}
-
-.bubble::before {
-  content: "";
-  width: var(--circle-size);
-  height: var(--circle-size);
-  left: calc((var(--left-margin) * -1) - (var(--circle-size) / 2));
-  top: calc((var(--step-0) * 0.75) + 0.5rem - (var(--circle-size) / 4));
-  border-radius: 100%;
-  background-color: var(--bg);
-  border: solid 3px var(--red);
-  position: absolute;
-}
-
-.bubble::after {
-  content: "";
-  z-index: -5;
-  height: var(--line-width);
-  width: calc(var(--left-margin) * 1.3);
-  top: calc((var(--step-0) * 0.75) + 0.5rem + (var(--line-width) / 4));
-  position: absolute;
-  left: calc((var(--left-margin) * -1) - (var(--circle-size) / 4));
-  background-color: var(--red);
 }
 </style>

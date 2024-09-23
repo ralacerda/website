@@ -45,6 +45,7 @@ h2 {
 }
 
 .skills {
+  margin-top: 0;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xl);

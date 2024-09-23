@@ -1,7 +1,9 @@
-Desde cedo, tive paixão e curiosidade por tecnologia, graças ao contato com computadores por meio de meu pai. Aprendi a utilizar Linux, formatar e particionar computadores, bem como solucionar problemas cotidianos com programação básica.
+Desde cedo, fui um entusiasta de tecnologia, open source e Linux, mas foi em 2022 que desenvolvi meu primeiro site, criado para auxiliar na divulgação de um evento. Apesar dos desafios, descobri uma paixão por programação, especialmente no desenvolvimento web.
 
-Anos depois, mesmo não trabalhando na área de tecnologia, meu conhecimento anterior foi valioso em tarefas cotidianas e no ambiente acadêmico.
+A partir dai, me esforcei para aprimorar meus conhecimentos na área e me preparei para uma mudança de carreira. Realizei diversos projetos pessoais e freelances, que me ajudaram a consolidar meus conhecimentos e aprimorar minhas habilidades.
 
-Durante a pandemia, tive a oportunidade de colaborar com a divulgação de um evento acadêmico, criando seu site. Embora tivesse enfrentado desafios iniciais, dediquei-me a aprender e consegui concluir o projeto, reacendendo minha paixão pela programação, especialmente pelo desenvolvimento web.
+Participei do Programa de Desenvolvimento do Grupo Boticário (Trilha FullStack), que me proporcionou uma base sólida em desenvolvimento web e me permitiu desenvolver projetos práticos.
 
-Desde então, tenho me esforçado para aprimorar meus conhecimentos na área e me preparar para uma mudança de carreira. Atualmente, participo do Programa de Desenvolvimento do Grupo Boticário (Trilha FullStack) e busco oportunidades para começar minha carreira como desenvolvedor.
+Atualmente, trabalho como Desenvolvedor Front End na Skylar, onde consigo aplicar meus conhecimentos no desenvolvimento de sistemas web e landing pages, também liderando a criação de uma biblioteca de componentes para nossos produtos, além de ter a oportunidade de explorar novas tecnologias como IA Generativa.
+
+Com o objetivo de me manter atualizado e aprofundar meus conhecimentos, estou realizando o MBA em Engenharia de Software da USP/ESALQ, que me proporciona uma visão mais ampla sobre o desenvolvimento de software e aprimora minhas habilidades de liderança e gestão de projetos.
