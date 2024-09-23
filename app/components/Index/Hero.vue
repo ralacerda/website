@@ -13,10 +13,13 @@
         class="image"
       />
       <div class="text">
-        <h1 class="name">Olá, eu sou o Renato</h1>
-        <div class="position">Desenvolvedor Front End</div>
+        <h1 class="name">Olá, eu sou Renato</h1>
+        <div class="position">
+          Desenvolvedor web entusiasta de código aberto e focado em soluções
+          simples e eficiente.
+        </div>
         <NuxtLink class="cta border-button" to="/projetos">
-          Meus projetos</NuxtLink
+          Veja meus projetos</NuxtLink
         >
       </div>
     </div>
@@ -41,8 +44,8 @@
 }
 
 .image {
-  max-height: 400px;
-  max-width: 400px;
+  max-height: 350px;
+  max-width: 350px;
   box-shadow: 2px -4px 0 4px var(--red);
   background-color: var(--red);
   border-radius: 100%;
@@ -67,11 +70,15 @@
 }
 
 .position {
-  font-size: var(--step-3);
+  max-width: 40rem;
+  font-size: var(--step-1);
+  margin-top: var(--space-xs);
   margin-bottom: var(--space-m);
+  text-wrap: balance;
+  color: var(--fg-details);
 }
 
 .cta {
-  font-size: var(--step-2);
+  font-size: var(--step-1);
 }
 </style>
