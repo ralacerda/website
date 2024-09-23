@@ -37,9 +37,8 @@
   align-items: center;
 
   @media (max-width: 960px) {
-    & {
-      flex-direction: column;
-    }
+    flex-direction: column;
+    text-align: center;
   }
 }
 
@@ -52,10 +51,8 @@
   aspect-ratio: 1 / 1;
 
   @media (max-width: 960px) {
-    & {
-      max-height: 260px;
-      max-width: 260px;
-    }
+    max-height: 260px;
+    max-width: 260px;
   }
 }
 
@@ -80,5 +77,9 @@
 
 .cta {
   font-size: var(--step-1);
+
+  @media (max-width: 960px) {
+    margin-inline: auto;
+  }
 }
 </style>
