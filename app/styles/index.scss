@@ -11,6 +11,16 @@ body {
   transition: background-color 200ms;
 }
 
+#__nuxt {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
+}
+
+main {
+  align-self: center;
+}
+
 main > * {
   width: var(--content-size);
   margin-inline: auto;

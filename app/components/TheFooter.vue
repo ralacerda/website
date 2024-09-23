@@ -24,17 +24,17 @@
 </template>
 
 <style lang="scss" scoped>
-.social {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xs-s);
-  margin-top: var(--space-2xs);
-}
-
 footer {
   font-size: var(--step--1);
   text-align: center;
   margin-top: var(--space-l-xl);
-  padding-block: var(--space-m);
+  padding-block: var(--space-xs);
+  color: var(--fg-details);
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs-s);
 }
 </style>

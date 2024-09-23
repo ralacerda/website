@@ -5,8 +5,8 @@ defineOgImage({
 </script>
 
 <template>
-  <NoiseFilter />
   <TheNavbar />
   <NuxtPage />
   <TheFooter />
+  <NoiseFilter />
 </template>
