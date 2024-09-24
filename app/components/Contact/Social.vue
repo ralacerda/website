@@ -22,8 +22,10 @@
         >
       </li>
       <li>
-        <a href="https://twitter.com/renatoaclacerda" target="_blank"
-          ><Icon name="simple-icons:x" size="1.2em" />Twitter</a
+        <a
+          href="https://bsky.app/profile/renatolacerda.bsky.social"
+          target="_blank"
+          ><Icon name="simple-icons:bluesky" size="1.2em" />Bluesky</a
         >
       </li>
     </ul>
