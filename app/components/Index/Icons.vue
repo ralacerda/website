@@ -10,7 +10,6 @@ const icons = [
   ["Vitest", "vitest"],
   ["Cypress", "cypress"],
   ["Storybook", "storybook"],
-  ["Go", "go"],
 ] as const;
 </script>
 
