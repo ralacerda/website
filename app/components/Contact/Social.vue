@@ -48,14 +48,19 @@
   padding: var(--space-s);
   font-size: var(--step-1);
   font-weight: 600;
-
   text-decoration: none;
 
+  --hover-color: hsl(from var(--red) h calc(s * 1.2) calc(l * 0.9));
+
+  :root.dark-mode & {
+    --hover-color: hsl(from var(--red) h calc(s * 1.1) calc(l * 1.15));
+  }
+
   &:hover {
-    color: var(--red);
+    color: var(--hover-color);
 
     &::before {
-      background-color: var(--red);
+      background-color: var(--hover-color);
       transform: scaleX(300%);
       transition: transform 150ms, color 100ms;
     }
