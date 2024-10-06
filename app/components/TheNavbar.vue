@@ -54,7 +54,7 @@ const links = new Map([
                 ><a
                   :href="href"
                   @click="
-                    async (e) => {
+                    async (e: Event) => {
                       await navigate(e);
                       open = false;
                     }
