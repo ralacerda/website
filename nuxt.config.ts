@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/content",
     "@nuxtjs/seo",
+    "@nuxt/fonts",
   ],
 
   compatibilityDate: "2024-04-03",
