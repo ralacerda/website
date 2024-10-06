@@ -43,6 +43,10 @@ li {
   animation-timing-function: cubic-bezier(0.39, 0.53, 0.17, 0.99);
   animation-delay: calc(var(--index) * 0.05s);
 
+  & .iconify {
+    transition: color 0.2s;
+  }
+
   &::after {
     content: attr(data-tooltip);
     display: block;
@@ -62,7 +66,9 @@ li {
 
   &:hover,
   &:focus-visible {
-    color: var(--red);
+    & .iconify {
+      color: var(--red);
+    }
 
     &::after {
       opacity: 1;
