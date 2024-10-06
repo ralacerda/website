@@ -22,7 +22,7 @@ const links = new Map([
 
 <template>
   <nav class="navbar" :class="{ sticky: y > 0 }">
-    <div class="container">
+    <div class="container" data-allow-mismatch="children">
       <header class="title">
         <div><NuxtLink href="/">Renato Lacerda</NuxtLink></div>
         <button
