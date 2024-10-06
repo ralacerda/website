@@ -24,7 +24,8 @@
     "@nuxt/image": "^1.7.0",
     "@nuxtjs/color-mode": "^3.4.2",
     "@nuxtjs/seo": "2.0.0-rc.16",
-    "nuxt": "^3.13.2"
+    "nuxt": "^3.13.2",
+    "nuxt-time": "^1.0.2"
   },
   "pnpm": {
     "supportedArchitectures": {

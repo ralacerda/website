@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxtjs/seo",
     "@nuxt/fonts",
+    "nuxt-time",
   ],
 
   compatibilityDate: "2024-04-03",

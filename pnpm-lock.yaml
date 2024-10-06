@@ -48,6 +48,9 @@ importers:
       nuxt:
         specifier: ^3.13.2
         version: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(eslint@8.57.1)(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(sass@1.79.4)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1))
+      nuxt-time:
+        specifier: ^1.0.2
+        version: 1.0.2(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(eslint@8.57.1)(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(sass@1.79.4)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1)))(rollup@4.24.0)
 
 packages:
 
@@ -3781,6 +3784,11 @@ packages:
 
   nuxt-site-config@2.2.18:
     resolution: {integrity: sha512-NU39ANP1kvRBzpEWV496y/lf9PKVv3t1VKX3zmQ1POcbzAXU4gm0Mh5NKOaLEcoXj6bQnziFNqjzHX3DAA8Aog==}
+
+  nuxt-time@1.0.2:
+    resolution: {integrity: sha512-mSJq5W1Z5d9EhuV/cvaAhfhwwqqtqD3n9ClLQbM7F473ic0gBZnppTJsA7f20wfm8Sz+Q1dZHhfU7gqhQ9lbgg==}
+    peerDependencies:
+      nuxt: '>=3.12.0'
 
   nuxt@3.13.2:
     resolution: {integrity: sha512-Bjc2qRsipfBhjXsBEJCN+EUAukhdgFv/KoIR5HFB2hZOYRSqXBod3oWQs78k3ja1nlIhAEdBG533898KJxUtJw==}
@@ -9962,6 +9970,18 @@ snapshots:
       - supports-color
       - vite
       - vue
+      - webpack-sources
+
+  nuxt-time@1.0.2(magicast@0.3.5)(nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(eslint@8.57.1)(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(sass@1.79.4)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1)))(rollup@4.24.0):
+    dependencies:
+      '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.24.0)
+      defu: 6.1.4
+      nuxt: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(eslint@8.57.1)(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(sass@1.79.4)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1))
+      pathe: 1.1.2
+    transitivePeerDependencies:
+      - magicast
+      - rollup
+      - supports-color
       - webpack-sources
 
   nuxt@3.13.2(@parcel/watcher@2.4.1)(@types/node@22.7.4)(eslint@8.57.1)(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(sass@1.79.4)(terser@5.34.1)(typescript@5.6.2)(vite@5.4.8(@types/node@22.7.4)(sass@1.79.4)(terser@5.34.1)):

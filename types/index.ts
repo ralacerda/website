@@ -10,3 +10,12 @@ export interface Project extends MarkdownParsedContent {
   link: string;
   repoLink: string;
 }
+
+export interface BlogPost extends MarkdownParsedContent {
+  title: string;
+  publishDate: string;
+  draft: boolean;
+  tags: string[];
+  description: string;
+  lang: "pt | en";
+}
