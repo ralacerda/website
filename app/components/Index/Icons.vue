@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const icons = [
+  ["Bash", "gnubash"],
   ["Git", "git"],
   ["GitHub", "github"],
   ["Javascript", "javascript"],
