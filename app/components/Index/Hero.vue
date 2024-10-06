@@ -3,7 +3,7 @@
     <div class="flex">
       <NuxtImg
         alt="Foto de Renato"
-        src="/images/hero-image.jpeg"
+        src="/images/hero-image.jpg"
         height="747"
         width="748"
         sizes="260px lg:400px"
@@ -45,8 +45,7 @@
 .image {
   max-height: 350px;
   max-width: 350px;
-  box-shadow: 2px -4px 0 4px var(--red);
-  background-color: var(--red);
+  box-shadow: 4px 4px 10px 2px hsl(from var(--red) h s calc(l * 0.2) / 0.8);
   border-radius: 100%;
   aspect-ratio: 1 / 1;
 

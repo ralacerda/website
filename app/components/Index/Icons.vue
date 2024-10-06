@@ -11,7 +11,7 @@ const icons = [
   ["Cypress", "cypress"],
   ["Storybook", "storybook"],
   ["Go", "go"],
-];
+] as const;
 </script>
 
 <template>
@@ -75,7 +75,7 @@ li {
   from {
     opacity: 0;
     transform: translateY(80px);
-    color: var(--red-dark);
+    color: hsl(from var(--red) h s calc(l * 0.5));
   }
   to {
     opacity: 1;
