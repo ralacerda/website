@@ -18,9 +18,14 @@
           Desenvolvedor web entusiasta de código aberto e focado em soluções
           simples e eficiente.
         </div>
-        <NuxtLink class="cta border-button" to="/projetos">
-          Veja meus projetos</NuxtLink
-        >
+        <div class="links">
+          <NuxtLink class="border-button" to="/projetos">
+            Projetos <Icon name="material-symbols:arrow-right-alt"
+          /></NuxtLink>
+          <NuxtLink v-if="false" class="border-button outlined" to="/blog">
+            Blog
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </div>
@@ -73,16 +78,34 @@
   max-width: 40rem;
   font-size: var(--step-1);
   margin-top: var(--space-xs);
-  margin-bottom: var(--space-m);
+  margin-bottom: var(--space-l);
   text-wrap: balance;
   color: var(--fg-details);
 }
 
-.cta {
-  font-size: var(--step-1);
+.links {
+  display: flex;
+  gap: 1rem;
+
+  .border-button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    .iconify {
+      transition: translate 0.2s;
+    }
+
+    &:hover {
+      .iconify {
+        translate: 5px;
+      }
+    }
+  }
 
   @media (max-width: 960px) {
-    margin-inline: auto;
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>

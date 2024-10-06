@@ -37,7 +37,7 @@ p + p {
   margin-top: var(--space-s);
 }
 
-a {
+:where(a) {
   color: var(--fg-secondary);
   text-decoration-color: var(--fg-secondary);
 
@@ -57,29 +57,31 @@ a {
 }
 
 .border-button {
-  --bg-color: var(--red);
-
-  background-color: inherit;
+  background-color: var(--red);
   display: block;
   width: fit-content;
   cursor: pointer;
+  text-transform: uppercase;
   text-decoration: none;
-  transition: background-color 200ms, color 200ms, border-color 200ms;
-  border: solid 2px var(--bg-color);
-  padding: 0.2rem 1rem;
-  border-radius: 0.5rem;
-  color: var(--fg);
-  line-height: 1.4;
-  box-shadow: var(--shadow-soft);
-  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: 0.75rem;
+
+  color: var(--neutral-100);
+  line-height: 1.6;
+  box-shadow: var(--shadow-strong);
+  font-weight: 700;
+  font-size: var(--step-0);
+
+  transition: background-color 200ms, border-color 200ms;
 
   &:hover,
   &:focus-visible {
-    color: var(--neutral-900);
-    background-color: var(--bg-color);
+    background-color: hsl(from var(--red) h s calc(l * 1.1));
+
+    outline: none;
   }
 
-  &:active:not(:disabled) {
-    --bg-color: var(--red-dark);
+  &:active {
+    background-color: hsl(from var(--red) h calc(s * 0.8) calc(l * 0.7));
   }
 }
