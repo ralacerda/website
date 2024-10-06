@@ -39,14 +39,15 @@ const icons = [
 
 li {
   opacity: 0;
-  --slide-in-color: hsl(from var(--red) h calc(s * 1.5) l);
-  :root.dark-mode & {
-    --slide-in-color: hsl(from var(--red) h calc(s * 1.3) calc(l * 0.7));
-  }
 
   animation: slide-in 0.7s forwards;
   animation-timing-function: cubic-bezier(0.39, 0.53, 0.17, 0.99);
   animation-delay: calc(var(--index) * 0.05s);
+  --slide-in-color: hsl(from var(--red) h calc(s * 1.5) l);
+
+  :root.dark-mode & {
+    --slide-in-color: hsl(from var(--red) h calc(s * 1.3) calc(l * 0.7));
+  }
 
   & .iconify {
     transition: color 0.2s;
