@@ -35,7 +35,7 @@ const links = new Map([
           <Icon v-show="!open" name="bx:menu" size="1.25em" />
         </button>
       </header>
-      <Transition name="fade">
+      <Transition name="fade" :duration="800">
         <div
           v-if="open || (width ?? true) > 960"
           class="right"
@@ -196,8 +196,9 @@ const links = new Map([
 
       li,
       .theme-button {
-        transition: transform 0.3s calc(var(--index) * 0.05s),
-          opacity 0.3s calc(var(--index) * 0.05s);
+        transition: transform 0.5s calc(var(--index) * 0.05s),
+          opacity 0.5s calc(var(--index) * 0.05s);
+        transition-timing-function: cubic-bezier(0.34, 0.79, 0.35, 1.01);
       }
     }
 
