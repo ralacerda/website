@@ -2,7 +2,7 @@
   <div class="hero">
     <div class="flex">
       <NuxtImg
-        alt="Foto de Renato"
+        alt=""
         src="/images/hero-image.jpg"
         height="747"
         width="748"
