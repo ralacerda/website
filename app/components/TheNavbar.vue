@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { useScroll } from "@vueuse/core";
+import { useScroll, useWindowSize, useMounted } from "@vueuse/core";
 
 const { y } = useScroll(window);
+const { width } = useWindowSize();
 const colorMode = useColorMode();
 const open = ref(false);
+
+const isMounted = useMounted();
 
 function toggleColorMode() {
   colorMode.preference = colorMode.value === "light" ? "dark" : "light";
@@ -32,31 +35,57 @@ const links = new Map([
           <Icon v-show="!open" name="bx:menu" size="1.25em" />
         </button>
       </header>
-      <div class="right" :data-active="open || null">
-        <ul role="list" class="navigation">
-          <li v-for="[label, link] in links" :key="link">
-            <NuxtLink :to="link" class="link"> {{ label }} </NuxtLink>
-          </li>
-        </ul>
-        <button
-          class="theme-button"
-          title="Mudar tema"
-          @click="toggleColorMode"
+      <Transition name="fade">
+        <div
+          v-if="open || (width ?? true) > 960"
+          class="right"
+          :data-active="open || null"
+          :class="{
+            'mobile-hidden': !open && (width ?? true) > 960 && !isMounted,
+          }"
         >
-          <Icon
-            v-if="!$colorMode.unknown"
-            v-show="$colorMode.value === 'light'"
-            size="1.25em"
-            name="bx:moon"
-          />
-          <Icon
-            v-if="!$colorMode.unknown"
-            v-show="$colorMode.value === 'dark'"
-            size="1.25em"
-            name="bx:sun"
-          />
-        </button>
-      </div>
+          <ul role="list" class="navigation">
+            <li
+              v-for="([label, link], index) in links"
+              :key="link"
+              :style="{ '--index': index }"
+            >
+              <NuxtLink v-slot="{ href, navigate }" custom :to="link"
+                ><a
+                  :href="href"
+                  @click="
+                    async (e) => {
+                      await navigate(e);
+                      open = false;
+                    }
+                  "
+                >
+                  {{ label }}
+                </a></NuxtLink
+              >
+            </li>
+          </ul>
+          <button
+            class="theme-button"
+            title="Mudar tema"
+            :style="{ '--index': links.size }"
+            @click="toggleColorMode"
+          >
+            <Icon
+              v-if="!$colorMode.unknown"
+              v-show="$colorMode.value === 'light'"
+              size="1.25em"
+              name="bx:moon"
+            />
+            <Icon
+              v-if="!$colorMode.unknown"
+              v-show="$colorMode.value === 'dark'"
+              size="1.25em"
+              name="bx:sun"
+            />
+          </button>
+        </div>
+      </Transition>
     </div>
   </nav>
 </template>
@@ -67,7 +96,6 @@ const links = new Map([
   z-index: 999;
   top: 0;
   transition: background-color 300ms, box-shadow 300ms;
-  overflow: hidden;
 
   & a {
     color: var(--fg);
@@ -114,7 +142,7 @@ const links = new Map([
 .link {
   background: linear-gradient(var(--red) 0 0) calc(100% - var(--p, 0%)) 90% /
     var(--p, 0%) 2px no-repeat;
-  transition: 150ms, background-position 0s;
+  transition: background 150ms, background-position 0s;
 
   &:hover,
   &:focus-visible {
@@ -135,41 +163,74 @@ const links = new Map([
     display: unset;
   }
 
-  .right {
-    display: none;
-  }
-
   .container {
     flex-direction: column;
+  }
+
+  .mobile-hidden {
+    display: none;
   }
 
   .right[data-active] {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 1rem;
+    translate: 0;
+
+    width: 100%;
+    font-size: var(--step-5);
+    position: fixed;
+    top: 71px;
+    height: calc(100dvh - 71px);
+    left: 0;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: var(--bg-transparent);
+    overscroll-behavior: contain;
+
+    &.fade-enter-active,
+    &.fade-leave-active {
+      transition: opacity 0.2s;
+
+      li,
+      .theme-button {
+        transition: transform 0.3s calc(var(--index) * 0.05s),
+          opacity 0.3s calc(var(--index) * 0.05s);
+      }
+    }
+
+    &.fade-enter-from,
+    &.fade-leave-to {
+      opacity: 0;
+
+      li,
+      .theme-button {
+        transform: translateX(-1rem);
+        opacity: 0;
+      }
+    }
   }
 
   .navigation {
     flex-direction: column;
     align-items: flex-start;
     li {
-      padding-top: 1rem;
+      width: calc(var(--content-size) - 1.2rem);
+      margin-inline: auto;
+      padding-top: 3rem;
     }
   }
 }
 
 .theme-button {
   min-width: 20px;
-}
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+  @media (max-width: 960px) {
+    margin-top: var(--space-xl);
+    align-self: flex-start;
+    padding-left: calc(((100vw - var(--content-size)) / 2) + 0.6rem);
+  }
 }
 </style>
