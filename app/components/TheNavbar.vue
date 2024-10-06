@@ -66,7 +66,7 @@ const links = new Map([
   position: sticky;
   z-index: 999;
   top: 0;
-  transition: background-color 300ms;
+  transition: background-color 300ms, box-shadow 300ms;
   overflow: hidden;
 
   & a {
