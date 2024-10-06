@@ -45,9 +45,13 @@
 .image {
   max-height: 350px;
   max-width: 350px;
-  box-shadow: 4px 4px 10px 2px hsl(from var(--red) h s calc(l * 0.2) / 0.8);
   border-radius: 100%;
   aspect-ratio: 1 / 1;
+
+  box-shadow: 4px 4px 10px 2px hsl(from var(--red) h s calc(l * 0.6) / 0.2);
+  :root.dark-mode & {
+    box-shadow: 2px 2px 10px 2px hsl(from var(--red) h s calc(l * 0.2) / 0.6);
+  }
 
   @media (max-width: 960px) {
     max-height: 260px;
