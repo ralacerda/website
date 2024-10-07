@@ -1,10 +1,8 @@
 <template>
-  <main>
-    <div class="projects card">
-      <h2>Projetos</h2>
-      <ProjectList />
-    </div>
-  </main>
+  <div class="projects card">
+    <h2>Projetos</h2>
+    <ProjectList />
+  </div>
 </template>
 
 <style lang="scss" scoped>

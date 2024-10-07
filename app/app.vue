@@ -6,7 +6,9 @@ defineOgImage({
 
 <template>
   <TheNavbar />
-  <NuxtPage />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
   <TheFooter />
   <NoiseFilter />
 </template>

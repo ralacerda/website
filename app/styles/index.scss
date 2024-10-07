@@ -15,17 +15,6 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-main {
-  align-self: center;
-}
-
-main > * {
-  width: var(--content-size);
-  margin-inline: auto;
-  margin-top: var(--space-xl-2xl);
-  scroll-margin-top: 4rem;
-}
-
 p,
 li {
   max-width: 80ch;

@@ -1,6 +1,6 @@
 <template>
-  <main>
+  <div>
     <AboutBio />
     <AboutSkills />
-  </main>
+  </div>
 </template>

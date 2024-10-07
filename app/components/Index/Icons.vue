@@ -29,6 +29,7 @@ const icons = [
 
 <style lang="scss" scoped>
 .icon-list {
+  margin-top: var(--space-2xl);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

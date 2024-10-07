@@ -1,6 +1,6 @@
 <template>
-  <main>
+  <div>
     <IndexHero />
     <IndexIcons />
-  </main>
+  </div>
 </template>

@@ -19,3 +19,17 @@ defineProps<{
     <ContentRenderer :value="post" class="article-content" />
   </article>
 </template>
+
+<style lang="scss" scoped>
+:deep(.article-content) {
+  margin-top: var(--space-xl);
+
+  pre {
+    background-color: var(--bg-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    font-size: var(--step-1);
+    overflow-x: auto;
+  }
+}
+</style>

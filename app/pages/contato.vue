@@ -1,5 +1,3 @@
 <template>
-  <main>
-    <ContactForm />
-  </main>
+  <ContactForm />
 </template>

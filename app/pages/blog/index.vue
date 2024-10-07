@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { BlogPost } from "~~/types";
 
+definePageMeta({
+  layout: "blog",
+});
+
 const query = await queryContent<BlogPost>("blog")
   .sort({
     publishDate: -1,

@@ -1,5 +1,3 @@
 <template>
-  <main>
-    <OpenSourceGallery />
-  </main>
+  <OpenSourceGallery />
 </template>
