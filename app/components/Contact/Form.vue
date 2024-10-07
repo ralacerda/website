@@ -15,7 +15,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="contato" class="contact card">
+  <div id="contato" class="contact">
     <h2>Contato</h2>
     <div class="contact__text">
       <ContactMeText />

@@ -1,5 +1,5 @@
 <template>
-  <div class="projects card">
+  <div class="projects">
     <h2>Projetos</h2>
     <ProjectList />
   </div>

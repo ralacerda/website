@@ -32,7 +32,7 @@ const pullrequestsInfo = [
 </script>
 
 <template>
-  <div id="opensource" class="opensource card">
+  <div id="opensource" class="opensource">
     <div class="content">
       <h2>Open Source</h2>
       <div class="text">

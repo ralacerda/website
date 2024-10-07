@@ -14,10 +14,8 @@ const query = await queryContent<BlogPost>("blog")
 
 <template>
   <main>
-    <div class="card">
-      <h2>Blog</h2>
-      <BlogPostList :post-list="query" />
-    </div>
+    <h2>Blog</h2>
+    <BlogPostList :post-list="query" />
   </main>
 </template>
 

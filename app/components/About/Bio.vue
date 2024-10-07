@@ -1,6 +1,6 @@
 <template>
   <div id="sobre-mim" class="grid">
-    <div class="content card">
+    <div class="content">
       <h2>Sobre mim</h2>
       <div class="text">
         <ContentDoc path="aboutme" />
