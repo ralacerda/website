@@ -8,16 +8,16 @@
     </div>
     <div class="about">
       <AboutBioCard
+        name="MBA - Engenharia de Software"
+        location="Universidade de São Paulo"
+        icon="logos:usp"
+        date="2024 - Atual"
+      />
+      <AboutBioCard
         name="Desenvolvedor Front End"
         location="Skylar"
         icon="logos:skylar"
         date="2023 - Atual"
-      />
-      <AboutBioCard
-        name="MBA - Engenharia de Software"
-        location="Universidade de São Paulo"
-        icon="logos:usp"
-        date="2024 - 2025"
       />
       <AboutBioCard
         name="Programa Desenvolve Fullstack"
