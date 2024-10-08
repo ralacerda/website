@@ -13,10 +13,10 @@ const query = await queryContent<BlogPost>("blog")
 </script>
 
 <template>
-  <main>
+  <div>
     <h2>Blog</h2>
     <BlogPostList :post-list="query" />
-  </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
