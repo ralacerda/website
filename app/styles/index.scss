@@ -15,15 +15,6 @@ body {
   grid-template-rows: auto 1fr auto;
 }
 
-// p,
-// li {
-//   max-width: 80ch;
-// }
-
-// p + p {
-//   margin-top: var(--space-s);
-// }
-
 :where(a) {
   color: var(--fg-secondary);
   text-decoration-color: var(--fg-secondary);
