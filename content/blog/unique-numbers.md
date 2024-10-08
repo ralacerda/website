@@ -7,7 +7,7 @@ description: "Filtrando e somando números únicos usando filter, set e reduce"
 lang: "pt"
 ---
 
-[Cassidy Williams](https://cassidoo.co/) tem uma newsletter incrível que inclui, entre outras coisas, perguntas de entrevista. Na última edição, ele inclui a seguinte pergunta:
+[Cassidy Williams](https://cassidoo.co/) tem uma newsletter incrível que inclui, entre outras coisas, perguntas de entrevista. Na última edição, ela incluiu a seguinte pergunta:
 
 > Dado um array de números, some todos os valores, mas apenas se o número não repete um dígito.
 
@@ -52,6 +52,7 @@ function hasNoRepeatingDigit(number) {
 
 Você pode verificar o código completo no [stackblitz](https://stackblitz.com/edit/stackblitz-starters-y3zwbb?file=index.ts) abaixo, que também inclui alguns testes usando vitest:
 
-<iframe src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor" width="100%" height="400px">
-
-</iframe>
+<div class="stackblitz">
+  <iframe src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor" width="100%" height="800px">
+  </iframe>
+</div>
