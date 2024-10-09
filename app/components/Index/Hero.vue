@@ -19,12 +19,8 @@
           simples e eficiente.
         </div>
         <div class="links">
-          <NuxtLink class="border-button" to="/projetos">
-            Projetos <Icon name="material-symbols:arrow-right-alt"
-          /></NuxtLink>
-          <NuxtLink v-if="false" class="border-button outlined" to="/blog">
-            Blog
-          </NuxtLink>
+          <NuxtLink class="border-button" to="/projetos"> Projetos</NuxtLink>
+          <NuxtLink class="border-button outlined" to="/blog"> Blog </NuxtLink>
         </div>
       </div>
     </div>
