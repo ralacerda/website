@@ -82,6 +82,8 @@ h2 {
     padding-inline: 0.2rem;
     background-color: var(--bg-secondary);
     font-size: inherit;
+    line-height: 1.4;
+    border-radius: 0.2rem;
   }
 
   :where(li + li) {
@@ -111,7 +113,11 @@ h2 {
   }
 
   .footnotes ol {
-    margin-top: 1.4em;
+    margin-top: var(--space-s);
+
+    li {
+      margin-top: var(--space-xs);
+    }
   }
 
   .stackblitz {
