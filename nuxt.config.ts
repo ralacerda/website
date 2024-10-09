@@ -31,6 +31,16 @@ export default defineNuxtConfig({
 
   content: {
     contentHead: false,
+    highlight: {
+      theme: {
+        default: "github-dark",
+        dark: "github-dark",
+        light: "github-light",
+      },
+    },
+    markdown: {
+      anchorLinks: false,
+    },
   },
 
   site: {
