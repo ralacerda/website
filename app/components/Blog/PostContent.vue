@@ -69,7 +69,7 @@ h2 {
 
   pre {
     grid-column: breakout;
-    background-color: var(--bg-secondary);
+    background-color: var(--neutral-900);
     margin-block: var(--space-s);
     padding: 0.5rem 1rem;
     border-radius: 0.4rem;
@@ -80,7 +80,8 @@ h2 {
   :not(pre) > code {
     display: inline-block;
     padding-inline: 0.2rem;
-    background-color: var(--bg-secondary);
+    background-color: var(--neutral-900);
+    color: var(--neutral-300);
     font-size: inherit;
     line-height: 1.4;
     border-radius: 0.2rem;
