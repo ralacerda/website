@@ -7,9 +7,9 @@ description: "Como criar composables que se adaptam à rota utilizando Vue 3 e V
 lang: "pt"
 ---
 
-Uma das vantagens de usar `composables` em `vue` é que você consegue justamente “compor” novos composables a partir de outros já existentes. Por exemplo, você pode criar um composable que fornece informações diferentes baseado no `router` atual.
+Uma das vantagens de usar `composables` em `vue` é que você consegue justamente “compor” novos composables a partir de outros já existentes. Por exemplo, você pode criar um composable que fornece informações diferentes baseado na rota atual.
 
-Vamos imaginar um cenário em que você tem um `floating button` no seu site. Esse é um botão que está sempre presente no canto interior direito da sua página, entretanto, o seu ícone e comportamento precisa ser diferente dependendo da página que o usuário estar.
+Vamos imaginar um cenário em que você tem um `floating button` no seu site. Esse é um botão que está sempre presente no canto inferior direito da sua página, entretanto, o seu ícone e comportamento precisam ser diferentes dependendo da página que o usuário está.
 
 Uma solução seria criar o seguinte composable:
 
@@ -46,8 +46,7 @@ export default function useFloatingButton() {
 
 [Stackblitz](https://stackblitz.com/edit/route-aware-initial?file=src%2Fcomposables%2FuseFloatingButton.ts)
 
-Problema resolvido, mas ainda podemos melhorar. O que aconteceria se você precisasse criar uma nova página que também usasse o modo `contact`? Você teria que se lembrar de adicionar a nova rota ao array `contactPages`, o que não é ideal. Para mim, o ideal seria que a própria rota soubesse qual é o seu modo.
-Para isso podemos usar `meta` do `vue-router`.
+Problema resolvido, mas ainda podemos melhorar. O que aconteceria se você precisasse criar uma nova página que também usasse o modo `contact`? Você teria que se lembrar de adicionar a nova rota ao array `contactPages`, o que não é ideal. Para mim, o ideal seria que a própria rota soubesse qual é o seu modo. Para isso, podemos usar `meta` do `vue-router`.
 
 ```ts
 const routes = [
@@ -72,7 +71,7 @@ const routes = [
 ];
 ```
 
-Se você está usando Typescript, você pode adicionar um tipo para o meta das rotas:
+Se você está usando TypeScript, pode adicionar um tipo para o meta das rotas:
 
 ```ts
 declare module "vue-router" {
@@ -82,7 +81,7 @@ declare module "vue-router" {
 }
 ```
 
-Nesse caso, não se esqueça de adicionar o `as const` na definição das rotas, se não o `typescript` ira inferir o tipo como `string`.
+Nesse caso, não se esqueça de adicionar o `as const` na definição das rotas, senão o `TypeScript` irá inferir o tipo como `string`.
 
 Agora podemos modificar nosso composable para usar o `meta` da rota:
 
@@ -122,5 +121,5 @@ export default function useFloatingButton() {
   </iframe>
 </div>
 
-<!-- Se temos parametros com ID, seria importante a gente fazer um watch porque o componente é o mesmo -->
+<!-- Se temos parâmetros com ID, seria importante fazer um watch porque o componente é o mesmo -->
 <!-- Falar sobre como esse componente pode ser adaptado para o Nuxt, que usa outro paradigma -->
