@@ -13,14 +13,19 @@ const query = await queryContent<BlogPost>("blog")
 </script>
 
 <template>
-  <div>
+  <div class="content">
     <h2>Blog</h2>
     <BlogPostList :post-list="query" />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.content {
+  max-width: 70ch;
+}
+
 h2 {
+  text-align: center;
   font-size: var(--step-3);
   margin-bottom: var(--space-s);
 }
