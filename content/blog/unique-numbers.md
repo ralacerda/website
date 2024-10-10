@@ -52,7 +52,4 @@ function hasNoRepeatingDigit(number) {
 
 Você pode verificar o código completo no [stackblitz](https://stackblitz.com/edit/stackblitz-starters-y3zwbb?file=index.ts) abaixo, que também inclui alguns testes usando vitest:
 
-<div class="stackblitz">
-  <iframe src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor" width="100%" height="800px">
-  </iframe>
-</div>
+:stack-blitz{:src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor"}

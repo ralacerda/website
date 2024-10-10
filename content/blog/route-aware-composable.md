@@ -116,10 +116,7 @@ export default function useFloatingButton() {
 }
 ```
 
-<div class="stackblitz">
-  <iframe src="https://stackblitz.com/edit/route-aware-initial-q2nryw?embed=1&file=src%2Fcomposables%2FuseFloatingButton.ts" width="100%" height="800px">
-  </iframe>
-</div>
+:stack-blitz{:src="https://stackblitz.com/edit/route-aware-initial-q2nryw?embed=1&file=src%2Fcomposables%2FuseFloatingButton.ts"}
 
 <!-- Se temos parâmetros com ID, seria importante fazer um watch porque o componente é o mesmo -->
 <!-- Falar sobre como esse componente pode ser adaptado para o Nuxt, que usa outro paradigma -->
