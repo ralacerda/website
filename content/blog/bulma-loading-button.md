@@ -1,6 +1,6 @@
 ---
 title: "Botão de carregamento sem alterar o tamanho"
-publishDate: 2024-10-12
+publishDate: 2024-10-10
 draft: false
 tags: ["javascript", "css"]
 description: "Uma estratégia para mostrar um ícone de carregamento em um botão sem modificar o seu tamanho"
