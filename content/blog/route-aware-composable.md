@@ -25,14 +25,14 @@ export default function useFloatingButton() {
   });
 
   const buttonText = computed(() =>
-    mode.value === "contact" ? "Contact Us" : "New Page"
+    mode.value === "contact" ? "Contact Us" : "Login"
   );
 
   const handleClick = () => {
     if (mode.value === "contact") {
       console.log("Contact action triggered");
     } else {
-      console.log("New page action triggered");
+      console.log("Login action triggered");
     }
   };
 
