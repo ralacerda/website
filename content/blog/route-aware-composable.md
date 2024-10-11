@@ -116,7 +116,7 @@ export default function useFloatingButton() {
 }
 ```
 
-:stack-blitz{:src="https://stackblitz.com/edit/route-aware-initial?embed=1&file=src%2Fcomposables%2FuseFloatingButton.ts"}
+:stack-blitz{:src="https://stackblitz.com/edit/route-aware-initial-q2nryw?embed=1&file=src%2Fcomposables%2FuseFloatingButton.ts"}
 
 ## Nuxt
 
