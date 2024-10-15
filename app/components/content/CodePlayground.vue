@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="stackblitz">
-    <iframe :src width="100%" height="800px" />
+  <div class="code-iframe">
+    <iframe :src width="100%" height="800px" loading="lazy" />
   </div>
 </template>

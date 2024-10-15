@@ -140,4 +140,4 @@ declare module "#app" {
 }
 ```
 
-:stack-blitz{:src="https://stackblitz.com/edit/sb1-ck24zd?ctl=1&embed=1&file=composables%2FuseFloatingButton.ts"}
+:code-playground{:src="https://stackblitz.com/edit/sb1-ck24zd?ctl=1&embed=1&file=composables%2FuseFloatingButton.ts"}

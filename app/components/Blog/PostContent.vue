@@ -121,7 +121,7 @@ h2 {
     }
   }
 
-  .stackblitz {
+  .code-iframe {
     grid-column: grid;
     margin-top: var(--space-l);
   }

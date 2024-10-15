@@ -39,4 +39,4 @@ button.loading::after {
 
 Praticamente, quando o botão tem a classe `loading`, o texto do botão é escondido e um ícone de carregamento é adicionado, como o texto ainda está presente (mas invisível), o tamanho do botão não é alterado. O mais legal é que o ícone de carregamento é feito apenas com CSS: se você tem um elemento redondo (`border-radius: 999999px;`) e somente duas bordas visíveis, você tem um semi-círculo. Se você rotacionar esse círculo com uma animação simples, você tem um ícone de carregamento.
 
-:stack-blitz{:src="https://stackblitz.com/edit/sb1-l26m7v?ctl=1&embed=1&file=src%2FApp.vue"}
+:code-playground{:src="https://stackblitz.com/edit/sb1-l26m7v?ctl=1&embed=1&file=src%2FApp.vue"}
