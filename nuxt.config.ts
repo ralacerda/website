@@ -58,4 +58,8 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
   },
+
+  routeRules: {
+    "/**": { prerender: true },
+  },
 });
