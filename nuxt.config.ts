@@ -55,15 +55,6 @@ export default defineNuxtConfig({
     provider: "ipx",
   },
 
-  nitro: {
-    compressPublicAssets: true,
-    preset: "netlify",
-  },
-
-  routeRules: {
-    "/**": { prerender: true },
-  },
-
   experimental: {
     componentIslands: true,
   },
