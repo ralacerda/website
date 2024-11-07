@@ -63,4 +63,14 @@ export default defineNuxtConfig({
   routeRules: {
     "/**": { prerender: true },
   },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler",
+        },
+      },
+    },
+  },
 });
