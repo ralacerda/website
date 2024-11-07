@@ -64,6 +64,10 @@ export default defineNuxtConfig({
     "/**": { prerender: true },
   },
 
+  experimental: {
+    componentIslands: true,
+  },
+
   vite: {
     css: {
       preprocessorOptions: {

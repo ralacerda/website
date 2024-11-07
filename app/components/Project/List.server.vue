@@ -7,9 +7,11 @@ const { data: projects } = useAsyncData("projects", () =>
 </script>
 
 <template>
-  <ProjectCard
-    v-for="project in projects"
-    :key="project.slug"
-    :project="project"
-  />
+  <div>
+    <ProjectCard
+      v-for="project in projects"
+      :key="project.slug"
+      :project="project"
+    />
+  </div>
 </template>
