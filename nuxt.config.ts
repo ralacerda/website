@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   css: ["~/styles/index.scss"],
 
   icon: {
+    mode: "svg",
     customCollections: [
       {
         dir: "./app/assets/logos",
