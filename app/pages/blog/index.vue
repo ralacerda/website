@@ -9,6 +9,7 @@ const query = await queryContent<BlogPost>("blog")
   .sort({
     publishDate: -1,
   })
+  .only(["title", "description", "publishDate", "_path"])
   .find();
 </script>
 

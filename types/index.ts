@@ -19,3 +19,8 @@ export interface BlogPost extends MarkdownParsedContent {
   description: string;
   lang: "pt | en";
 }
+
+export type BlogPostMeta = Pick<
+  BlogPost,
+  "title" | "description" | "publishDate" | "_path"
+>;

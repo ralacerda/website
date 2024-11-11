@@ -27,15 +27,6 @@ importers:
         specifier: ^0.33.5
         version: 0.33.5
     devDependencies:
-      '@iconify-json/bx':
-        specifier: ^1.2.1
-        version: 1.2.1
-      '@iconify-json/mdi':
-        specifier: ^1.2.1
-        version: 1.2.1
-      '@iconify-json/simple-icons':
-        specifier: ^1.2.11
-        version: 1.2.11
       '@nuxt/fonts':
         specifier: ^0.9.2
         version: 0.9.2(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.24.4)(vite@5.4.10(@types/node@22.9.0)(sass@1.80.6)(terser@5.36.0))
@@ -561,15 +552,6 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
-
-  '@iconify-json/bx@1.2.1':
-    resolution: {integrity: sha512-FQCpVnEqCRZmyzpJ5Ba31ff8b2lDLhjRuV8ZC0Cw4HsV/IgXoyW9CGH4vI0P7UGeTXHIj3iSDNwIpOoCpPqXVg==}
-
-  '@iconify-json/mdi@1.2.1':
-    resolution: {integrity: sha512-dSkQU78gsZV6Yxnq78+LuX7jzeFC/5NAmz7O3rh558GimGFcwMVY/OtqRowIzjqJBmMmWZft7wkFV4TrwRXjlg==}
-
-  '@iconify-json/simple-icons@1.2.11':
-    resolution: {integrity: sha512-AHCGDtBRqP+JzAbBzgO8uN/08CXxEmuaC6lQQZ3b5burKhRU12AJnJczwbUw2K5Mb/U85EpSUNhYMG3F28b8NA==}
 
   '@iconify/collections@1.0.480':
     resolution: {integrity: sha512-NXupTwRQABEGN4lL2KgikaYNWliBNvpXEDlqGTUJbMLPylZv+E/dMsinhm7WXUNebhANj2koWNluboOnR5apAw==}
@@ -5454,18 +5436,6 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
-
-  '@iconify-json/bx@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/mdi@1.2.1':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/simple-icons@1.2.11':
-    dependencies:
-      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.480':
     dependencies:

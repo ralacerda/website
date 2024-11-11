@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { BlogPost } from "~~/types";
+import type { BlogPostMeta } from "~~/types";
 
 defineProps<{
-  postList: BlogPost[];
+  postList: BlogPostMeta[];
 }>();
 </script>
 
