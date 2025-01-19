@@ -2,7 +2,7 @@
 title: "F1 Next"
 slug: "f1next"
 weight: 30
-tech: [Typescript, Vuedotjs, Nuxtdotjs, Netlify]
+tech: [typescript, vuedotjs, nuxtdotjs, netlify]
 link: https://f1next.netlify.app/
 screenshots: [images/projects/project-f1next.png]
 repoLink: https://github.com/ralacerda/nuxt-f1next

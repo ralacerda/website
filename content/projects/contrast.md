@@ -2,7 +2,7 @@
 title: "Contrast Checker"
 slug: "contraste"
 weight: 20
-tech: [SASS, Javascript, Vuedotjs, Bulma, Vite, Netlify]
+tech: [sass, javascript, vuedotjs, bulma, vite, netlify]
 link: https://multiple-contrast-checker.netlify.app/
 screenshots: [images/projects/project-contraste.png]
 repoLink: https://github.com/ralacerda/contrast-checker

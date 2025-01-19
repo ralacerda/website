@@ -2,7 +2,7 @@
 title: "Nomeações Oscar"
 slug: oscar
 weight: 50
-tech: [SASS, Typescript, Astro, Nodedotjs, Mongodb, Firebase]
+tech: [sass, typescript, astro, nodedotjs, mongodb, firebase]
 link: https://nomeacoes-oscar.netlify.app/
 screenshots: [images/projects/project-oscar.png]
 repoLink: https://github.com/ralacerda/sequela-movie-app

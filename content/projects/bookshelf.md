@@ -2,7 +2,7 @@
 title: "Bookshelf"
 slug: "bookshelf"
 weight: 25
-tech: [Typescript, React, Nextdotjs, Contentful, Netlify]
+tech: [typescript, react, nextdotjs, contentful, netlify]
 link: https://ralacerda-books.netlify.app/
 screenshots: [images/projects/project-bookshelf.png]
 repoLink: https://github.com/ralacerda/books-nextjs

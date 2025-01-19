@@ -2,7 +2,7 @@
 title: "Luminares Arq"
 slug: "luminares"
 weight: 35
-tech: [SASS, Typescript, Vuedotjs, Nuxtdotjs, Netlify]
+tech: [sass, typescript, vuedotjs, nuxtdotjs, netlify]
 link: https://luminares-arq.netlify.app/
 screenshots: [images/projects/project-luminares.png]
 repoLink: https://github.com/ralacerda/luminares
