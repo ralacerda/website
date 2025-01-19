@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Project } from "~~/types";
+import type { ProjectsCollectionItem } from "@nuxt/content";
 
 defineProps<{
-  project: Project;
+  project: ProjectsCollectionItem;
 }>();
 </script>
 
@@ -15,7 +15,7 @@ defineProps<{
           project.link
         }}</a>
         <div class="description">
-          <ContentDoc :path="project._path" />
+          <ContentDoc :path="project.path" />
         </div>
         <a :href="project.repoLink" target="_blank"> Repositório do projeto</a>
         <ul class="icons" role="list">

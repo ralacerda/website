@@ -3,7 +3,7 @@
     <div class="content">
       <h2>Sobre mim</h2>
       <div class="text">
-        <ContentDoc path="aboutme" />
+        <!-- <ContentDoc path="aboutme" /> -->
       </div>
     </div>
     <div class="about">

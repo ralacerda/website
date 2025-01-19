@@ -5,17 +5,17 @@ definePageMeta({
   layout: "blog",
 });
 
-const query = await queryContent<BlogPost>("blog")
-  .sort({
-    publishDate: -1,
-  })
-  .find();
+// const query = await queryContent<BlogPost>("blog")
+//   .sort({
+//     publishDate: -1,
+//   })
+//   .find();
 </script>
 
 <template>
   <div class="content">
     <h2>Blog</h2>
-    <BlogPostList :post-list="query" />
+    <!-- <BlogPostList :post-list="query" /> -->
   </div>
 </template>
 

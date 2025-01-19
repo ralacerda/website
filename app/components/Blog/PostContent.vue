@@ -16,7 +16,7 @@ defineProps<{
         <BlogPostTime class="date" :datetime="post.publishDate" />
       </div>
     </div>
-    <ContentRenderer :value="post" class="article-content" />
+    <!-- <ContentRenderer :value="post" class="article-content" /> -->
   </article>
 </template>
 

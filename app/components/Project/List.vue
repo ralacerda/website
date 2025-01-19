@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Project } from "~~/types";
 
-const { data: projects } = useAsyncData("projects", () =>
-  queryContent<Project>("/projects").sort({ weight: -1 }).find()
-);
+// const { data: projects } = useAsyncData("projects", () =>
+//   return queryCollection('projects').all()
+// );
 </script>
 
 <template>

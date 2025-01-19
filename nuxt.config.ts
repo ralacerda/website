@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxtjs/seo",
     "@nuxt/fonts",
     "nuxt-time",
+    "@nuxtjs/seo",
   ],
 
   compatibilityDate: "2024-04-03",
@@ -30,19 +31,19 @@ export default defineNuxtConfig({
     ],
   },
 
-  content: {
-    contentHead: false,
-    highlight: {
-      theme: {
-        default: "github-dark",
-        dark: "github-dark",
-        light: "github-light",
-      },
-    },
-    markdown: {
-      anchorLinks: false,
-    },
-  },
+  // content: {
+  //   contentHead: false,
+  //   highlight: {
+  //     theme: {
+  //       default: "github-dark",
+  //       dark: "github-dark",
+  //       light: "github-light",
+  //     },
+  //   },
+  //   markdown: {
+  //     anchorLinks: false,
+  //   },
+  // },
 
   site: {
     url: "https://renatolacerda.com",
@@ -54,10 +55,6 @@ export default defineNuxtConfig({
 
   image: {
     provider: "ipx",
-  },
-
-  experimental: {
-    componentIslands: true,
   },
 
   vite: {
