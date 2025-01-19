@@ -24,8 +24,9 @@
     "@nuxt/icon": "^1.10.3",
     "@nuxt/image": "^1.9.0",
     "@nuxtjs/color-mode": "^3.5.2",
-    "@nuxtjs/seo": "2.0.0-rc.16",
     "nuxt": "^3.15.2",
+    "nuxt-og-image": "4.0.3",
+    "nuxt-schema-org": "4.0.4",
     "nuxt-time": "^1.0.3"
   },
   "pnpm": {

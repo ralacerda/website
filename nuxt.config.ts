@@ -6,9 +6,10 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxt/content",
-    "@nuxtjs/seo",
     "@nuxt/fonts",
     "nuxt-time",
+    "nuxt-og-image",
+    "nuxt-schema-org",
   ],
 
   compatibilityDate: "2024-04-03",
