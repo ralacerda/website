@@ -2,6 +2,10 @@
 import { offset, useFloating, flip, autoUpdate } from "@floating-ui/vue";
 import { onClickOutside } from "@vueuse/core";
 
+const emit = defineEmits<{
+  languageSwitch: [];
+}>();
+
 const languageButton = ref<HTMLElement>();
 const languageSelect = ref<HTMLElement>();
 const showLanguageSelect = ref(false);
@@ -15,6 +19,7 @@ const { floatingStyles } = useFloating(languageButton, languageSelect, {
 
 function switchLocale(locale: string) {
   showLanguageSelect.value = false;
+  emit("languageSwitch");
   $switchLocale(locale);
 }
 
@@ -37,7 +42,7 @@ onClickOutside(
     aria-label="Change Language"
     @click="showLanguageSelect = !showLanguageSelect"
   >
-    <Icon name="ph:translate" size="20px" />
+    <Icon name="ph:translate" size="1.25em" />
   </button>
   <div
     v-show="showLanguageSelect"
@@ -46,11 +51,27 @@ onClickOutside(
     class="language-select"
   >
     {{ $switchLocalePath("pt") }}
-    <button class="language-option" @click="switchLocale('pt')">
-      <Icon class="language-flag" name="flag:br-4x3" />Português
+    <button
+      class="language-option"
+      :data-active="$getLocale() == 'pt'"
+      @click="switchLocale('pt')"
+    >
+      <Icon
+        class="language-flag"
+        name="flag:br-4x3"
+        font-size="1.25em"
+      />Português
     </button>
-    <button class="language-option" @click="switchLocale('en')">
-      <Icon class="language-flag" name="flag:us-4x3" />English
+    <button
+      class="language-option"
+      :data-active="$getLocale() == 'en'"
+      @click="switchLocale('en')"
+    >
+      <Icon
+        class="language-flag"
+        name="flag:us-4x3"
+        font-size="1.25em"
+      />English
     </button>
   </div>
 </template>
@@ -68,14 +89,27 @@ onClickOutside(
   padding: 8px 16px;
 
   @media (hover: hover) {
-    .language-flag {
-      filter: grayscale(1);
-      transition: filter 0.2s;
+    & {
+      color: var(--fg-details);
+      .language-flag {
+        filter: grayscale(1);
+        transition: filter 0.2s;
+      }
     }
 
     &:hover {
+      color: inherit;
       .language-flag {
         filter: grayscale(0);
+      }
+    }
+  }
+
+  @media not (hover: hover) {
+    &[data-active="false"] {
+      color: var(--fg-details);
+      .language-flag {
+        filter: grayscale(1);
       }
     }
   }

@@ -14,13 +14,16 @@ function toggleColorMode() {
   colorMode.preference = colorMode.value === "light" ? "dark" : "light";
 }
 
-const links = new Map([
-  [$t("pages.about-me"), $localePath({ name: "about-me" })],
-  [$t("pages.projects"), $localePath({ name: "projects" })],
-  [$t("pages.blog"), $localePath({ name: "blog" })],
-  [$t("pages.open-source"), $localePath({ name: "open-source" })],
-  [$t("pages.contact"), $localePath({ name: "contact" })],
-]);
+const links = computed(
+  () =>
+    new Map([
+      [$t("pages.about-me"), $localePath({ name: "about-me" })],
+      [$t("pages.projects"), $localePath({ name: "projects" })],
+      [$t("pages.blog"), $localePath({ name: "blog" })],
+      [$t("pages.open-source"), $localePath({ name: "open-source" })],
+      [$t("pages.contact"), $localePath({ name: "contact" })],
+    ])
+);
 </script>
 
 <template>
@@ -70,29 +73,30 @@ const links = new Map([
               >
             </li>
           </ul>
-          <button
-            class="theme-button"
-            title="Mudar tema"
-            :style="{ '--index': links.size }"
-            @click="toggleColorMode"
-          >
-            <Icon
-              v-if="!$colorMode.unknown"
-              v-show="$colorMode.value === 'light'"
-              size="1.25em"
-              name="bx:moon"
-            />
-            <Icon
-              v-if="!$colorMode.unknown"
-              v-show="$colorMode.value === 'dark'"
-              size="1.25em"
-              name="bx:sun"
-            />
-          </button>
+          <div class="buttons" :style="{ '--index': links.size }">
+            <button
+              class="theme-button"
+              title="Mudar tema"
+              @click="toggleColorMode"
+            >
+              <Icon
+                v-if="!$colorMode.unknown"
+                v-show="$colorMode.value === 'light'"
+                size="1.25em"
+                name="bx:moon"
+              />
+              <Icon
+                v-if="!$colorMode.unknown"
+                v-show="$colorMode.value === 'dark'"
+                size="1.25em"
+                name="bx:sun"
+              />
+            </button>
+            <LocaleButton @language-switch="open = false" />
+          </div>
         </div>
       </Transition>
     </div>
-    <LocaleButton />
   </nav>
 </template>
 
@@ -137,6 +141,11 @@ const links = new Map([
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
 }
 
 .navigation {
@@ -201,7 +210,7 @@ const links = new Map([
       transition: opacity 0.2s;
 
       li,
-      .theme-button {
+      .buttons {
         transition: transform 0.5s calc(var(--index) * 0.05s),
           opacity 0.5s calc(var(--index) * 0.05s);
         transition-timing-function: cubic-bezier(0.34, 0.79, 0.35, 1.01);
@@ -213,7 +222,7 @@ const links = new Map([
       opacity: 0;
 
       li,
-      .theme-button {
+      .buttons {
         transform: translateX(-1rem);
         opacity: 0;
       }
@@ -231,7 +240,7 @@ const links = new Map([
   }
 }
 
-.theme-button {
+.buttons {
   min-width: 20px;
 
   @media (max-width: 960px) {
