@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import type { Project } from "~~/types";
+import type { MarkdownRoot } from "@nuxt/content";
+
+type Project = {
+  title: string;
+  link: string;
+  repoLink: string;
+  tech: string[];
+  screenshots: string[];
+  body: MarkdownRoot;
+};
 
 defineProps<{
   project: Project;
@@ -15,7 +24,7 @@ defineProps<{
           project.link
         }}</a>
         <div class="description">
-          <ContentDoc :path="project._path" />
+          <ContentRenderer :value="project" />
         </div>
         <a :href="project.repoLink" target="_blank"> Repositório do projeto</a>
         <ul class="icons" role="list">

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { BlogPost } from "~~/types";
 const route = useRoute();
 const slug = route.params.slug;
 
 const { data: post } = await useAsyncData(`post-${slug}`, () => {
-  return queryContent<BlogPost>(`/blog/${slug}`).findOne();
+  return queryCollection("blog")
+    .select("title", "publishDate", "description", "path", "body")
+    .path("/blog/" + slug)
+    .first();
 });
 
 if (!post.value) {

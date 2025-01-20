@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import type { BlogPost } from "~~/types";
+import type { MarkdownRoot } from "@nuxt/content";
+
+type BlogPost = {
+  title: string;
+  publishDate: string;
+  body: MarkdownRoot;
+};
 
 defineProps<{
   post: BlogPost;

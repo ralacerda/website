@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import type { BlogPost } from "~~/types";
+type PostSummary = {
+  title: string;
+  description: string;
+  publishDate: string;
+  path: string;
+};
 
 defineProps<{
-  postList: BlogPost[];
+  postList: PostSummary[];
 }>();
 </script>
 
 <template>
   <ul class="post-list" role="list">
-    <li v-for="post in postList" :key="post._path">
+    <li v-for="post in postList" :key="post.path">
       <h3>
-        <NuxtLink :to="post._path">{{ post.title }} </NuxtLink>
+        <NuxtLink :to="post.path">{{ post.title }} </NuxtLink>
       </h3>
       <BlogPostTime class="date" :datetime="post.publishDate" />
       <p>{{ post.description }}</p>

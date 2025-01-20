@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import type { Project } from "~~/types";
-
-const { data: projects } = useAsyncData("projects", () =>
-  queryContent<Project>("/projects").sort({ weight: -1 }).find()
+const { data: projects } = await useAsyncData("projects", () =>
+  queryCollection("project").order("weight", "DESC").all()
 );
 </script>
 

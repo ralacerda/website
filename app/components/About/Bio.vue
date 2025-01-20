@@ -1,9 +1,15 @@
+<script setup lang="ts">
+const { data: page } = useAsyncData("about-me", () =>
+  queryCollection("pages").path("/pages/about-me").first()
+);
+</script>
+
 <template>
   <div id="sobre-mim" class="grid">
     <div class="content">
       <h2>Sobre mim</h2>
       <div class="text">
-        <ContentDoc path="aboutme" />
+        <ContentRenderer v-if="page" :value="page" />
       </div>
     </div>
     <div class="about">

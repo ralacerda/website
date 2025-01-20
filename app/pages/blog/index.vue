@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import type { BlogPost } from "~~/types";
-
 definePageMeta({
   layout: "blog",
 });
 
-const query = await queryContent<BlogPost>("blog")
-  .sort({
-    publishDate: -1,
-  })
-  .find();
+const { data: query } = await useAsyncData("blog-index", () => {
+  return queryCollection("blog")
+    .select("title", "description", "publishDate", "path")
+    .order("publishDate", "DESC")
+    .all();
+});
 </script>
 
 <template>
   <div class="content">
     <h2>Blog</h2>
-    <BlogPostList :post-list="query" />
+    <BlogPostList v-if="query" :post-list="query" />
   </div>
 </template>
 

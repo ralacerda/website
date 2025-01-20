@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
+    "@nuxtjs/seo",
     "@nuxt/eslint",
     "@nuxtjs/color-mode",
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxt/content",
-    "@nuxtjs/seo",
     "@nuxt/fonts",
     "nuxt-time",
   ],
@@ -31,15 +31,18 @@ export default defineNuxtConfig({
   },
 
   content: {
-    contentHead: false,
-    highlight: {
-      theme: {
-        default: "github-dark",
-        dark: "github-dark",
-        light: "github-light",
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: "github-dark",
+            dark: "github-dark",
+            light: "github-light",
+          },
+        },
       },
     },
-    markdown: {
+    renderer: {
       anchorLinks: false,
     },
   },
@@ -54,10 +57,6 @@ export default defineNuxtConfig({
 
   image: {
     provider: "ipx",
-  },
-
-  experimental: {
-    componentIslands: true,
   },
 
   vite: {

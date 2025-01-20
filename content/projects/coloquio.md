@@ -2,7 +2,7 @@
 title: "Site para evento: “Colóquio Thomas Khun”"
 slug: "coloquio"
 weight: 10
-tech: [tailwindcss, alpinedotjs, eleventy, gitHub]
+tech: [tailwindcss, alpinedotjs, eleventy, github]
 link: https://ralacerda.github.io/coloquio-kuhn/
 screenshots: ["images/projects/project-coloquio.png"]
 repoLink: https://github.com/ralacerda/coloquio-kuhn
