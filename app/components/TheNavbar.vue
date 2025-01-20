@@ -92,6 +92,7 @@ const links = new Map([
         </div>
       </Transition>
     </div>
+    <LocaleButton />
   </nav>
 </template>
 
