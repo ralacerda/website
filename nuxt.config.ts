@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/fonts",
     "nuxt-time",
+    "nuxt-i18n-micro",
   ],
 
   compatibilityDate: "2024-04-03",
@@ -52,7 +53,12 @@ export default defineNuxtConfig({
     name: "Renato Lacerda",
     description:
       "Desenvolvedor Web com conhecimento de VueJS, Nuxt e Typescript",
-    defaultLocale: "pt",
+  },
+
+  app: {
+    head: {
+      titleTemplate: "%s | Renato Lacerda",
+    },
   },
 
   image: {
@@ -67,6 +73,18 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  i18n: {
+    locales: [
+      { code: "pt", iso: "pt-BR", dir: "ltr" },
+      { code: "en", iso: "en-US", dir: "ltr" },
+    ],
+    defaultLocale: "en",
+    translationDir: "locales",
+    meta: true,
+    strategy: "prefix",
+    disablePageLocales: true,
   },
 
   nitro: {

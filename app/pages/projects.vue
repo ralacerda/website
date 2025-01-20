@@ -1,3 +1,11 @@
+<script setup lang="ts">
+const { $t } = useI18n();
+
+useHead({
+  title: $t("pages.projects")!,
+});
+</script>
+
 <template>
   <div class="projects">
     <h2>Projetos</h2>

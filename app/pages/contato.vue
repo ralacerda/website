@@ -1,3 +1,0 @@
-<template>
-  <ContactForm />
-</template>

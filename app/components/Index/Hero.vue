@@ -19,8 +19,18 @@
           simples e eficiente.
         </div>
         <div class="links">
-          <NuxtLink class="border-button" to="/projetos"> Projetos</NuxtLink>
-          <NuxtLink class="border-button outlined" to="/blog"> Blog </NuxtLink>
+          <NuxtLink
+            class="border-button"
+            :to="$localePath({ name: 'projects' })"
+          >
+            Projetos</NuxtLink
+          >
+          <NuxtLink
+            class="border-button outlined"
+            :to="$localePath({ name: 'blog' })"
+          >
+            Blog
+          </NuxtLink>
         </div>
       </div>
     </div>

@@ -4,6 +4,8 @@ import { useScroll, useWindowSize, useMounted } from "@vueuse/core";
 const { y } = useScroll(window);
 const { width } = useWindowSize();
 const colorMode = useColorMode();
+const { $t, $localePath } = useI18n();
+
 const open = ref(false);
 
 const isMounted = useMounted();
@@ -13,11 +15,11 @@ function toggleColorMode() {
 }
 
 const links = new Map([
-  ["Sobre mim", "/sobre-mim"],
-  ["Projetos", "/projetos"],
-  ["Blog", "/blog"],
-  ["Open Source", "/opensource"],
-  ["Contato", "/contato"],
+  [$t("pages.about-me"), $localePath({ name: "about-me" })],
+  [$t("pages.projects"), $localePath({ name: "projects" })],
+  [$t("pages.blog"), $localePath({ name: "blog" })],
+  [$t("pages.open-source"), $localePath({ name: "open-source" })],
+  [$t("pages.contact"), $localePath({ name: "contact" })],
 ]);
 </script>
 
@@ -25,7 +27,11 @@ const links = new Map([
   <nav class="navbar" :class="{ sticky: y > 0 }">
     <div class="container" data-allow-mismatch="children">
       <header class="title">
-        <div><NuxtLink href="/">Renato Lacerda</NuxtLink></div>
+        <div>
+          <NuxtLink :href="$localePath({ name: 'index' })"
+            >Renato Lacerda</NuxtLink
+          >
+        </div>
         <button
           id="navbar-button"
           class="button"
