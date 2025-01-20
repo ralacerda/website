@@ -3,7 +3,7 @@ import { defineCollection, defineContentConfig, z } from "@nuxt/content";
 export default defineContentConfig({
   collections: {
     blog: defineCollection({
-      source: "blog/*.md",
+      source: "blog/*/*.md",
       type: "page",
       schema: z.object({
         title: z.string(),
@@ -12,6 +12,7 @@ export default defineContentConfig({
         tags: z.array(z.string()),
         description: z.string(),
         lang: z.string(),
+        slug: z.string(),
       }),
     }),
     project: defineCollection({

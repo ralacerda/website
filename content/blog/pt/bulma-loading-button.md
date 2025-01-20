@@ -1,5 +1,6 @@
 ---
 title: "Botão de carregamento sem alterar o tamanho"
+slug: "bulma-loading-button"
 publishDate: 2024-10-10
 draft: false
 tags: ["javascript", "css"]

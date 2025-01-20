@@ -3,7 +3,7 @@ type PostSummary = {
   title: string;
   description: string;
   publishDate: string;
-  path: string;
+  slug: string;
 };
 
 defineProps<{
@@ -13,9 +13,9 @@ defineProps<{
 
 <template>
   <ul class="post-list" role="list">
-    <li v-for="post in postList" :key="post.path">
+    <li v-for="post in postList" :key="post.slug">
       <h3>
-        <NuxtLink :to="post.path">{{ post.title }} </NuxtLink>
+        <I18nLink :to="'/blog/' + post.slug">{{ post.title }} </I18nLink>
       </h3>
       <BlogPostTime class="date" :datetime="post.publishDate" />
       <p>{{ post.description }}</p>

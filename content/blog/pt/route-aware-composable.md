@@ -1,5 +1,6 @@
 ---
 title: "Composables que se adaptam à rota"
+slug: "route-aware-composable"
 publishDate: 2024-10-09
 draft: true
 tags: ["javascript", "vue"]

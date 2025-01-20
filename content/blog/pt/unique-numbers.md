@@ -1,5 +1,6 @@
 ---
 title: "Soma de números únicos"
+slug: "unique-numbers"
 publishDate: 2024-04-26
 draft: false
 tags: ["javascript"]

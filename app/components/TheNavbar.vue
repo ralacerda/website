@@ -28,9 +28,7 @@ const links = new Map([
     <div class="container" data-allow-mismatch="children">
       <header class="title">
         <div>
-          <NuxtLink :href="$localePath({ name: 'index' })"
-            >Renato Lacerda</NuxtLink
-          >
+          <I18nLink to="/">Renato Lacerda</I18nLink>
         </div>
         <button
           id="navbar-button"

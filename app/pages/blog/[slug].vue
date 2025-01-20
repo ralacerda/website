@@ -2,10 +2,13 @@
 const route = useRoute();
 const slug = route.params.slug;
 
+const { $getLocale } = useI18n();
+
 const { data: post } = await useAsyncData(`post-${slug}`, () => {
   return queryCollection("blog")
-    .select("title", "publishDate", "description", "path", "body")
-    .path("/blog/" + slug)
+    .select("title", "publishDate", "description", "body")
+    .where("slug", "=", slug)
+    .where("lang", "=", $getLocale())
     .first();
 });
 

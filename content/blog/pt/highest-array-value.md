@@ -1,5 +1,6 @@
 ---
 title: "Retornando o maior valor de um array"
+slug: "highest-array-value"
 publishDate: 2023-04-18
 draft: false
 tags: ["javascript", "array"]

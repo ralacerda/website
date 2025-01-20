@@ -1,5 +1,6 @@
 ---
 title: "Aprendendo Go"
+slug: "learning-go"
 publishDate: 2024-04-28
 draft: false
 tags: ["golang"]

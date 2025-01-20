@@ -19,18 +19,12 @@
           simples e eficiente.
         </div>
         <div class="links">
-          <NuxtLink
-            class="border-button"
-            :to="$localePath({ name: 'projects' })"
+          <I18nLink class="border-button" :to="{ name: 'projects' }">
+            Projetos</I18nLink
           >
-            Projetos</NuxtLink
-          >
-          <NuxtLink
-            class="border-button outlined"
-            :to="$localePath({ name: 'blog' })"
-          >
+          <I18nLink class="border-button outlined" :to="{ name: 'blog' }">
             Blog
-          </NuxtLink>
+          </I18nLink>
         </div>
       </div>
     </div>
