@@ -1,0 +1,12 @@
+{
+  "title": {
+    "pt": "Nomeações Oscar",
+    "en": "Oscar Nominations"
+  },
+  "slug": "oscar",
+  "weight": 50,
+  "tech": ["sass", "typescript", "astro", "nodedotjs", "mongodb", "firebase"],
+  "link": "https://nomeacoes-oscar.netlify.app/",
+  "screenshots": ["images/projects/project-oscar.png"],
+  "repoLink": "https://github.com/ralacerda/sequela-movie-app"
+}

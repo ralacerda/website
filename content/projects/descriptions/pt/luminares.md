@@ -1,13 +1,3 @@
----
-title: "Luminares Arq"
-slug: "luminares"
-weight: 35
-tech: [sass, typescript, vuedotjs, nuxtdotjs, netlify]
-link: https://luminares-arq.netlify.app/
-screenshots: [images/projects/project-luminares.png]
-repoLink: https://github.com/ralacerda/luminares
----
-
 O objetivo deste projeto foi criar e implementar um design elegante e moderno para o site de uma empresa fictícia de arquitetura, que transmitisse uma imagem profissional e sofisticada.
 
 Um dos principais destaques do site é a navegação por meio de um mural, que se transforma em um cabeçalho para cada página. O mural é um `grid` de `CSS` que utiliza informações de navegação para modificar o tamanho de cada linha e coluna, deixando somente a imagem desejada em destaque quando um dos links é acessado.

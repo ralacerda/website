@@ -1,15 +1,11 @@
 <script setup lang="ts">
-const { data: projects } = await useAsyncData("projects", () =>
+const { data: metas } = await useAsyncData("projects", () =>
   queryCollection("project").order("weight", "DESC").all()
 );
 </script>
 
 <template>
   <div>
-    <ProjectCard
-      v-for="project in projects"
-      :key="project.slug"
-      :project="project"
-    />
+    <ProjectCard v-for="meta in metas" :key="meta.slug" :meta="meta!" />
   </div>
 </template>

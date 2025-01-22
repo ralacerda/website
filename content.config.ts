@@ -16,10 +16,10 @@ export default defineContentConfig({
       }),
     }),
     project: defineCollection({
-      source: "projects/*.md",
-      type: "page",
+      source: "projects/*.json",
+      type: "data",
       schema: z.object({
-        title: z.string(),
+        title: z.string().or(z.object({ en: z.string(), pt: z.string() })),
         slug: z.string(),
         weight: z.number(),
         tech: z.array(z.string()),
@@ -28,8 +28,12 @@ export default defineContentConfig({
         repoLink: z.string().url(),
       }),
     }),
+    projectDescription: defineCollection({
+      source: "projects/descriptions/**/*.md",
+      type: "page",
+    }),
     pages: defineCollection({
-      source: "pages/*.md",
+      source: "pages/*/*.md",
       type: "page",
     }),
   },

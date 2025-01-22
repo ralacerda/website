@@ -1,0 +1,12 @@
+{
+  "title": {
+    "pt": "Verificador de Contraste",
+    "en": "Contrast Checker"
+  },
+  "slug": "contrast",
+  "weight": 20,
+  "tech": ["sass", "javascript", "vuedotjs", "bulma", "vite", "netlify"],
+  "link": "https://multiple-contrast-checker.netlify.app/",
+  "screenshots": ["images/projects/project-contraste.png"],
+  "repoLink": "https://github.com/ralacerda/contrast-checker"
+}

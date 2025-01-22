@@ -1,43 +1,55 @@
 <script setup lang="ts">
-import type { MarkdownRoot } from "@nuxt/content";
-
-type Project = {
-  title: string;
+type ProjectMeta = {
+  title: string | { en: string; pt: string };
   link: string;
   repoLink: string;
   tech: string[];
   screenshots: string[];
-  body: MarkdownRoot;
+  slug: string;
 };
 
-defineProps<{
-  project: Project;
+const { $getLocale } = useI18n();
+
+const { meta } = defineProps<{
+  meta: ProjectMeta;
 }>();
+
+const { data: content } = await useAsyncData(
+  `project-description-${meta.slug}`,
+  () =>
+    queryCollection("projectDescription")
+      .path(`/projects/descriptions/${$getLocale()}/${meta.slug}`)
+      .first()
+);
 </script>
 
 <template>
   <div class="project">
     <div class="flex">
       <div class="text">
-        <h3 class="title">{{ project.title }}</h3>
-        <a :href="project.link" target="_blank" class="link">{{
-          project.link
-        }}</a>
+        <h3 v-if="typeof meta.title == 'string'" class="title">
+          {{ meta.title }}
+        </h3>
+        <h3 v-else class="title">
+          <!-- @vue-expect-error -->
+          {{ meta.title[$getLocale()] }}
+        </h3>
+        <a :href="meta.link" target="_blank" class="link">{{ meta.link }}</a>
         <div class="description">
-          <ContentRenderer :value="project" />
+          <ContentRenderer v-if="content" :value="content" />
         </div>
-        <a :href="project.repoLink" target="_blank"> Repositório do projeto</a>
+        <a :href="meta.repoLink" target="_blank"> Repositório do projeto</a>
         <ul class="icons" role="list">
-          <li v-for="icon in project.tech" :key="icon" :data-tooltip="icon">
+          <li v-for="icon in meta.tech" :key="icon" :data-tooltip="icon">
             <TechIcon :name="icon" />
           </li>
         </ul>
       </div>
       <div class="screenshot-background">
-        <a :href="project.link" target="_blank">
+        <a :href="meta.link" target="_blank">
           <NuxtImg
             class="screenshot"
-            :src="project.screenshots[0]"
+            :src="meta.screenshots[0]"
             alt=""
             width="600"
             height="400"

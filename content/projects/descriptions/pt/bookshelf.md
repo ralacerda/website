@@ -1,13 +1,3 @@
----
-title: "Bookshelf"
-slug: "bookshelf"
-weight: 25
-tech: [typescript, react, nextdotjs, contentful, netlify]
-link: https://ralacerda-books.netlify.app/
-screenshots: [images/projects/project-bookshelf.png]
-repoLink: https://github.com/ralacerda/books-nextjs
----
-
 É comum esquecer completamente quais livros você já leu quando alguém pede uma sugestão de leitura. Para resolver esse problema, comecei um projeto de um website com os livros que recomendo, já li ou estou lendo. Para hospedar as informações de cada livro, como título, nome dos autores, editora, ano de lançamento e imagem da capa, utilizei o **Contentful**, um sistema de gerenciamento de conteúdo (CMS).
 
 Para manter o site sempre atualizado, utilizei o **Next.js** 13, um framework de **React**. Com a estratégia de Server Side Rendering, o site é construído no servidor a cada visita, resultando em um site sempre atualizado.
