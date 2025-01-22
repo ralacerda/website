@@ -79,6 +79,7 @@ const links = computed(
               title="Mudar tema"
               @click="toggleColorMode"
             >
+              <div v-if="$colorMode.unknown" class="theme-button-placeholder" />
               <Icon
                 v-if="!$colorMode.unknown"
                 v-show="$colorMode.value === 'light'"
@@ -171,6 +172,11 @@ const links = computed(
   color: var(--fg);
   cursor: pointer;
   border: none;
+}
+
+.theme-button-placeholder {
+  width: 1.25em;
+  height: 1.25em;
 }
 
 @media (max-width: 960px) {
