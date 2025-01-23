@@ -2,7 +2,8 @@
 defineProps<{
   name: string;
   location: string;
-  date: string;
+  startDate: string;
+  endDate?: string;
   icon: string;
 }>();
 </script>
@@ -14,7 +15,11 @@ defineProps<{
     <div class="logo">
       <Icon :name="icon" mode="svg" />
     </div>
-    <div class="date">{{ date }}</div>
+    <div class="date">
+      {{ startDate }}
+      - <template v-if="endDate">{{ endDate }}</template>
+      <template v-else>{{ $t("about-me.current") }}</template>
+    </div>
   </div>
 </template>
 

@@ -9,5 +9,31 @@
   "index": {
     "intro": "Hi, I'm Renato",
     "position": "Web developer, open source enthusiast and focused on simple and efficient solutions."
+  },
+  "about-me": {
+    "title": "About me",
+    "current": "present",
+    "cards": {
+      "MBA": {
+        "name": "MBA in Software Engineering",
+        "location": "University of São Paulo"
+      },
+      "skylar": {
+        "name": "Frontend Developer",
+        "location": "Skylar"
+      },
+      "desenvolve": {
+        "name": "Fullstack Development Program",
+        "location": "Grupo Boticário - Alura"
+      },
+      "csf": {
+        "name": "Science Without Borders",
+        "location": "University of Southampton"
+      },
+      "graduation": {
+        "name": "Bachelor in Biological Sciences",
+        "location": "University of São Paulo"
+      }
+    }
   }
 }

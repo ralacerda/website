@@ -9,41 +9,44 @@ const { data: page } = useAsyncData(`about-me-${$getLocale()}`, () =>
 <template>
   <div id="sobre-mim" class="grid">
     <div class="content">
-      <h2>Sobre mim</h2>
+      <h2>{{ $t("about-me.title") }}</h2>
       <div class="text">
         <ContentRenderer v-if="page" :value="page" />
       </div>
     </div>
     <div class="about">
       <AboutBioCard
-        name="MBA - Engenharia de Software"
-        location="Universidade de São Paulo"
+        :name="$t('about-me.cards.MBA.name') as string"
+        :location="$t('about-me.cards.MBA.location') as string"
         icon="logos:usp"
-        date="2024 - Atual"
+        start-date="2024"
       />
       <AboutBioCard
-        name="Desenvolvedor Front End"
-        location="Skylar"
+        :name="$t('about-me.cards.skylar.name') as string"
+        :location="$t('about-me.cards.skylar.location') as string"
         icon="logos:skylar"
-        date="2023 - Atual"
+        start-date="2024"
       />
       <AboutBioCard
-        name="Programa Desenvolve Fullstack"
-        location="Grupo Boticário - Alura"
+        :name="$t('about-me.cards.desenvolve.name') as string"
+        :location="$t('about-me.cards.desenvolve.location') as string"
         icon="logos:desenvolva"
-        date="2023"
+        start-date="2023"
+        end-date="2023"
       />
       <AboutBioCard
-        name="Ciências Sem Fronteiras"
-        location="University of Southampton"
+        :name="$t('about-me.cards.csf.name') as string"
+        :location="$t('about-me.cards.csf.location') as string"
         icon="logos:southampton"
-        date="2013 - 2014"
+        start-date="2013"
+        end-date="2014"
       />
       <AboutBioCard
-        name="Graduação em Ciências Biológicas"
-        location="Universidade de São Paulo"
+        :name="$t('about-me.cards.graduation.name') as string"
+        :location="$t('about-me.cards.graduation.location') as string"
         icon="logos:usp"
-        date="2010 - 2015"
+        start-date="2010"
+        end-date="2015"
       />
     </div>
   </div>
