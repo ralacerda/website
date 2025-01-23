@@ -5,5 +5,9 @@
     "contact": "Contato",
     "blog": "Blog",
     "open-source": "Open Source"
+  },
+  "index": {
+    "intro": "Olá, eu sou o Renato",
+    "position": "Desenvolvedor web entusiasta de código aberto e focado em soluções simples e eficiente."
   }
 }

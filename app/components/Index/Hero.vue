@@ -13,17 +13,16 @@
         class="image"
       />
       <div class="text">
-        <h1 class="name">Olá, eu sou Renato</h1>
+        <h1 class="name">{{ $t("index.intro") }}</h1>
         <div class="position">
-          Desenvolvedor web entusiasta de código aberto e focado em soluções
-          simples e eficiente.
+          {{ $t("index.position") }}
         </div>
         <div class="links">
           <I18nLink class="border-button" :to="{ name: 'projects' }">
-            Projetos</I18nLink
+            {{ $t("pages.projects") }}</I18nLink
           >
           <I18nLink class="border-button outlined" :to="{ name: 'blog' }">
-            Blog
+            {{ $t("pages.blog") }}
           </I18nLink>
         </div>
       </div>

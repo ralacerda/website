@@ -5,5 +5,9 @@
     "contact": "Contact",
     "blog": "Blog",
     "open-source": "Open Source"
+  },
+  "index": {
+    "intro": "Hi, I'm Renato",
+    "position": "Web developer, open source enthusiast and focused on simple and efficient solutions."
   }
 }
