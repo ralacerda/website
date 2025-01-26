@@ -5,7 +5,7 @@ definePageMeta({
 
 const { locale } = useI18n();
 
-const { data: query } = await useAsyncData("blog-index", () => {
+const { data: query } = await useAsyncData(`blog-index-${locale.value}`, () => {
   return queryCollection("blog")
     .where("lang", "=", locale.value)
     .select("title", "description", "publishDate", "slug")
