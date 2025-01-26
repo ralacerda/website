@@ -15,7 +15,7 @@ const { meta } = defineProps<{
 }>();
 
 const { data: content } = await useAsyncData(
-  `project-description-${meta.slug}`,
+  `project-description-${meta.slug}-${locale.value}`,
   () =>
     queryCollection("projectDescription")
       .path(`/projects/descriptions/${locale.value}/${meta.slug}`)
