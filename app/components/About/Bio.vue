@@ -1,8 +1,13 @@
 <script setup lang="ts">
 const { $getLocale } = useI18n();
 
-const { data: page } = useAsyncData(`about-me-${$getLocale()}`, () =>
-  queryCollection("pages").path(`/pages/${$getLocale()}/about-me`).first()
+const { data: page } = useAsyncData(
+  `about-me-${$getLocale()}`,
+  () =>
+    queryCollection("pages").path(`/pages/${$getLocale()}/about-me`).first(),
+  {
+    watch: [$getLocale],
+  }
 );
 </script>
 

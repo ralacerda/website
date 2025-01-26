@@ -1,6 +1,12 @@
 <script setup lang="ts">
-const { data: metas } = await useAsyncData("projects", () =>
-  queryCollection("project").order("weight", "DESC").all()
+const { $getLocale } = useI18n();
+
+const { data: metas } = await useAsyncData(
+  `projects-${$getLocale()}`,
+  () => queryCollection("project").order("weight", "DESC").all(),
+  {
+    watch: [$getLocale],
+  }
 );
 </script>
 
