@@ -3,16 +3,11 @@ import { useScroll, useWindowSize, useMounted } from "@vueuse/core";
 
 const { y } = useScroll(window);
 const { width } = useWindowSize();
-const colorMode = useColorMode();
 
 const open = ref(false);
 
 const isMounted = useMounted();
 const { t } = useI18n();
-
-function toggleColorMode() {
-  colorMode.preference = colorMode.value === "light" ? "dark" : "light";
-}
 
 const links = computed(() => {
   return new Map([
@@ -73,25 +68,6 @@ const links = computed(() => {
             </li>
           </ul>
           <div class="buttons" :style="{ '--index': links.size }">
-            <button
-              class="theme-button"
-              title="Mudar tema"
-              @click="toggleColorMode"
-            >
-              <div v-if="$colorMode.unknown" class="theme-button-placeholder" />
-              <Icon
-                v-if="!$colorMode.unknown"
-                v-show="$colorMode.value === 'light'"
-                size="1.25em"
-                name="bx:moon"
-              />
-              <Icon
-                v-if="!$colorMode.unknown"
-                v-show="$colorMode.value === 'dark'"
-                size="1.25em"
-                name="bx:sun"
-              />
-            </button>
             <LocaleButton @language-switch="open = false" />
           </div>
         </div>

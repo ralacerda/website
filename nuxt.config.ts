@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/seo",
     "@nuxt/eslint",
-    "@nuxtjs/color-mode",
     "@nuxt/icon",
     "@nuxt/image",
     "@nuxt/content",
