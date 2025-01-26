@@ -16,7 +16,7 @@ onMounted(() => {
 
 <template>
   <div id="contato" class="contact">
-    <h2>Contato</h2>
+    <h2>{{ $t("contact.title") }}</h2>
     <div class="contact__text">
       <ContactMeText />
     </div>
@@ -39,7 +39,9 @@ onMounted(() => {
                 aria-hidden="true"
               />
             </label>
-            <label>Nome: <input type="text" name="name" required /></label>
+            <label
+              >{{ $t("contact.name") }} <input type="text" name="name" required
+            /></label>
             <label
               >Email:&nbsp;<input type="email" name="email" required
             /></label>
@@ -52,7 +54,9 @@ onMounted(() => {
               aria-label="Mensagem"
             />
           </div>
-          <button type="submit" class="border-button">Enviar mensagem</button>
+          <button type="submit" class="border-button">
+            {{ $t("contact.cta") }}
+          </button>
         </form>
       </div>
       <div class="contact__social">

@@ -35,5 +35,24 @@
         "location": "Universidade de São Paulo"
       }
     }
+  },
+  "skills": {
+    "language": {
+      "title": "Fluência em Línguas Estrangeiras",
+      "content": "Durante um ano, vivi e estudei na Inglaterra, o que me possibilitou alcançar fluência no idioma Inglês."
+    },
+    "linux": {
+      "title": "Linux e Linha de Comando",
+      "content": "Utilizo GNU/Linux como sistema operacional, o que me forneceu familiariedade com Linha de Comando, Bash e Docker."
+    },
+    "learning": {
+      "title": "Aprendizado Contínuo",
+      "content": "Gosto de estar sempre atualizado e aprender novas tecnologias e habilidades. Por isso, sempre procuro fazer cursos online para expandir meus conhecimentos."
+    }
+  },
+  "contact": {
+    "title": "Contato",
+    "name": "Nome",
+    "cta": "Enviar Mensagem"
   }
 }
