@@ -15,7 +15,6 @@ const links = computed(() => {
     [t("pages.projects"), "/projects"],
     ["Blog", "/blog"],
     ["Open Source", "/open-source"],
-    [t("pages.contact"), "/contact"],
   ]);
 });
 </script>
