@@ -2,15 +2,18 @@
 const route = useRoute();
 const slug = route.params.slug;
 
-const { $getLocale } = useI18n();
+const { locale } = useI18n();
 
-const { data: post } = await useAsyncData(`post-${slug}`, () => {
-  return queryCollection("blog")
-    .select("title", "publishDate", "description", "body")
-    .where("slug", "=", slug)
-    .where("lang", "=", $getLocale())
-    .first();
-});
+const { data: post } = await useAsyncData(
+  `post-${slug}-${locale.value}`,
+  () => {
+    return queryCollection("blog")
+      .select("title", "publishDate", "description", "body")
+      .where("slug", "=", slug)
+      .where("lang", "=", locale.value)
+      .first();
+  }
+);
 
 if (!post.value) {
   throw new Error("Post not found");

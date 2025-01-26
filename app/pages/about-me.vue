@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const { $t } = useI18n();
+const { t } = useI18n();
 
 useHead({
-  title: $t("pages.about-me")!,
+  title: t("pages.about-me")!,
 });
 </script>
 

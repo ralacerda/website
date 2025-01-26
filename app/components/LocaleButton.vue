@@ -9,7 +9,7 @@ const emit = defineEmits<{
 const languageButton = ref<HTMLElement>();
 const languageSelect = ref<HTMLElement>();
 const showLanguageSelect = ref(false);
-const { $switchLocale } = useI18n();
+const { setLocale, locale } = useI18n();
 
 const { floatingStyles } = useFloating(languageButton, languageSelect, {
   placement: "bottom-start",
@@ -17,10 +17,10 @@ const { floatingStyles } = useFloating(languageButton, languageSelect, {
   whileElementsMounted: autoUpdate,
 });
 
-function switchLocale(locale: string) {
+function switchLocale(locale: "pt" | "en") {
   showLanguageSelect.value = false;
   emit("languageSwitch");
-  $switchLocale(locale);
+  setLocale(locale);
 }
 
 onClickOutside(
@@ -50,10 +50,9 @@ onClickOutside(
     :style="floatingStyles"
     class="language-select"
   >
-    {{ $switchLocalePath("pt") }}
     <button
       class="language-option"
-      :data-active="$getLocale() == 'pt'"
+      :data-active="locale == 'pt'"
       @click="switchLocale('pt')"
     >
       <Icon
@@ -64,7 +63,7 @@ onClickOutside(
     </button>
     <button
       class="language-option"
-      :data-active="$getLocale() == 'en'"
+      :data-active="locale == 'en'"
       @click="switchLocale('en')"
     >
       <Icon

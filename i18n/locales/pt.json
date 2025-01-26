@@ -10,6 +10,10 @@
     "intro": "Olá, eu sou o Renato",
     "position": "Desenvolvedor web entusiasta de código aberto e focado em soluções simples e eficiente."
   },
+  "projects": {
+    "title": "Projetos",
+    "repo": "Repositório do Projeto"
+  },
   "about-me": {
     "title": "Sobre mim",
     "current": "Atual",

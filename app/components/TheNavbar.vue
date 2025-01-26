@@ -4,26 +4,25 @@ import { useScroll, useWindowSize, useMounted } from "@vueuse/core";
 const { y } = useScroll(window);
 const { width } = useWindowSize();
 const colorMode = useColorMode();
-const { $t, $localePath } = useI18n();
 
 const open = ref(false);
 
 const isMounted = useMounted();
+const { t } = useI18n();
 
 function toggleColorMode() {
   colorMode.preference = colorMode.value === "light" ? "dark" : "light";
 }
 
-const links = computed(
-  () =>
-    new Map([
-      [$t("pages.about-me"), $localePath({ name: "about-me" })],
-      [$t("pages.projects"), $localePath({ name: "projects" })],
-      [$t("pages.blog"), $localePath({ name: "blog" })],
-      [$t("pages.open-source"), $localePath({ name: "open-source" })],
-      [$t("pages.contact"), $localePath({ name: "contact" })],
-    ])
-);
+const links = computed(() => {
+  return new Map([
+    [t("pages.about-me"), "/about-me"],
+    [t("pages.projects"), "/projects"],
+    ["Blog", "/blog"],
+    ["Open Source", "/open-source"],
+    [t("pages.contact"), "/contact"],
+  ]);
+});
 </script>
 
 <template>
@@ -31,7 +30,7 @@ const links = computed(
     <div class="container" data-allow-mismatch="children">
       <header class="title">
         <div>
-          <I18nLink to="/">Renato Lacerda</I18nLink>
+          <NuxtLinkLocale to="/">Renato Lacerda</NuxtLinkLocale>
         </div>
         <button
           id="navbar-button"
@@ -58,7 +57,7 @@ const links = computed(
               :key="link"
               :style="{ '--index': index }"
             >
-              <NuxtLink v-slot="{ href, navigate }" custom :to="link"
+              <NuxtLinkLocale v-slot="{ href, navigate }" custom :to="link"
                 ><a
                   :href="href"
                   @click="
@@ -69,7 +68,7 @@ const links = computed(
                   "
                 >
                   {{ label }}
-                </a></NuxtLink
+                </a></NuxtLinkLocale
               >
             </li>
           </ul>

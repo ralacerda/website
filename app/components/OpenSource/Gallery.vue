@@ -30,10 +30,10 @@ const pullrequestsInfo = [
   },
 ];
 
-const { $getLocale } = useI18n();
+const { locale } = useI18n();
 
-const { data: page } = useAsyncData(`opensource-${$getLocale()}`, () =>
-  queryCollection("pages").path(`/pages/${$getLocale()}/opensource`).first()
+const { data: page } = useAsyncData(`opensource-${locale.value}`, () =>
+  queryCollection("pages").path(`/pages/${locale.value}/opensource`).first()
 );
 </script>
 

@@ -18,12 +18,12 @@
           {{ $t("index.position") }}
         </div>
         <div class="links">
-          <I18nLink class="border-button" :to="{ name: 'projects' }">
-            {{ $t("pages.projects") }}</I18nLink
-          >
-          <I18nLink class="border-button outlined" :to="{ name: 'blog' }">
-            {{ $t("pages.blog") }}
-          </I18nLink>
+          <NuxtLinkLocale class="border-button" to="/projects">{{
+            $t("pages.projects")
+          }}</NuxtLinkLocale>
+          <NuxtLinkLocale class="border-button outlined" to="/blog">
+            Blog
+          </NuxtLinkLocale>
         </div>
       </div>
     </div>

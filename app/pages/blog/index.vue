@@ -3,11 +3,11 @@ definePageMeta({
   layout: "blog",
 });
 
-const { $getLocale } = useI18n();
+const { locale } = useI18n();
 
 const { data: query } = await useAsyncData("blog-index", () => {
   return queryCollection("blog")
-    .where("lang", "=", $getLocale())
+    .where("lang", "=", locale.value)
     .select("title", "description", "publishDate", "slug")
     .order("publishDate", "DESC")
     .all();

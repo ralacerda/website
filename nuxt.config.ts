@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/fonts",
     "nuxt-time",
-    "nuxt-i18n-micro",
+    "@nuxtjs/i18n",
   ],
 
   compatibilityDate: "2024-04-03",
@@ -65,6 +65,28 @@ export default defineNuxtConfig({
     provider: "ipx",
   },
 
+  i18n: {
+    baseUrl: "https://renatolacerda.com",
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      redirectOn: "root", // recommended
+    },
+    strategy: "prefix",
+    locales: [
+      {
+        code: "en",
+        file: "en.json",
+        language: "en",
+      },
+      {
+        code: "pt",
+        file: "pt.json",
+        language: "pt",
+      },
+    ],
+  },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -73,18 +95,6 @@ export default defineNuxtConfig({
         },
       },
     },
-  },
-
-  i18n: {
-    locales: [
-      { code: "pt", iso: "pt-BR", dir: "ltr" },
-      { code: "en", iso: "en-US", dir: "ltr" },
-    ],
-    defaultLocale: "en",
-    translationDir: "locales",
-    meta: true,
-    strategy: "prefix",
-    disablePageLocales: true,
   },
 
   nitro: {

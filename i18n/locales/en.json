@@ -10,6 +10,10 @@
     "intro": "Hi, I'm Renato",
     "position": "Web developer, open source enthusiast and focused on simple and efficient solutions."
   },
+  "projects": {
+    "title": "Projects",
+    "repo": "Project Repository"
+  },
   "about-me": {
     "title": "About me",
     "current": "present",

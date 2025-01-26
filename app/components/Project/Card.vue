@@ -8,7 +8,7 @@ type ProjectMeta = {
   slug: string;
 };
 
-const { $getLocale } = useI18n();
+const { locale } = useI18n();
 
 const { meta } = defineProps<{
   meta: ProjectMeta;
@@ -18,7 +18,7 @@ const { data: content } = await useAsyncData(
   `project-description-${meta.slug}`,
   () =>
     queryCollection("projectDescription")
-      .path(`/projects/descriptions/${$getLocale()}/${meta.slug}`)
+      .path(`/projects/descriptions/${locale.value}/${meta.slug}`)
       .first()
 );
 </script>
@@ -31,14 +31,13 @@ const { data: content } = await useAsyncData(
           {{ meta.title }}
         </h3>
         <h3 v-else class="title">
-          <!-- @vue-expect-error -->
-          {{ meta.title[$getLocale()] }}
+          {{ meta.title[locale] }}
         </h3>
         <a :href="meta.link" target="_blank" class="link">{{ meta.link }}</a>
         <div class="description">
           <ContentRenderer v-if="content" :value="content" />
         </div>
-        <a :href="meta.repoLink" target="_blank"> Repositório do projeto</a>
+        <a :href="meta.repoLink" target="_blank"> {{ $t("projects.repo") }}</a>
         <ul class="icons" role="list">
           <li v-for="icon in meta.tech" :key="icon" :data-tooltip="icon">
             <TechIcon :name="icon" />

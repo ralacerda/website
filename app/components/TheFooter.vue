@@ -1,6 +1,6 @@
 <template>
   <footer>
-    Renato Lacerda · 2024
+    Renato Lacerda · 2025
     <ul class="social" role="list">
       <li>
         <a target="_blank" href="https://www.linkedin.com/in/renato-ac-lacerda/"

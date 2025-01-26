@@ -1,12 +1,10 @@
 <script setup lang="ts">
-const { $getLocale } = useI18n();
+const { locale } = useI18n();
 
 const { data: metas } = await useAsyncData(
-  `projects-${$getLocale()}`,
+  `projects-${locale.value}`,
   () => queryCollection("project").order("weight", "DESC").all(),
-  {
-    watch: [$getLocale],
-  }
+  {}
 );
 </script>
 

@@ -15,7 +15,9 @@ defineProps<{
   <ul class="post-list" role="list">
     <li v-for="post in postList" :key="post.slug">
       <h3>
-        <I18nLink :to="'/blog/' + post.slug">{{ post.title }} </I18nLink>
+        <NuxtLinkLocale :to="'/blog/' + post.slug"
+          >{{ post.title }}
+        </NuxtLinkLocale>
       </h3>
       <BlogPostTime class="date" :datetime="post.publishDate" />
       <p>{{ post.description }}</p>
