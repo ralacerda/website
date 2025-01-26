@@ -72,7 +72,8 @@ export default defineNuxtConfig({
       cookieKey: "i18n_redirected",
       redirectOn: "root", // recommended
     },
-    strategy: "prefix",
+    defaultLocale: "pt",
+    strategy: "prefix_except_default",
     locales: [
       {
         code: "en",
