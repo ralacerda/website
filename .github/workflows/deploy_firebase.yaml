@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: # Or as an environment variable
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: $HOME/firebase-service-account.json
 
     steps:
       - name: Checkout code
@@ -24,7 +22,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: "pnpm"
 
       - name: Install dependencies
@@ -36,13 +34,7 @@ jobs:
       - name: Install firebase-tools
         run: pnpm install -g firebase-tools
 
-      - name: Create Service Account
-        run: echo $FIREBASE_SERVICE_ACCOUNT > $HOME/firebase-service-account.json
-
       - name: Deploy
-        run: firebase deploy --debug
-
-      - name: Remove credentials file
-        if: success() || failure()
-        run: |
-          rm $HOME/firebase-service-account.json
+        env: # Or as an environment variable
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase deploy --token "$FIREBASE_TOKEN"
