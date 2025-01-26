@@ -28,13 +28,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # - name: Build
-      #   run: pnpm generate
+      - name: Build
+        run: pnpm generate
 
       - name: Install firebase-tools
         run: pnpm install -g firebase-tools
 
+      - name: Create Service Account
+        run: echo $FIREBASE_SERVICE_ACCOUNT > $HOME/firebase-service-account.json
+
       - name: Deploy
         env: # Or as an environment variable
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase deploy --token "$FIREBASE_TOKEN"
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: $HOME/firebase-service-account.json
+        run: firebase deploy
