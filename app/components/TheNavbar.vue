@@ -75,7 +75,7 @@ const links = computed(() => {
   </nav>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .navbar {
   position: sticky;
   z-index: 999;
