@@ -14,7 +14,7 @@
     "@nuxt/content": "^3.0.0",
     "@nuxt/eslint": "^0.7.5",
     "@vueuse/core": "^12.5.0",
-    "nuxt-i18n-micro": "^1.70.0",
+    "nuxt-i18n-micro": "^1.72.0",
     "sass": "^1.83.4",
     "sharp": "^0.33.5"
   },
@@ -28,8 +28,8 @@
     "@nuxt/image": "^1.9.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/seo": "^2.1.0",
-    "eslint": "^9.18.0",
-    "nuxt": "^3.15.2",
+    "eslint": "^9.19.0",
+    "nuxt": "^3.15.3",
     "nuxt-time": "^1.0.3",
     "typescript": "^5.7.3"
   },
