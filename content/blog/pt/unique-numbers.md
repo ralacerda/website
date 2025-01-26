@@ -14,7 +14,7 @@ lang: "pt"
 
 Exemplo:
 
-```ts
+```typescript
 uniqueSum([1, 2, 3]); // 6
 uniqueSum([11, 22, 33]); // 0
 uniqueSum([101, 2, 3]); // 5
@@ -22,7 +22,7 @@ uniqueSum([101, 2, 3]); // 5
 
 Ao resolver esse tipo de questão, a primeira coisa que eu faço é pensar em cada etapa individualmente. É preciso primeiro **remover** do array todos os números que repetem um dígito e, em seguida, **somar** o restante. Portanto, um `.filter` seguido de um `.reduce` é a combinação perfeita para o que precisamos.
 
-```ts
+```typescript
 function uniqueSum(array: number[]) {
   return array.filter(hasNoRepeatingDigit).reduce((a, b) => a + b))
 }
@@ -30,20 +30,20 @@ function uniqueSum(array: number[]) {
 
 Agora precisamos criar uma função que possa verificar se o número tem algum dígito repetido. Meu primeiro instinto é transformar o número em um array e, em seguida, usar `split` para obter um array.
 
-```ts
+```typescript
 String(12345).split(""); // [ '1', '2', '3', '4', '5' ]
 ```
 
 Você pode iterar sobre esse array para verificar se algum número se repete, mas também pode verificar se todos os valores são únicos, transformando em um Set e verificando se o tamanho permanece o mesmo.
 
-```ts
+```typescript
 new Set(String(112).split("")).size == String(112).split("").size; // false
 new Set(String(123).split("")).size == String(123).split("").size; // true
 ```
 
 Portanto, a função pode ser escrita como:
 
-```ts
+```typescript
 function hasNoRepeatingDigit(number) {
   const arrayOfNumber = String(number).split("");
   // Observe que usamos `size` para Set e `length` para arrays

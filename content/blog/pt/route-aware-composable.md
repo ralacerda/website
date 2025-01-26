@@ -14,7 +14,7 @@ Vamos imaginar um cenário em que você tem um `floating button` no seu site. Es
 
 Uma solução seria criar o seguinte composable:
 
-```ts
+```typescript
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -49,7 +49,7 @@ export default function useFloatingButton() {
 
 Problema resolvido, mas ainda podemos melhorar. O que aconteceria se você precisasse criar uma nova página que também usasse o modo `contact`? Você teria que se lembrar de adicionar a nova rota ao array `contactPages`, o que não é ideal. Para mim, o ideal seria que a própria rota soubesse qual é o seu modo. Para isso, podemos usar `meta` do `vue-router`.
 
-```ts
+```typescript
 const routes = [
   {
     path: "/",
@@ -74,7 +74,7 @@ const routes = [
 
 Se você está usando TypeScript, pode adicionar um tipo para o meta das rotas:
 
-```ts
+```typescript
 declare module "vue-router" {
   interface RouteMeta {
     floatingButtonMode?: "login" | "contact";
@@ -86,7 +86,7 @@ Nesse caso, não se esqueça de adicionar o `as const` na definição das rotas,
 
 Agora podemos modificar nosso composable para usar o `meta` da rota:
 
-```ts
+```typescript
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -133,7 +133,7 @@ definePageMeta({
 
 Você pode adicionar tipagem para o `meta` de forma similar ao `vue-router`:
 
-```ts
+```typescript
 declare module "#app" {
   interface PageMeta {
     floatingButtonMode: "contact" | "login";
