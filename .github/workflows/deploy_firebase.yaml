@@ -34,7 +34,10 @@ jobs:
       - name: Install firebase-tools
         run: pnpm install -g firebase-tools
 
+      - name: Authenticate with Firebase
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_WEBSITE_RALACERDA }}"
+
       - name: Deploy
-        env: # Or as an environment variable
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase deploy --token "$FIREBASE_TOKEN"
+        run: firebase deploy
