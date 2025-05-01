@@ -1,7 +1,5 @@
 <script setup lang="ts">
-defineOgImage({
-  url: "/meta.png",
-});
+defineOgImageComponent("DefaultImage");
 </script>
 
 <template>
