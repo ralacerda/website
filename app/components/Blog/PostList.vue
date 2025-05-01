@@ -19,14 +19,7 @@ defineProps<{
           >{{ post.title }}
         </NuxtLinkLocale>
       </h3>
-      <NuxtTime
-        class="date"
-        :datetime="post.publishDate"
-        month="long"
-        day="numeric"
-        year="numeric"
-        :locale="$i18n.locale"
-      />
+      <BlogPostDate :datetime="post.publishDate" />
       <p>{{ post.description }}</p>
     </li>
   </ul>
