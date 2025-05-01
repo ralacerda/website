@@ -1,5 +1,5 @@
 ---
-title: "Não subestime o Intl"
+title: "Intl: Soluções Nativas para Formatação em JavaScript"
 slug: "intl"
 publishDate: 2025-05-01
 draft: false
