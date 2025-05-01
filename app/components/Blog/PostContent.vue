@@ -36,7 +36,11 @@ defineProps<{
 <style lang="scss" scoped>
 h2 {
   font-size: var(--step-3);
+  margin-inline: auto;
   text-align: center;
+  line-height: 1.2;
+  max-width: 30ch;
+  text-wrap: balance;
 }
 
 .date {
@@ -44,6 +48,7 @@ h2 {
   display: block;
   font-size: var(--step-1);
   color: var(--fg-details);
+  margin-top: var(--space-s);
 }
 
 :deep(.article-content) {
