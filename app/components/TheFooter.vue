@@ -15,9 +15,7 @@
         <a target="_blank" href="https://hachyderm.io/@renato">Mastodon</a>
       </li>
       <li>
-        <a
-          target="_blank"
-          href="https://bsky.app/profile/renatolacerda.bsky.social"
+        <a target="_blank" href="https://bsky.app/profile/ralacerda.dev"
           >Bluesky</a
         >
       </li>
