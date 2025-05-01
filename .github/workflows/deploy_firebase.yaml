@@ -6,7 +6,12 @@ on:
     branches:
       - main # Change this to your desired branch
 
+concurrency:
+  group: build-deploy
+  cancel-in-progress: true
+
 jobs:
+
   build:
     runs-on: ubuntu-latest
 
