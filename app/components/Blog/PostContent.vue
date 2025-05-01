@@ -77,7 +77,8 @@ h2 {
 
   h2,
   h3 {
-    margin-top: var(--space-l);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-s);
   }
 
   p {
@@ -88,8 +89,8 @@ h2 {
   pre {
     grid-column: breakout;
     background-color: var(--neutral-900);
-    margin-block: var(--space-s);
-    padding: 0.5rem 1rem;
+    margin-block: var(--space-m);
+    padding: 1rem 1.5rem;
     border-radius: 0.4rem;
     overflow-x: auto;
     font-size: var(--step--1);
@@ -111,6 +112,7 @@ h2 {
 
   blockquote {
     grid-column: breakout;
+    margin-block: var(--space-m);
 
     p {
       font-size: var(--step-2);
