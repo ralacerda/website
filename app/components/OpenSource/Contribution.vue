@@ -10,8 +10,6 @@ const { repo, pullrequest, mergeDate } = defineProps<{
   };
   mergeDate: Date;
 }>();
-
-const { locale } = useI18n();
 </script>
 
 <template>
@@ -27,7 +25,7 @@ const { locale } = useI18n();
       <div class="merge-date">
         <NuxtTime
           :datetime="mergeDate"
-          :locale
+          :locale="$i18n.locale"
           day="2-digit"
           month="long"
           year="numeric"

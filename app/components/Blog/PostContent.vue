@@ -19,7 +19,14 @@ defineProps<{
         {{ post.title }}
       </h2>
       <div>
-        <BlogPostTime class="date" :datetime="post.publishDate" />
+        <NuxtTime
+          class="date"
+          :datetime="post.publishDate"
+          month="long"
+          day="numeric"
+          year="numeric"
+          :locale="$i18n.locale"
+        />
       </div>
     </div>
     <ContentRenderer :value="post" class="article-content" />

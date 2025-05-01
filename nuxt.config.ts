@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/content",
     "@nuxt/fonts",
-    "nuxt-time",
     "@nuxtjs/i18n",
   ],
 

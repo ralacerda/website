@@ -66,9 +66,6 @@ importers:
       nuxt-og-image:
         specifier: 5.0.4
         version: 5.0.4(@unhead/vue@2.0.0-rc.13(vue@3.5.13(typescript@5.8.3)))(magicast@0.3.5)(unstorage@1.16.0(@netlify/blobs@8.2.0)(db0@0.3.2(@libsql/client@0.14.0)(better-sqlite3@11.9.1))(ioredis@5.6.1))(vite@6.3.4(@types/node@22.13.10)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))
-      nuxt-time:
-        specifier: ^1.0.3
-        version: 1.0.3(magicast@0.3.5)(nuxt@3.17.1(@libsql/client@0.14.0)(@netlify/blobs@8.2.0)(@parcel/watcher@2.5.1)(@types/node@22.13.10)(better-sqlite3@11.9.1)(db0@0.3.2(@libsql/client@0.14.0)(better-sqlite3@11.9.1))(eslint@9.25.1(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(sass@1.87.0)(terser@5.39.0)(typescript@5.8.3)(vite@6.3.4(@types/node@22.13.10)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1))
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -4722,11 +4719,6 @@ packages:
 
   nuxt-site-config@3.1.9:
     resolution: {integrity: sha512-YB69GX0st8drv1d5xypweseiEWeR22tfGdyVH3U4R+mpUSz8paBx48ArKC6MgV22DKItoQm51LVoapF5pl5bEQ==}
-
-  nuxt-time@1.0.3:
-    resolution: {integrity: sha512-aD5Yv18IIKX08ED9B+Hd2rSDewcV40qNxUursdtJFaKFhLLZWPQF8TR2d/P523erPlqht2OvxSN3iyGhUJJy/g==}
-    peerDependencies:
-      nuxt: '>=3.12.0'
 
   nuxt@3.17.1:
     resolution: {integrity: sha512-RFUamVkXw86Kn9l3jeHLNnctsNf5Dp5pQY2bal9uZFiq1Wc9VyMdzou70DbMUjDe1yAoUbD6qz65FOEq+abesQ==}
@@ -12102,13 +12094,6 @@ snapshots:
     transitivePeerDependencies:
       - magicast
       - vue
-
-  nuxt-time@1.0.3(magicast@0.3.5)(nuxt@3.17.1(@libsql/client@0.14.0)(@netlify/blobs@8.2.0)(@parcel/watcher@2.5.1)(@types/node@22.13.10)(better-sqlite3@11.9.1)(db0@0.3.2(@libsql/client@0.14.0)(better-sqlite3@11.9.1))(eslint@9.25.1(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(sass@1.87.0)(terser@5.39.0)(typescript@5.8.3)(vite@6.3.4(@types/node@22.13.10)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)):
-    dependencies:
-      '@nuxt/kit': 3.16.1(magicast@0.3.5)
-      nuxt: 3.17.1(@libsql/client@0.14.0)(@netlify/blobs@8.2.0)(@parcel/watcher@2.5.1)(@types/node@22.13.10)(better-sqlite3@11.9.1)(db0@0.3.2(@libsql/client@0.14.0)(better-sqlite3@11.9.1))(eslint@9.25.1(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(sass@1.87.0)(terser@5.39.0)(typescript@5.8.3)(vite@6.3.4(@types/node@22.13.10)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
-    transitivePeerDependencies:
-      - magicast
 
   nuxt@3.17.1(@libsql/client@0.14.0)(@netlify/blobs@8.2.0)(@parcel/watcher@2.5.1)(@types/node@22.13.10)(better-sqlite3@11.9.1)(db0@0.3.2(@libsql/client@0.14.0)(better-sqlite3@11.9.1))(eslint@9.25.1(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(sass@1.87.0)(terser@5.39.0)(typescript@5.8.3)(vite@6.3.4(@types/node@22.13.10)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1):
     dependencies:
