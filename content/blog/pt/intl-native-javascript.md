@@ -1,6 +1,6 @@
 ---
 title: "Intl: Soluções Nativas para Formatação em JavaScript"
-slug: "intl"
+slug: "intl-native-javascript"
 publishDate: 2025-05-01
 draft: false
 tags: ["javascript", "intl"]
@@ -94,7 +94,7 @@ Outras opções e exemplos estão disponíveis no [MDN](https://developer.mozill
 
 <!-- prettier-ignore-start -->
 ```ts
-`${hoursWithoutBug} ${ hoursWithoutBug > 1 ? "usuários" : "usuário" } online`;
+`${userCount} ${ userCount > 1 ? "usuários" : "usuário" } online`;
 ```
 <!-- prettier-ignore-end -->
 
