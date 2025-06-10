@@ -1,75 +1,50 @@
-# Nuxt 3 Minimal Starter
+# Personal Portfolio Website
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A modern, multilingual portfolio website built with Nuxt 3, featuring a blog, project showcase, and internationalization support.
 
-## Setup
+## 🌟 Features
 
-Make sure to install the dependencies:
+- **📱 Responsive Design** - Mobile-first approach with modern CSS
+- **🌍 Multilingual** - Portuguese and English language support
+- **📝 Blog System** - Markdown-based blog with content collections
+- **💼 Project Showcase** - Dynamic project gallery with detailed descriptions
+- **🎨 Modern UI** - Clean, minimalist design with smooth animations
+- **⚡ Performance Optimized** - Image optimization, code splitting, and SSG
+- **🔍 SEO Ready** - Meta tags, Open Graph, structured data
+- **🎯 Type Safe** - Full TypeScript support throughout the codebase
 
-```bash
-# npm
-npm install
+## 🚀 Tech Stack
 
-# pnpm
-pnpm install
+### Core Framework
+- **[Nuxt 3](https://nuxt.com/)** - Full-stack Vue.js framework with SSR/SSG capabilities
+- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript framework with Composition API
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript development
 
-# yarn
-yarn install
+### Content & Data Management
+- **[@nuxt/content](https://content.nuxt.com/)** - File-based CMS for markdown blog posts and content
+- **Content Collections** - Structured data management for blog posts and projects
 
-# bun
-bun install
-```
+### Styling & UI
+- **[Sass/SCSS](https://sass-lang.com/)** - CSS preprocessor for advanced styling
+- **[@nuxt/image](https://image.nuxt.com/)** - Optimized image handling with automatic optimization
+- **[@nuxt/icon](https://nuxt.com/modules/icon)** - Icon management with multiple icon sets
+- **[@nuxt/fonts](https://fonts.nuxt.com/)** - Web font optimization and loading
 
-## Development Server
+### Internationalization
+- **[@nuxtjs/i18n](https://i18n.nuxtjs.org/)** - Multi-language support (Portuguese & English)
+- **Vue I18n** - Internationalization framework for Vue.js
+- **Automatic locale detection** - Browser language detection with cookie persistence
 
-Start the development server on `http://localhost:3000`:
+### SEO & Meta
+- **[@nuxtjs/seo](https://nuxtseo.com/)** - Comprehensive SEO optimization
+- **nuxt-og-image** - Dynamic Open Graph image generation
+- **Automatic sitemap** - SEO-friendly URL structure
 
-```bash
-# npm
-npm run dev
+### Developer Experience
+- **[@nuxt/eslint](https://eslint.nuxt.com/)** - Code linting and formatting
+- **ESLint Flat Config** - Modern ESLint configuration
+- **Sharp** - High-performance image processing
 
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Interactive Components
+- **[@floating-ui/vue](https://floating-ui.com/)** - Positioning library for tooltips and dropdowns
+- **[@vueuse/core](https://vueuse.org/)** - Collection of Vue composition utilities
