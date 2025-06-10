@@ -34,12 +34,16 @@ type Color = "red" | "yellow" | "green";
 
 type ValidPairs = ["red", "green"] | ["green", "yellow"] | ["yellow", "red"];
 
-type ValidSequence<T extends readonly Color[]> = T extends readonly [] ? true :
-    T extends readonly [Color] ? 
-    true : T extends readonly [infer First, ...infer Rest] ?
-     [First, Rest[0]] extends ValidPairs ?
+type ValidSequence<T extends readonly Color[]> =
+  T extends readonly [] ? true :
+  T extends readonly [Color] ? true :
+  T extends readonly [infer First, ...infer Rest] ?
+    [First, Rest[0]] extends ValidPairs ?
       Rest extends readonly Color[] ?
-       ValidSequence<Rest> : false : false : false
+        ValidSequence<Rest>
+        : false
+      : false
+    : false;
 
 type Test1 = ValidSequence<["red", "green", "yellow", "red"]>;
 //^? type Test1 = true
@@ -51,11 +55,11 @@ type Test3 = ValidSequence<[]>;
 //^? type Test3 = true
 ```
 
-[Link para a solução e testes no Playground](https://www.typescriptlang.org/play/?#code/C4TwDgpgBAwg9gGzgJygXigImRAJpqAHyxAgSQHcDjMBzHCAO0wG4AoN0SKANQEMEAS1wAFPoOQBndFADa2PJgA0WehCaYAukTl0GzFZlLk4VbcXnHKyrDnyb2ncNH5DcAZQgBHAK5MAxhAAPAAqUBAAHsBMuNI4fLhwjAggsIgospoAfDJhkdGMsVDxicmpmVAA-FDAyH5QAFxsUC1QeVExcRAJSSly8EjI2tXNrbX1DW3hHYVdPWVygowAZhCoAGISksAqAHT7S6uoAEoQ28OjrbKbUjtQp9uyAAya2vmdvALCYltVl60PYDTApFEq9VIDDIXVow1zCTy+ALBQE5SbLASSaBojFYqDohCYjhObgAUQikH8wFCwI+4wgOQwIQ4XGgITOwAAjDIyRSqXCPN4-IxAkF5HYtFkssTWeyAEzc8kQSlBfkIoUi+RqDSGKymCVSlltdkAZgVvJVXwFiOFwTFih1ZGs2RyAHoXVAAJKMABuAEO3HBpUbtgAWM1KvmWtVI0UKfCGLUGWyKZ1QN2en3+4SBw1s7YAVnDytVgpjdvjqn0NiMjr1zqDeeAADYi5G3NGbbHdVRDOKE1XeynJWn3V6-QGG+yAOyti3t0udzUDyvqJN6Vf6kcZ8fZyfbAAcs5L1o1cerier3erfZXGnrufZAE4j1GFxr60A)
+[Link para a solução e testes no Playground](https://www.typescriptlang.org/play/?#code/C4TwDgpgBAwg9gGzgJygXigImRAJpqAHyxAgSQHcDjMBzHCAO0wG4AoN0SKANQEMEAS1wAFPoOQBndFADa2PJgA0WehCaYAukTl0GzFZlLk4VbcXnHKyrDnyb2ncNH5DcAZQgBHAK5MAxhAAPAAqUBAAHsBMuNI4fLhwjAggsIgospoAfOhsUFBhkdGMsVDxicmpmVAA-FDAyH5QAFx5BeFRMXEQCUkpcvBIyNp1DU2t+YWdJd29lXKCjABmEKgAYhKSwCoAdHuLK6gAShBbI235shtS21AnW7IADJraRV28AsJim7UX+XenYAdYqlcp9VKDDLnf4wj5uTy+ALBe7ALJ-GHNKBLASSCDolpYnF4jGEhC4xxObgAUQikH8wFCwPeYwgOQwIQ4XGgIUBAEYZDS6QzXMIEX5GIEgvI7FosmiuQVAQAmAW0iD0oIijzecWS+RqDSGKymWXy5yKrYAZlVQs1n21iIlwWliiNZGs2RyAHovVAAJKMABuAEO3HBKdzAQAWG3q4X2sVIqUKfCGA0GWyKT1QH3+oOh4ThhU8rYAVljGq1iadyZlaf0NiM7pNnojFuAADYK-H4Tqk5Zm1RDHXVA3h1m5TnfQGQ2G2yXgAB2bt23uOvV6dQZzeG0db01TvOzwvzwEADhXVb7NZdqb3u6bJiHmbvO+YreLgIAnJeE9e9a2QA)
 
-A lógica é relativamente simples, depois que você entende a syntaxe do Typescript.
+A lógica é relativamente simples, depois que você entende a sintaxe do Typescript.
 
-A keyword `extends` antes de atribuição (simbolo de `=`) corresponde a uma restrição do genérico. No nosso caso, significa que `ValidSequence` recebe um parametro `T` que *precisa* ser do tipo `readonly Color[]`. Mas o `extends` depois de atribuição permite uma verificação com um operador ternário. Por exemplo, podemos fazer:
+A keyword `extends` antes da atribuição (simbolo de `=`) corresponde a uma restrição do genérico. No nosso caso, significa que `ValidSequence` recebe um parametro `T` que *precisa* ser do tipo `readonly Color[]`. Mas o `extends` depois de atribuição permite uma verificação com um operador ternário. Por exemplo, podemos fazer:
 
 ```ts
 type IsString<T> = T extends string ? true : false;
@@ -65,7 +69,7 @@ type Age = IsString<33>
    //^? type Age = false
 ```
 
-Mas dentro desse operador, a gente ganha acesso a uma nova keyword: `infer`. Ela quer dizer: “Se tem essa formato, salve nessa variável”. 
+O legal é que dentro desse operador temos acesso à keyword `infer`, que permite criar uma variável temporária que corresponde ao valor verificado. Em outras palavras, `infer` diz: “Se o tipo corresponder a esse formato, capture ele nesta variável”.
 
 ```ts
 type ColorString<T> = T extends `cor-${infer Cor}` ? Cor : never;
@@ -82,21 +86,21 @@ Agora podemos entender melhor a lógica da solução do desafio:
 
 ```ts
 type ValidSequence<T extends readonly Color[]> = 
-    // É uma lista vazia?
-    T extends readonly [] ? true : 
-      // É uma lista com somente uma cor?
-      T extends readonly [Color] ? true : 
-        // Salva o primeiro elemento em `First` e o resto em `Rest`
-        T extends readonly [infer First, ...infer Rest] ? 
-         // É um par válido?
-          [First, Rest[0]] extends ValidPairs ?
-            // O resto da lista é o formato esperado (aqui sempre é, mas o typescript não sabe)
-            Rest extends readonly Color[] ? 
-              // Recursivamente, faça a mesma validação para o resto da lista 
-              ValidSequence<Rest> :
-            false :
-          false :
-        false
+  // É uma lista vazia?
+  T extends readonly [] ? true : 
+  // É uma lista com somente uma cor?
+  T extends readonly [Color] ? true : 
+  // Salva o primeiro elemento em `First` e o resto em `Rest`
+  T extends readonly [infer First, ...infer Rest] ? 
+    // É um par válido?
+    [First, Rest[0]] extends ValidPairs ?
+      // O resto da lista é o formato esperado (aqui sempre é, mas o typescript não sabe)
+      Rest extends readonly Color[] ? 
+      // Recursivamente, faça a mesma validação para o resto da lista 
+      ValidSequence<Rest> 
+      :  false 
+    : false
+  : false
 ```
 
 O equivalente em `runtime` seria:
@@ -133,10 +137,10 @@ Você deve ter notado que foi precisa utilizar o `readonly` em vários pontos. I
 
 ```ts
 const mutableSequence = ["red", "green", "yellow"];
-// tipo inferido: string[]
+      //^? string[]
 
 const immutableSequence = ["red", "green", "yellow"] as const;
-// tipo inferido: readonly ["red", "green", "yellow"]
+      //^? readonly ["red", "green", "yellow"]
 ```
 
 Esse exercício demonstra a capacidade do sistema de tipos do Typescript. Lógico que nem sempre vale a pena escrever esses tipos complexos, principalmente porque os erros gerados são muito difíceis de entender e o código tem uma legibilidade muito baixa, mas é interessante ver até onde conseguimos chegar apenas com o sistema de tipos.
