@@ -20,6 +20,8 @@ Para deixar claro, alguns exemplos:
 
 > isValidTrafficSequence(["red", "yellow", "green"]);
 > false
+> // Inválido porque "yellow" não pode vir depois de "red",
+> // nem "green" depois de "yellow"
 
 > isValidTrafficSequence([])
 > true
@@ -55,7 +57,7 @@ type Test3 = ValidSequence<[]>;
 //^? type Test3 = true
 ```
 
-[Link para a solução e testes no Playground](https://www.typescriptlang.org/play/?#code/C4TwDgpgBAwg9gGzgJygXigImRAJpqAHyxAgSQHcDjMBzHCAO0wG4AoN0SKANQEMEAS1wAFPoOQBndFADa2PJgA0WehCaYAukTl0GzFZlLk4VbcXnHKyrDnyb2ncNH5DcAZQgBHAK5MAxhAAPAAqUBAAHsBMuNI4fLhwjAggsIgospoAfOhsUFBhkdGMsVDxicmpmVAA-FDAyH5QAFx5BeFRMXEQCUkpcvBIyNp1DU2t+YWdJd29lXKCjABmEKgAYhKSwCoAdHuLK6gAShBbI235shtS21AnW7IADJraRV28AsJim7UX+XenYAdYqlcp9VKDDLnf4wj5uTy+ALBe7ALJ-GHNKBLASSCDolpYnF4jGEhC4xxObgAUQikH8wFCwPeYwgOQwIQ4XGgIUBAEYZDS6QzXMIEX5GIEgvI7FosmiuQVAQAmAW0iD0oIijzecWS+RqDSGKymWXy5yKrYAZlVQs1n21iIlwWliiNZGs2RyAHovVAAJKMABuAEO3HBKdzAQAWG3q4X2sVIqUKfCGA0GWyKT1QH3+oOh4ThhU8rYAVljGq1iadyZlaf0NiM7pNnojFuAADYK-H4Tqk5Zm1RDHXVA3h1m5TnfQGQ2G2yXgAB2bt23uOvV6dQZzeG0db01TvOzwvzwEADhXVb7NZdqb3u6bJiHmbvO+YreLgIAnJeE9e9a2QA)
+[Link para a solução e testes no Playground](https://www.typescriptlang.org/play/?#code/C4TwDgpgBAwg9gGzgJygXigImRAJpqAHyxAgSQHcDjMBzHCAO0wG4AoN0SKANQEMEAS1wAFPoOQBndFADa2PJgA0WehCaYAukTl0GzFZlLk4VbcXnHKyrDnyb2ncNH5DcAZQgBHAK5MAxhAAPAAqUBAAHsBMuNI4fLhwjAggsIgospoAfDJhkdGMsVDxicmpmVAA-FDAyH5QAFxsUC1QeVExcRAJSSly8EjI2tXNrbX1DW3hHYVdPWVygowAZhCoAGISksAqAHT7S6uoAEoQ28OjrbKbUjtQp9uyAAya2vmdvALCYltVl60PYDTApFEq9VIDDIXVow1zCTy+ALBQE5SbLASSaBojFYqDohCYjhObgAUQikH8wFCwI+4wgOQwIQ4XGgITOwAAjDIyRSqXCPN4-IxAkF5HYtFkssTWeyAEzc8kQSlBfkIoUi+RqDSGKymCVSlltdkAZgVvJVXwFiOFwTFih1ZGs2RyAHoXVAAJKMABuAEO3HAVHwALZ8HBIKC4CBgOCCaRRqDetbBsgACzg0qN2wALGalXzLWqkaKFPhDFqDLZFM6oG7PT7-cJA4nk2m4JHo7H49Ak8go5m2dsAKx55WqwXFu1l1T6GxGR1650D9kANlHBbcRZtJd1VEM4vLs-31cltfdXr9AZUvZTCHTHZjcY7Lb7EGX2wA7OuLZuJ9vNUeM7qJWejAfqZ71peTbXmsCZRo+3Yvv2hqDsAAAc37jtaGqlnOFZzruc4HkBGhLih7IAJyYYWf4akuQA)
 
 A lógica é relativamente simples, depois que você entende a sintaxe do Typescript.
 
