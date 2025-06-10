@@ -5,8 +5,8 @@
   },
   "slug": "oscar",
   "weight": 50,
-  "tech": ["sass", "typescript", "astro", "nodedotjs", "mongodb", "firebase"],
-  "link": "https://nomeacoes-oscar.netlify.app/",
+  "tech": ["typescript", "nuxt", "vuedotjs", "sass", "sqlite", "docker"],
+  "link": "https://oscar.ralacerda.dev/",
   "screenshots": ["images/projects/project-oscar.png"],
-  "repoLink": "https://github.com/ralacerda/sequela-movie-app"
+  "repoLink": "https://github.com/ralacerda/oscar-nominations"
 }
