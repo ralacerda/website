@@ -8,6 +8,7 @@ const { locale } = useI18n();
 const { data: query } = await useAsyncData(`blog-index-${locale.value}`, () => {
   return queryCollection("blog")
     .where("lang", "=", locale.value)
+    .where("draft", "=", false)
     .select("title", "description", "publishDate", "slug")
     .order("publishDate", "DESC")
     .all();
