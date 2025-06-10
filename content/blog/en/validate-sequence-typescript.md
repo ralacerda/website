@@ -8,9 +8,9 @@ description: "Exploring TypeScript capabilities"
 lang: "en"
 ---
 
-Cassidy Williams has an excellent [newsletter](https://cassidoo.co/newsletter), which always includes an "Interview Question of the Week". This week's question was:
+Cassidy Williams has an excellent [newsletter](https://cassidoo.co/newsletter), which always includes an “Interview Question of the Week”. This week's question was:
 
-> Given an array of strings representing a sequence of traffic light states, write a function that checks if the sequence can represent valid states for a standard traffic light. The only valid transitions are: from red to green, from green to yellow, and from yellow to red.
+> Given an array of strings representing a sequence of traffic light states ("red" for stop, "green" for go, "yellow" for slow), write a function that returns true if the sequence could represent a valid state machine for a standard traffic light. The only valid transitions are: red to green, green to yellow, and yellow to red.
 
 To make it clear, here are some examples:
 
@@ -27,7 +27,7 @@ To make it clear, here are some examples:
 > true
 ```
 
-It seems like an interesting challenge, but I had crazy idea: "Would it be possible to do this validation using TypeScript only?" And I'm not talking about runtime code, I'm talking about checking if a sequence is valid at compilation time using only the type system.
+It seems like an interesting challenge, but I had crazy idea: “Would it be possible to do this validation using TypeScript only?” And I'm not talking about runtime code, I'm talking about checking if a sequence is valid at compilation time using only the type system.
 
 After racking my brain a bit, I came up with the following solution:
 
@@ -71,7 +71,7 @@ type Age = IsString<33>
    //^? type Age = false
 ```
 
-The cool thing is that within this operator, we have access to the `infer` keyword, which allows us to create a temporary variable that corresponds to the checked value. In other words, `infer` says: "If the type matches this format, save it in this variable."
+The cool thing is that within this operator, we have access to the `infer` keyword, which allows us to create a temporary variable that corresponds to the checked value. In other words, `infer` says: “If the type matches this format, save it in this variable.”
 
 ```ts
 type ColorString<T> = T extends `${infer Color}-color` ? Color : never;
