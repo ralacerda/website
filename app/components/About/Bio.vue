@@ -25,7 +25,7 @@ const { data: page } = useAsyncData(`about-me-${locale.value}`, () =>
         :name="$t('about-me.cards.skylar.name') as string"
         :location="$t('about-me.cards.skylar.location') as string"
         icon="logos:skylar"
-        start-date="2024"
+        start-date="2023"
       />
       <AboutBioCard
         :name="$t('about-me.cards.desenvolve.name') as string"
