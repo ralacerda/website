@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/fonts",
     "@nuxtjs/i18n",
+    "@nuxt/scripts",
   ],
 
   compatibilityDate: "2024-04-03",
@@ -85,5 +86,15 @@ export default defineNuxtConfig({
         language: "pt",
       },
     ],
+  },
+
+  $production: {
+    scripts: {
+      registry: {
+        plausibleAnalytics: {
+          domain: "plausible.ralacerda.dev",
+        },
+      },
+    },
   },
 });
