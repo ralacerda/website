@@ -94,7 +94,7 @@ export default defineNuxtConfig({
         plausibleAnalytics: {
           domain: "renatolacerda.com",
           scriptInput: {
-            src: "https://my-self-hosted-plausible.io/js/script.js",
+            src: "https://plausible.ralacerda.dev/js/script.js",
           },
         },
       },
