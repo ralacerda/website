@@ -1,7 +1,7 @@
 ---
 title: "Vue e Efeitos Processados em Lote"
 slug: "batched-effects-vue"
-publishDate: 2025-06-12
+publishDate: 2025-06-13
 draft: true
 tags: ["javascript", "vue"]
 description: "Entendendo quando seus efeitos fazem efeito no Vue.js"
