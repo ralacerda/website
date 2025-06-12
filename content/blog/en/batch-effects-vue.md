@@ -92,7 +92,7 @@ function toggleInput() {
 </script>
 
 <template>
-  <button @click="toggleInput">Mostrar input</button>
+  <button @click="toggleInput">Show input</button>
   <input id="input" v-if="showInput" >
 </template>
 ```
@@ -153,14 +153,14 @@ watchEffect(async () => {
   if (showInput.value) {
     const input = document.getElementById('input');
     await nextTick();
-    // Não vai funcionar
+    // This won't work
     input?.focus();
   }
 })
 </script>
 
 <template>
-  <button @click="toggleInput">Mostrar input</button>
+  <button @click="toggleInput">Toggle Input</button>
   <input v-if="showInput" id="input">
 </template>
 ```
