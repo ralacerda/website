@@ -53,4 +53,4 @@ function hasNoRepeatingDigit(number) {
 
 Você pode verificar o código completo no [stackblitz](https://stackblitz.com/edit/stackblitz-starters-y3zwbb?file=index.ts) abaixo, que também inclui alguns testes usando vitest:
 
-:code-playground{:src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor"}
+:stackblitz-iframe{:src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor"}

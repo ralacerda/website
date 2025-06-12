@@ -53,6 +53,4 @@ function hasNoRepeatingDigit(number) {
 
 You can check the full code in the [stackblitz](https://stackblitz.com/edit/stackblitz-starters-y3zwbb?file=index.ts) bellow, which also includes some testing using vitest:
 
-<iframe src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor" width="100%" height="400px">
-
-</iframe>
+:stackblitz-iframe{:src="https://stackblitz.com/edit/stackblitz-starters-y3zwbb?embed=1&file=index.ts&view=editor"}

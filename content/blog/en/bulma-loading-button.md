@@ -40,4 +40,4 @@ button.loading::after {
 
 Practically, when the button has the `loading` class, the button text is hidden and a loading icon is added. As the text is still present (but invisible), the size of the button doesn't change. The coolest part is that the loading icon is made just with CSS: if you have a round element (`border-radius: 999999px;`) and only two visible borders, you have a semicircle. If you rotate this circle with a simple animation, you have a loading icon.
 
-:code-playground{:src="https://stackblitz.com/edit/sb1-l26m7v?ctl=1&embed=1&file=src%2FApp.vue"}
+:stackblitz-iframe{:src="https://stackblitz.com/edit/sb1-l26m7v?ctl=1&embed=1&file=src%2FApp.vue"}
