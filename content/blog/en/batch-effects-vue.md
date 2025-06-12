@@ -47,7 +47,7 @@ In this example, every time `increaseCount` is called, we change the value of `c
 the `<template>` function execute again, resulting in DOM updates.
 Since we have a `watchEffect` that reads `count`, we also display a log message in the console.
 
-But what happens if we modify `count` more than once in the same function?
+But what happens if we mutate `count` more than once in the same function?
 
 ```ts
 function increaseCount() {
@@ -59,11 +59,11 @@ function increaseCount() {
 ```
 
 Fortunately, Vue already has an optimization for this, executing both effects only once, even though we
-modified `count` 4 times. Try modifying the function in the playground above.
+mutated `count` 4 times. Try modifying the function in the playground above.
 
 Vue uses a simple strategy of "scheduling" that these effects need to be re-executed,
 and then executes these effects in batches. Besides improving performance, avoiding that the same `watchEffect`
-executes multiple times or that the DOM is modified multiple times unnecessarily, Vue also
+executes multiple times or that the DOM is mutated multiple times unnecessarily, Vue also
 manages to organize the order in which these effects are executed (effects in parent components should happen
 before effects in child components).
 
@@ -99,7 +99,7 @@ function toggleInput() {
 
 [Playground link](https://play.vuejs.org/#eNp9kk9P4zAQxb/KrC9NJTY97J7YwO6y6qEr8UfA0ZfgTILBsS17XIqqfnfGDi0IIaQcPG9+47xneyv+el+vE4pj0UQVtCeISMmfSqtH7wLBFgL2sIM+uBFmjM5+SSutcjYye++eVtYngpOMVX1rIs4L0CerSDsL5IbBYKGqOWylhbexet2ahDz87YNUtgDQPVQfOq9bAEwO9OvfO6fSiJbqAWlpMC/PnlddNSvALHvKQ6X6XfdMx2qetZ20/EnbLKb8nJwLwtGblpArgOYuEXGSP8po9XgixbtIUpyeu0ihDdPezWKCp8HJne54piylgPV33XN5SMUSs83i8EdxJChyuF4P9UN0lq+mJJZCudFrg+HS54ONUhzvz0KK1hj39L9oFBIe7XV1j+rxE/0hbrImxVXAiGGNUhx61AY+xam9vLnADa8PzdF1yTD9RfMaozMpe5yws2Q7tv2OK25X5YFpO9zG5YbQxn2obLRcTeGl4Ef374vob3Z/1D/3Vyp2L9R7+Qc=)
 
-When `toggleInput` modifies the value of `showInput`, Vue schedules the template function
+When `toggleInput` mutates the value of `showInput`, Vue schedules the template function
 to be re-executed. However, when we try to select the element,
 the `input` is not yet in the DOM.
 
@@ -208,11 +208,11 @@ watchSyncEffect(async () => {
 })
 ```
 
-Now we'll have a log for each time the state is modified.
+Now we'll have a log for each time the state is mutated.
 Of course, **great** care is needed, synchronous effects can cause performance issues and infinite loops if not used correctly.
 
 ## Conclusion
 
-Except in cases where you need to access or modify the DOM, you rarely need to worry 
+Except in cases where you need to access or mutate the DOM, you rarely need to worry 
 about the order of effects or when these changes will happen. Vue has many
 abstractions and optimizations, and it's important not to try to optimize before you actually have a problem.
