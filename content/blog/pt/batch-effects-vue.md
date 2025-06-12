@@ -18,7 +18,7 @@ com o JSX). Ou seja, se você utiliza uma `ref` no seu template, quando essa `re
 a sua função de template irá rodar novamente. 
 
 Outra forma de fazer efeito é com um `watchEffect`. Dá mesma forma, se o callback do seu `watchEffect`
-ler alguma `ref`, e esse `ref` muda, o callback será chamado novamente.
+ler alguma `ref`, e esse `ref` muda, o callback será chamado novamente. 
 
 ```vue
 <script setup>
@@ -67,7 +67,7 @@ rode várias vezes, ou que o DOM seja modificado multiplas vezes de forma desnec
 consegue organizar a ordem em que esses efeitos são executados (efeitos em componentes pais devem acontecer
 antes de efeitos em componentes filhos).
 
-Entretanto, o Vue fornece formas de "escapar" desse comportamento.
+Entretanto, o Vue fornece formas de “escapar” desse comportamento.
 
 ## Atuando depois de atualiza o DOM
 
@@ -76,16 +76,16 @@ acessar um elemento DOM na mesma função que alterou a visibilidade dele.
 
 ```vue
 <script setup>
-import { useTemplateRef, ref, nextTick } from 'vue';
+import { ref } from 'vue';
 
-const inputRef = useTemplateRef('input');
 const showInput = ref(false);
 
 function toggleInput() {
   showInput.value = !showInput.value;
 
-  if (showInput.value && inputRef.value) {
-    inputRef.value.focus();
+  if (showInput.value) {
+    const input = document.getElementById('input');
+    input?.focus()
   }
 }
 
@@ -93,12 +93,14 @@ function toggleInput() {
 
 <template>
   <button @click="toggleInput">Mostrar input</button>
-  <input v-if="showInput" ref="input">
+  <input id="input" v-if="showInput" >
 </template>
 ```
 
+[Link para playground](https://play.vuejs.org/#eNp9kk9P4zAQxb/KrC9NJTY97J7YwO6y6qEr8UfA0ZfgTILBsS17XIqqfnfGDi0IIaQcPG9+47xneyv+el+vE4pj0UQVtCeISMmfSqtH7wLBFgL2sIM+uBFmjM5+SSutcjYye++eVtYngpOMVX1rIs4L0CerSDsL5IbBYKGqOWylhbexet2ahDz87YNUtgDQPVQfOq9bAEwO9OvfO6fSiJbqAWlpMC/PnlddNSvALHvKQ6X6XfdMx2qetZ20/EnbLKb8nJwLwtGblpArgOYuEXGSP8po9XgixbtIUpyeu0ihDdPezWKCp8HJne54piylgPV33XN5SMUSs83i8EdxJChyuF4P9UN0lq+mJJZCudFrg+HS54ONUhzvz0KK1hj39L9oFBIe7XV1j+rxE/0hbrImxVXAiGGNUhx61AY+xam9vLnADa8PzdF1yTD9RfMaozMpe5yws2Q7tv2OK25X5YFpO9zG5YbQxn2obLRcTeGl4Ef374vob3Z/1D/3Vyp2L9R7+Qc=)
+
 Quando `toggleInput` modifica o valor de `showInput`, o Vue marca a função de template
-para ser re-executada. Entretanto, quando a função tenta acessar `inputRef.value`,
+para ser re-executada. Entretanto, quando tentamos selecionar o elemento,
 o `input` ainda não está no DOM.
 
 Nesse caso, precisamos utilizar o `nextTick()`, onde o `tick` é a execução das funções de templates
@@ -109,11 +111,12 @@ a promesa que ele retorna.
 function toggleInput() {
   showInput.value = !showInput.value;
 
-  nextTick(() => {
-  if (showInput.value && inputRef.value) {
-    inputRef.value.focus();
-    }
-  }) 
+  if (showInput.value) {
+    nextTick(() => {
+      const input = document.getElementById('input');
+      input?.focus()
+    })
+  }
 }
 
 // OU
@@ -121,9 +124,95 @@ function toggleInput() {
 async function toggleInput() {
   showInput.value = !showInput.value;
 
-  await nextTick();
-  if (showInput.value && inputRef.value) {
-    inputRef.value.focus();
+  if (showInput.value) {
+    await nextTick()
+    const input = document.getElementById('input');
+    input?.focus()
   }
 }
 ```
+
+## Ordem dos efeitos
+
+A ordem dessas execuções também é importante. Um `watch` ou `watchEffect` acontece sempre antes
+do DOM ser atualizado. Portanto, mesmo utilizando `nextTick`, você não tem acesso
+a versão do DOM atualizada.
+
+```vue
+<script setup>
+import { nextTick } from 'vue';
+import { ref, watchEffect } from 'vue';
+
+const showInput = ref(false);
+
+async function toggleInput() {
+  showInput.value = !showInput.value;
+}
+
+watchEffect(async () => {
+  if (showInput.value) {
+    const input = document.getElementById('input');
+    await nextTick();
+    // Não vai funcionar
+    input?.focus();
+  }
+})
+</script>
+
+<template>
+  <button @click="toggleInput">Mostrar input</button>
+  <input v-if="showInput" id="input">
+</template>
+```
+
+[Link do Playground](https://play.vuejs.org/#eNp9Uk2P2jAQ/SuuLwSJZg/tiQJtt+JApX6o3aMvqRkH7zp2ZI+BFeK/d2wTNkKrvSVv3rx588Yn/rXv630EPueLIL3ukQXA2K+E1V3vPLITs3DEBy2f2Jkp7zo2If7k04jgQc3YoUG5WysFEm+JwkpnAynv3GFj+4hsmXoq1ZgA00xowrOVTEUrUTvL0LWtgcytpuwkLHtprveNiUAS724gEjonrZGTquiSxnKVZJKQVqy66byMYKz41BePWydjBxbrFnBtIH3eP2+21SQTJsl5amoOjcZrStUAZ9LnWpFIuIBk7zwrs5SJYTdngvcuoOBUmAq7uCs3oPTpB6HrTYNAf4wt/kVESuaLNDRkKfgoIsFXP0jFN74MXdwVcmks2+zfa0Vd18UFZ3pLQK6SQBo+GshnHAOloXRbPwZn6X1k24JL1/XagP/Vp0sFwedDeII3xrjD94yhjzAbcLkD+fQK/hiOCRP8t4cAfg+CX2vYeIq9lNd/f1K6o2LnttEQ+43iHwjOxOSx0O6j3ZLtES+73eRHrG37ENZHBBuGpZLRfLPMF5ze8rc3Vn+x+6H+ONyan/8DvJwm9A==)
+
+O Vue fornece duas formas de contornar esse problema. Você pode passar a opção `flush: 'post'` ou utilizar `watchPostEffect`, que é uma versão “pré-configurada” do `watchEffect` com essa opção já definida.
+
+```ts
+watchEffect(() => {
+  if (showInput.value) {
+    const input = document.getElementById('input');
+    input?.focus();
+  }
+}, {
+  flush: "post"
+})
+
+// ou
+
+watchPostEffect(() => {
+  if (showInput.value) {
+    const input = document.getElementById('input');
+    input?.focus();
+  }
+})
+```
+
+## Efeitos imediatos
+
+Outra possibilidade que o Vue dar, é rodar os `watchers` imediatamente, utilizando a opção `flush: 'sync'` ou `watchSyncEffect`
+Voltando ao exemplo anterior:
+
+```ts
+watchEffect(async () => {
+  console.log("count increased", count.value)
+}, {
+  flush: "sync"
+})
+
+// ou
+
+watchSyncEffect(async () => {
+  console.log("count increased", count.value)
+})
+```
+
+Agora vamos ter um `log` para cada vez que o estado tenha sido modificado.
+É lógico que é preciso *muito* cuidado, e raramente você vai precisar utilizar isso.
+
+## Conclusão
+
+Exceto nos casos que você precisa modificar o DOM, você raramente precisa se preocupar 
+com ordem de efeitos, ou quando essas mudanças vão acontecer. O Vue possui muitas
+abstrações e otimizações, e é importante você não tentar optimizar antes de realmente ter um problema.
