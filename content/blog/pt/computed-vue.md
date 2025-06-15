@@ -8,7 +8,7 @@ description: "Reagindo só quando é necessário"
 lang: "pt"
 ---
 
-No meu último post, falei sobre como o Vue executa funções de template e `watch` [em lote](/blog/batch-effects-vue). Porém, existe outra forma de reatividade no Vue: as propriedades computadas, usando o `computed`. O `computed` serve para estados derivados, aplicando operações sobre uma ou mais `refs`.
+No meu último post, falei sobre como o Vue executa funções de template e `watch` [em lote](/blog/batched-effects-vue). Porém, existe outra forma de reatividade no Vue: as propriedades computadas, usando o `computed`. O `computed` serve para estados derivados, aplicando operações sobre uma ou mais `refs`.
 
 O `computed` também é um efeito, assim como `watch` e funções de template, mas possui sua própria regra de execução: ele só é reavaliado sob demanda.
 
