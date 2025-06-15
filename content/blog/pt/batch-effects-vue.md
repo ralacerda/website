@@ -2,37 +2,37 @@
 title: "Vue e Efeitos Processados em Lote"
 slug: "batched-effects-vue"
 publishDate: 2025-06-13
-draft: true
+draft: false
 tags: ["javascript", "vue"]
 description: "Entendendo quando seus efeitos fazem efeito no Vue.js"
 lang: "pt"
 ---
 
 A reatividade do Vue é baseada em "inscrições". Quando um efeito lê uma `ref`,
-o Vue registra que esse efeito depende desse valor. Quando o valor é atualizado, 
+o Vue registra que esse efeito depende desse valor. Quando o valor é atualizado,
 o Vue executa novamente esse efeito.
 
 Quando você escreve um bloco `<template>` em um arquivo `.vue`, o processo de build
 transforma aquilo em uma função de renderização (semelhante ao que acontece
-com o JSX). Ou seja, se você utiliza uma `ref` no seu template, quando essa `ref` mudar, 
-a sua função de template será executada novamente. 
+com o JSX). Ou seja, se você utiliza uma `ref` no seu template, quando essa `ref` mudar,
+a sua função de template será executada novamente.
 
 Outra forma de criar efeitos é com um `watchEffect`. Da mesma forma, se o callback do seu `watchEffect`
-ler alguma `ref`, e essa `ref` mudar, o callback será chamado novamente. 
+ler alguma `ref`, e essa `ref` mudar, o callback será chamado novamente.
 
 ```vue
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect } from "vue";
 
 const count = ref(0);
 
 function increaseCount() {
-  count.value++
+  count.value++;
 }
 
 watchEffect(async () => {
-  console.log("count increased", count.value)
-})
+  console.log("count increased", count.value);
+});
 </script>
 
 <template>
@@ -51,10 +51,10 @@ Mas o que acontece se modificarmos `count` mais de uma vez na mesma função?
 
 ```ts
 function increaseCount() {
-  count.value++
-  count.value++
-  count.value++
-  count.value++
+  count.value++;
+  count.value++;
+  count.value++;
+  count.value++;
 }
 ```
 
@@ -71,12 +71,12 @@ Entretanto, o Vue fornece formas de "escapar" desse comportamento quando necess�
 
 ## Atuando depois de atualizar o DOM
 
-Você provavelmente já encontrou o seguinte comportamento no Vue: você não consegue 
+Você provavelmente já encontrou o seguinte comportamento no Vue: você não consegue
 acessar um elemento DOM na mesma função que alterou a visibilidade dele.
 
 ```vue
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const showInput = ref(false);
 
@@ -84,16 +84,15 @@ function toggleInput() {
   showInput.value = !showInput.value;
 
   if (showInput.value) {
-    const input = document.getElementById('input');
-    input?.focus()
+    const input = document.getElementById("input");
+    input?.focus();
   }
 }
-
 </script>
 
 <template>
   <button @click="toggleInput">Mostrar input</button>
-  <input id="input" v-if="showInput" >
+  <input id="input" v-if="showInput" />
 </template>
 ```
 
@@ -113,9 +112,9 @@ function toggleInput() {
 
   if (showInput.value) {
     nextTick(() => {
-      const input = document.getElementById('input');
-      input?.focus()
-    })
+      const input = document.getElementById("input");
+      input?.focus();
+    });
   }
 }
 
@@ -125,9 +124,9 @@ async function toggleInput() {
   showInput.value = !showInput.value;
 
   if (showInput.value) {
-    await nextTick()
-    const input = document.getElementById('input');
-    input?.focus()
+    await nextTick();
+    const input = document.getElementById("input");
+    input?.focus();
   }
 }
 ```
@@ -135,13 +134,13 @@ async function toggleInput() {
 ## Ordem dos efeitos
 
 A ordem dessas execuções também é importante. Um `watch` ou `watchEffect` acontece sempre antes
-do DOM ser atualizado. Portanto, mesmo utilizando `nextTick` dentro de um `watchEffect`, 
+do DOM ser atualizado. Portanto, mesmo utilizando `nextTick` dentro de um `watchEffect`,
 você não tem acesso à versão atualizada do DOM.
 
 ```vue
 <script setup>
-import { nextTick } from 'vue';
-import { ref, watchEffect } from 'vue';
+import { nextTick } from "vue";
+import { ref, watchEffect } from "vue";
 
 const showInput = ref(false);
 
@@ -151,17 +150,17 @@ async function toggleInput() {
 
 watchEffect(async () => {
   if (showInput.value) {
-    const input = document.getElementById('input');
+    const input = document.getElementById("input");
     await nextTick();
     // Não vai funcionar
     input?.focus();
   }
-})
+});
 </script>
 
 <template>
   <button @click="toggleInput">Mostrar input</button>
-  <input v-if="showInput" id="input">
+  <input v-if="showInput" id="input" />
 </template>
 ```
 
@@ -170,23 +169,26 @@ watchEffect(async () => {
 O Vue fornece duas formas de contornar esse problema. Você pode passar a opção `flush: 'post'` ou utilizar `watchPostEffect`, que é uma versão "pré-configurada" do `watchEffect` com essa opção já definida.
 
 ```ts
-watchEffect(() => {
-  if (showInput.value) {
-    const input = document.getElementById('input');
-    input?.focus();
+watchEffect(
+  () => {
+    if (showInput.value) {
+      const input = document.getElementById("input");
+      input?.focus();
+    }
+  },
+  {
+    flush: "post",
   }
-}, {
-  flush: "post"
-})
+);
 
 // ou
 
 watchPostEffect(() => {
   if (showInput.value) {
-    const input = document.getElementById('input');
+    const input = document.getElementById("input");
     input?.focus();
   }
-})
+});
 ```
 
 ## Efeitos síncronos
@@ -195,17 +197,20 @@ Outra possibilidade que o Vue oferece é executar os watchers imediatamente, uti
 Voltando ao exemplo anterior:
 
 ```ts
-watchEffect(async () => {
-  console.log("count increased", count.value)
-}, {
-  flush: "sync"
-})
+watchEffect(
+  async () => {
+    console.log("count increased", count.value);
+  },
+  {
+    flush: "sync",
+  }
+);
 
 // ou
 
 watchSyncEffect(async () => {
-  console.log("count increased", count.value)
-})
+  console.log("count increased", count.value);
+});
 ```
 
 Agora teremos um log para cada vez que o estado for modificado.
@@ -213,6 +218,6 @@ Agora teremos um log para cada vez que o estado for modificado.
 
 ## Conclusão
 
-Exceto nos casos em que você precisa acessar ou modificar o DOM, raramente precisa se preocupar 
+Exceto nos casos em que você precisa acessar ou modificar o DOM, raramente precisa se preocupar
 com a ordem de efeitos ou quando essas mudanças vão acontecer. O Vue possui muitas
 abstrações e otimizações, e é importante não tentar otimizar antes de realmente ter um problema.

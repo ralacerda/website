@@ -2,37 +2,37 @@
 title: "Vue and Batched Effects"
 slug: "batched-effects-vue"
 publishDate: 2025-06-13
-draft: true
+draft: false
 tags: ["javascript", "vue"]
 description: "Understanding when your effects take effect in Vue.js"
 lang: "en"
 ---
 
 Vue's reactivity is based on "subscriptions". When an effect reads a `ref`,
-Vue registers that this effect depends on that value. When the value is updated, 
+Vue registers that this effect depends on that value. When the value is updated,
 Vue executes that effect again.
 
 When you write a `<template>` block in a `.vue` file, the build process
 transforms it into a render function (similar to what happens
-with JSX). That is, if you use a `ref` in your template, when that `ref` changes, 
-your template function will be executed again. 
+with JSX). That is, if you use a `ref` in your template, when that `ref` changes,
+your template function will be executed again.
 
 Another way to create effects is with `watchEffect`. Similarly, if your `watchEffect` callback
-reads some `ref`, and that `ref` changes, the callback will be called again. 
+reads some `ref`, and that `ref` changes, the callback will be called again.
 
 ```vue
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect } from "vue";
 
 const count = ref(0);
 
 function increaseCount() {
-  count.value++
+  count.value++;
 }
 
 watchEffect(async () => {
-  console.log("count increased", count.value)
-})
+  console.log("count increased", count.value);
+});
 </script>
 
 <template>
@@ -51,10 +51,10 @@ But what happens if we mutate `count` more than once in the same function?
 
 ```ts
 function increaseCount() {
-  count.value++
-  count.value++
-  count.value++
-  count.value++
+  count.value++;
+  count.value++;
+  count.value++;
+  count.value++;
 }
 ```
 
@@ -71,12 +71,12 @@ However, Vue provides ways to "escape" this behavior when necessary.
 
 ## Acting after DOM updates
 
-You've probably encountered the following behavior in Vue: you can't 
+You've probably encountered the following behavior in Vue: you can't
 access a DOM element in the same function that changed its visibility.
 
 ```vue
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const showInput = ref(false);
 
@@ -84,16 +84,15 @@ function toggleInput() {
   showInput.value = !showInput.value;
 
   if (showInput.value) {
-    const input = document.getElementById('input');
-    input?.focus()
+    const input = document.getElementById("input");
+    input?.focus();
   }
 }
-
 </script>
 
 <template>
   <button @click="toggleInput">Show input</button>
-  <input id="input" v-if="showInput" >
+  <input id="input" v-if="showInput" />
 </template>
 ```
 
@@ -113,9 +112,9 @@ function toggleInput() {
 
   if (showInput.value) {
     nextTick(() => {
-      const input = document.getElementById('input');
-      input?.focus()
-    })
+      const input = document.getElementById("input");
+      input?.focus();
+    });
   }
 }
 
@@ -125,9 +124,9 @@ async function toggleInput() {
   showInput.value = !showInput.value;
 
   if (showInput.value) {
-    await nextTick()
-    const input = document.getElementById('input');
-    input?.focus()
+    await nextTick();
+    const input = document.getElementById("input");
+    input?.focus();
   }
 }
 ```
@@ -135,13 +134,13 @@ async function toggleInput() {
 ## Effect order
 
 The order of these executions is also important. A `watch` or `watchEffect` always happens before
-the DOM is updated. Therefore, even using `nextTick` inside a `watchEffect`, 
+the DOM is updated. Therefore, even using `nextTick` inside a `watchEffect`,
 you don't have access to the updated version of the DOM.
 
 ```vue
 <script setup>
-import { nextTick } from 'vue';
-import { ref, watchEffect } from 'vue';
+import { nextTick } from "vue";
+import { ref, watchEffect } from "vue";
 
 const showInput = ref(false);
 
@@ -151,17 +150,17 @@ async function toggleInput() {
 
 watchEffect(async () => {
   if (showInput.value) {
-    const input = document.getElementById('input');
+    const input = document.getElementById("input");
     await nextTick();
     // This won't work
     input?.focus();
   }
-})
+});
 </script>
 
 <template>
   <button @click="toggleInput">Toggle Input</button>
-  <input v-if="showInput" id="input">
+  <input v-if="showInput" id="input" />
 </template>
 ```
 
@@ -170,23 +169,26 @@ watchEffect(async () => {
 Vue provides two ways to work around this problem. You can pass the `flush: 'post'` option or use `watchPostEffect`, which is a "pre-configured" version of `watchEffect` with this option already set.
 
 ```ts
-watchEffect(() => {
-  if (showInput.value) {
-    const input = document.getElementById('input');
-    input?.focus();
+watchEffect(
+  () => {
+    if (showInput.value) {
+      const input = document.getElementById("input");
+      input?.focus();
+    }
+  },
+  {
+    flush: "post",
   }
-}, {
-  flush: "post"
-})
+);
 
 // or
 
 watchPostEffect(() => {
   if (showInput.value) {
-    const input = document.getElementById('input');
+    const input = document.getElementById("input");
     input?.focus();
   }
-})
+});
 ```
 
 ## Synchronous effects
@@ -195,17 +197,20 @@ Another possibility that Vue offers is to execute watchers immediately, using th
 Going back to the previous example:
 
 ```ts
-watchEffect(async () => {
-  console.log("count increased", count.value)
-}, {
-  flush: "sync"
-})
+watchEffect(
+  async () => {
+    console.log("count increased", count.value);
+  },
+  {
+    flush: "sync",
+  }
+);
 
 // or
 
 watchSyncEffect(async () => {
-  console.log("count increased", count.value)
-})
+  console.log("count increased", count.value);
+});
 ```
 
 Now we'll have a log for each time the state is mutated.
@@ -213,6 +218,6 @@ Of course, **great** care is needed, synchronous effects can cause performance i
 
 ## Conclusion
 
-Except in cases where you need to access or mutate the DOM, you rarely need to worry 
+Except in cases where you need to access or mutate the DOM, you rarely need to worry
 about the order of effects or when these changes will happen. Vue has many
 abstractions and optimizations, and it's important not to try to optimize before you actually have a problem.
