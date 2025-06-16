@@ -30,9 +30,9 @@ function increaseCount() {
   count.value++;
 }
 
-watchEffect(async () => {
-  console.log("count increased", count.value);
-});
+watchEffect(() => {
+  console.log("count increased", count.value)
+})
 </script>
 
 <template>
@@ -41,7 +41,7 @@ watchEffect(async () => {
 </template>
 ```
 
-[Link para o playground](https://play.vuejs.org/#eNp9kstOwzAQRX/F8oZWVCkSrCCteKgLWAAClt4Ed9K6dcaWH21RlH9nnBAICHURKZ57Z3LuxDW/sTbbReCXXGDupVM2MA8h2rlAVVnjAqvZvghyvShLkIE1rHSmYifUdHI18Dgo/2oCpUEfmDQRA5sly+hs3AplRBmUQaZQOig83CXPaMxqgaxryHaFjnB6KrBJHQOGUeE/UDJyz+Z9A3qjIdNmNRK8+14/WfDJcOCY5tGTT7uwFJMOASqriwB0Yiy385YGHFOe1fUXf9Pk07QVMrzHEIj9WmoltzPBf4UQfH6PMp92JmrIp4PxfMKDJ9xSrbKNN0iLbxMk6soqDe7JpsV4wS+7bEkrtDb7h7YWXIRJX5drkNt/6ht/SDXBnx14cLu0hF4LhVsBUSZ58foIB3r/FiuzjJrcR8QXoFXHxNjZbiMuCXvga2nv24uhcPXmF4cA6PtQCTQ5m9YvOF2WuyPRf3DPs4u2j34gbz4Bh+btZg==)
+[Link para o playground](https://play.vuejs.org/#eNp9ks1OwzAQhF/F8qWtWqVIcCppBFQ9lAMg4OhLcDepW8e2/NNWivLurBMCAaEeIsU7s5tvNq7pvTHJMQBdUKZSx60wnjjwwWRMicpo60lNTrnnu3VRAPekIYXVFRlh0+h24LFQ/NWY4lo5T7gOypNltIyvJq1QBMW90IoIxS3kDlbRM56QminSNSTHXAaYTplqYseAYYy+ZdZbldMSEqnLMaPdl/qZjM6GoyY4CZ903sXEgHjwUBmZe8ATIanJWg6wRDhS11/kTZPO4z7Q8BG8R+o7LgU/LBn9hc9otlE8nXcmbEjng/F0Rr1D3EKUyd5phStvE0TqyggJ9tnElThGF122qOVS6tNjW/M2wKyv8x3wwz/1vTvHGqMvFhzYY1xCr/ncloCUUV6/PcEZ37/FSm+DRPcF8RVw1SEydraHoLaIPfC1tJv2SghVvrv12YNyfagIGp1N62cUr8nqQvQf3Ovkpu3DH0ibT3+96yg=)
 
 Nesse exemplo, cada vez que `increaseCount` é chamado, alteramos o valor de `count`, o que faz
 a função `<template>` ser executada novamente, resultando na atualização do DOM.
