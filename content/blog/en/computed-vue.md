@@ -1,8 +1,8 @@
 ---
 title: "Computed and On-Demand Evaluation"
 slug: "lazy-computed"
-publishDate: 2025-06-16
-draft: true
+publishDate: 2025-06-23
+draft: false
 tags: ["javascript", "vue"]
 description: "Reacting only when necessary"
 lang: "en"

@@ -1,8 +1,8 @@
 ---
 title: "Computed e Avaliação Sob Demanda"
 slug: "lazy-computed"
-publishDate: 2025-06-16
-draft: true
+publishDate: 2025-06-23
+draft: false
 tags: ["javascript", "vue"]
 description: "Reagindo só quando é necessário"
 lang: "pt"
