@@ -2,7 +2,7 @@
 title: "Composables que se adaptam à rota"
 slug: "route-aware-composable"
 publishDate: 2024-10-09
-draft: true
+draft: false
 tags: ["javascript", "vue"]
 description: "Como criar composables que se adaptam à rota utilizando Vue 3 e Vue Router"
 lang: "pt"

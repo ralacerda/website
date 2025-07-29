@@ -2,7 +2,7 @@
 title: "Route-aware composables"
 slug: "route-aware-composable"
 publishDate: 2024-10-09
-draft: true
+draft: false
 tags: ["javascript", "vue"]
 description: "How to create composables that adapt to the route using Vue 3 and Vue Router"
 lang: "en"
