@@ -2,7 +2,7 @@
 title: "Por que parei de usar autoimports"
 slug: "autoimports"
 publishDate: 2025-11-11
-draft: true
+draft: false
 tags: ["javascript", "typescript"]
 description: "Por que as desvantagens de utilizar autoimport em projetos superam as vantagens"
 lang: "pt"
