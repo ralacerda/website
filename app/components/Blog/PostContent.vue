@@ -30,21 +30,16 @@ defineProps<{
 h2 {
   font-size: var(--step-3);
   margin-inline: auto;
-  text-align: center;
   line-height: 1.2;
-  max-width: 30ch;
-  text-wrap: balance;
+  max-width: 60ch;
+  text-wrap: pretty;
 }
 
-.date {
-  text-align: center;
-  display: block;
-  font-size: var(--step-1);
-  color: var(--fg-details);
-  margin-top: var(--space-s);
+.article-info {
+  grid-column: content;
 }
 
-:deep(.article-content) {
+article {
   display: grid;
   grid-template-columns:
     [grid-start] 1fr
@@ -53,6 +48,19 @@ h2 {
     [content-end] 4vw
     [breakout-end] 1fr
     [grid-end];
+}
+
+.date {
+  display: block;
+  font-size: var(--step-1);
+  color: var(--fg-details);
+  margin-top: var(--space-s);
+}
+
+:deep(.article-content) {
+  display: grid;
+  grid-column: grid;
+  grid-template-columns: subgrid;
   margin-top: var(--space-l);
 
   * {
@@ -75,6 +83,7 @@ h2 {
   }
 
   p {
+    font-size: var(--step-0);
     margin-top: var(--space-xs);
     line-height: 1.7;
   }
@@ -101,6 +110,16 @@ h2 {
 
   :where(li + li) {
     margin-top: 0.2em;
+  }
+
+  ul li {
+    list-style-type: "- ";
+  }
+
+  :where(ul, ol) {
+    margin-top: 0.4em;
+    padding-left: 0;
+    list-style-position: inside;
   }
 
   blockquote {
