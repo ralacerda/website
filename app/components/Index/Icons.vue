@@ -5,12 +5,13 @@ const icons = [
   ["GitHub", "github"],
   ["Javascript", "javascript"],
   ["Typescript", "typescript"],
+  ["Node.js", "nodedotjs"],
   ["React", "react"],
   ["Vue", "vuedotjs"],
   ["Nuxt", "nuxtdotjs"],
-  ["Vitest", "vitest"],
-  ["Cypress", "cypress"],
-  ["Storybook", "storybook"],
+  ["Python", "python"],
+  ["Google Cloud", "googlecloud"],
+  ["Docker", "docker"],
 ] as const;
 </script>
 
@@ -68,7 +69,9 @@ li {
     border-radius: 6px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s, transform 0.4s;
+    transition:
+      opacity 0.4s,
+      transform 0.4s;
   }
 
   &:hover,
