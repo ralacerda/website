@@ -1,9 +1,7 @@
-From early on, I was a technology, open source, and Linux enthusiast, but it was in 2022 that I developed my first website, created to help promote an event. Despite the challenges, I discovered a passion for programming, especially in web development.
+My history with technology started early, as an enthusiast of Linux and Open Source culture. What was a hobby became my profession in 2020, when I began working as a freelance developer. Being self-taught, I learned by doing, taking responsibility for the entire project lifecycle, from client conception to final delivery.
 
-From there, I worked hard to improve my knowledge in the field and prepared for a career change. I completed several personal and freelance projects that helped me consolidate my knowledge and enhance my skills.
+Today, I am a Fullstack Developer at Skylar, where I work end-to-end on building digital products. My role is balanced: I handle everything from optimizing backends (Node, Python) and cloud infrastructure (GCP) to developing high-performance Landing Pages and SPAs (Single Page Applications) with Vue.js.
 
-I participated in Grupo Boticário's Development Program (FullStack Track), which provided me with a solid foundation in web development and allowed me to develop practical projects.
+I am passionate about learning and teaching. I believe knowledge only has value when shared, which is why I maintain this blog, contribute to open-source projects, and lead technical workshops (on DDD, Git, etc.) for my team.
 
-Currently, I work as a Front End Developer at Skylar, where I can apply my knowledge in developing web systems and landing pages, also leading the creation of a component library for our products, while having the opportunity to explore new technologies such as Generative AI.
-
-With the goal of staying updated and deepening my knowledge, I am pursuing an MBA in Software Engineering at USP/ESALQ, which provides me with a broader vision of software development and enhances my leadership and project management skills.
+To continue evolving and blending engineering practice with business strategy, I am currently pursuing an MBA in Software Engineering at USP/ESALQ.
