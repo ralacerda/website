@@ -5,5 +5,5 @@ defineProps<{
 </script>
 
 <template>
-  <Icon :name="`simple-icons:${name}`" size="1.2em" />
+  <Icon :name="`simple-icons:${name}`" size="1.1em" />
 </template>
