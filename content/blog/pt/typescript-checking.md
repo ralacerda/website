@@ -41,7 +41,7 @@ Novamente, como o Typescript verifica somente a estrutura, e `ProjectId` também
 
 ## Tipagem estrutural em objetos e classes
 
-Você pode achar que isso somente acontece com primitivos, mas o princípio é mesmo com objetos, mesmo quando eles representam conceitos completamente diferentes:
+Você pode achar que isso somente acontece com primitivos, mas o princípio é o mesmo com objetos, mesmo quando eles representam conceitos completamente diferentes:
 
 ```typescript
 type User = {
