@@ -1,9 +1,9 @@
 ---
 title: "How Typescript Checks Your Types"
-slug: "Typescript-checking"
+slug: "typescript-checking"
 publishDate: 2025-11-17
 draft: false
-tags: ["javascript", "Typescript", "types"]
+tags: ["javascript", "typescript", "types"]
 description: "Understanding the difference between nominal and structural typing"
 lang: "en"
 ---
@@ -16,7 +16,7 @@ Nominal typing is based on identity and explicit type declaration. In it, two ty
 
 Let's consider the following example:
 
-```Typescript
+```ts
 type UserId = string
 
 function notifyUser(user: UserId, message: string): void {
@@ -30,7 +30,7 @@ During nominal checking, our call would be wrong, after all, even though `UserId
 
 And even if you try to indicate that something is of another "type", Typescript will still only check the structure:
 
-```Typescript
+```ts
 type ProjectId = string;
 const id: ProjectId = "uRg-1";
 
@@ -43,7 +43,7 @@ Again, since Typescript only checks the structure, and `ProjectId` is also a `st
 
 You might think this only happens with primitives, but the principle is the same with objects, even when they represent completely different concepts:
 
-```Typescript
+```ts
 type User = {
   name: string;
   id: string;
@@ -72,7 +72,7 @@ Typescript also doesn't care about the fact that `User` has more properties than
 
 And in fact, not even with classes can you avoid this problem:
 
-```Typescript
+```ts
 class Project {
   name: string;
   id: string;
@@ -143,7 +143,7 @@ It's not necessary to define a hierarchy relationship between types.
 This also allows you to use interfaces and types to organize your code, without
 requiring stricter usage.
 
-```Typescript
+```ts
 interface Position {
   x: number;
   y: number;
@@ -159,7 +159,7 @@ getObjectAtPosition({ x: 45, y: 30});
 
 It also makes it easier to create mocks and other interface implementations.
 
-```Typescript
+```ts
 interface UserRepository {
   findById(id: string): Promise<User>;
   save(user: User): Promise<void>;
