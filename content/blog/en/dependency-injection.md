@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Dependency Injection"
 slug: "dependency-injection"
-publishDate: 2025-12-12
+publishDate: 2025-12-15
 draft: false
 tags: ["javascript", "typescript", "code patterns"]
 description: "The advantages of depending on abstractions"
@@ -110,7 +110,7 @@ expect(testInbox).toEqual([
 ]);
 ```
 
-This alone is excellent, making Dependency Injection worth it when you are using external services.
+This alone makes Dependency Injection worth it, especially when you are using external services, which can make testing difficult.
 
 However, the biggest advantages come from the idea that now we are depending on an abstraction, no longer on a single concrete implementation.
 
@@ -124,7 +124,7 @@ class PaymentManager {
 }
 ```
 
-There is nothing wrong with this code. However, let's say we need to make a small change: give the option to choose which is the separator character. A simpler solution would be:
+There is nothing wrong with this code. However, let's say we need to make a small change: give the option to choose which is the separator character. A simpler solution would be to include this as a method parameter:
 
 ```ts
 class PaymentManager {
@@ -165,7 +165,7 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator);
 ```
 
-Now we start to have a possible problem, the `PaymentManager` constructor depends on information that will be used only in `exportToCSV`. What happens when we need to add another change?
+Now we start to have a possible coupling problem. We need to change the `PaymentManager` class definition because of the `exportToCSV` method. And what if we need to include more options?
 
 ```ts
 class PaymentManager {
@@ -186,8 +186,7 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator, savedDateFormat);
 ```
 
-We need to change the `PaymentManager` class to modify something specific to `exportToCSV`.
-And what if we have other preferences for other features? Now we have a huge constructor for this class.
+The code works, but now we are increasingly coupling a behavior with this class.
 
 We can improve this code using Dependency Injection:
 
@@ -353,8 +352,7 @@ const taxInfoServiceLive = isDev() ? new TaxInfoAPI(36000) : new TaxInfoAPI(300)
 ```
 
 Another advantage: by depending on abstractions, you can develop services without implementing every detail.
-If you already have `TaxInfoService`, you can continue developing without worrying yet HOW to implement it.
-
+If you already have `TaxInfoService`, you can continue developing without worrying yet how it will be implemented.
 The interesting thing is that you can do "inside-out" development. It becomes easy to follow common architecture patterns, where outer layers depend only on inner layers, but never the opposite.
 
 ```ts

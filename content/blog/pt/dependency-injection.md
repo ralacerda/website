@@ -1,7 +1,7 @@
 ---
 title: "Introdução a Injeção de Dependência"
 slug: "dependency-injection"
-publishDate: 2025-12-12
+publishDate: 2025-12-15
 draft: false
 tags: ["javascript", "typescript", "padrões de código"]
 description: "As vantagens de depender de abstrações"
@@ -108,14 +108,14 @@ const paymentServiceInMemoryInbox = new PaymentService(inMemoryInbox);
 
 paymentServiceInMemoryInbox.processPayment('test')
 expect(testInbox).toEqual([
-  ['test@test.com', 'new-payment'] // adjust template name as needed
+  ['test@test.com', 'new-payment']
 ]);
 ```
 
-Isso por si só já é excelente, já faze a Injeção de Dependência valer a pena
-quando você está utilizando serviços externos.
+Isso por si só já faz a Injeção de Dependência valer a pena, principalmente
+quando você está utilizando serviços externos, que podem dificultar os testes.
 
-Entretanto, a maiores vantagens vem da ideia de que agora estamos dependendo de uma
+Entretanto, as maiores vantagens vem da ideia de que agora estamos dependendo de uma
 abstração, não mais de uma única implementação concreta.
 
 Vamos dizer que você está trabalhando em um projeto que precisa
@@ -130,7 +130,8 @@ class PaymentManager {
 ```
 
 Não tem nada de errado com esse código. Entretanto, agora precisamos fazer uma pequena mudança:
-dar a opção de escolher qual é o caracter de separação. Uma solução mais simples seria:
+dar a opção de escolher qual é o caracter de separação. 
+Uma solução mais simples seria incluir isso como um parâmetro do método:
 
 ```ts
 class PaymentManager {
@@ -171,9 +172,8 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator);
 ```
 
-Agora nós começamos a ter um possível problema, o `PaymentManager`, para ser criado,
-depende de informações que vão ser usadas somente o `exportToCSV`. O que acontece
-quando a gente precisa adicionar outra mudança?
+Agora nós começamos a ter um possível problema de acomplamento. Precisamos mudar a definição da classe `PaymentManager`
+por causa do método `exportToCSV`. E se agora precisamos incluir mais opções?
 
 ```ts
 class PaymentManager {
@@ -194,8 +194,7 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator, savedDateFormat);
 ```
 
-Precisamos mudar a classe `PaymentManager` para modificar algo específico do `exportToCSV`.
-E se a gente tiver outras preferências para outras funcionalidades? Agora a gente tem um `constructor` enorme.
+O código funciona, mas agora estamos cada vez mais acomplando um comportamento com esse classe.
 
 Podemos melhorar esse código utilizando Injeção de Dependência:
 
@@ -367,7 +366,7 @@ const taxInfoServiceLive = isDev() ? new TaxInfoAPI(36000) : new TaxInfoAPI(300)
 ```
 
 Outra vantagem: ao depender de abstrações, você pode desenvolver serviços sem implementar cada detalhe.
-Se você já tem `TaxInfoService`, pode continuar desenvolvendo sem se preocupar ainda COMO implementar.
+Se você já tem `TaxInfoService`, pode continuar desenvolvendo sem se preocupar ainda como ele vai ser implementado.
 
 O interessante é que você consegue fazer um desenvolvimento "de dentro pra fora". Fica fácil seguir padrões
 de arquitetura comum, onde camadas externas dependem somente de camandas internas, mas nunca o contrário.
