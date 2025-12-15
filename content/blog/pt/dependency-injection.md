@@ -40,9 +40,9 @@ class PaymentService {
         this.emailService = emailService
     }
 
-    async processPayment(employee: string) {
+    async processPayment(employee: Employee) {
         // ...
-        this.emailService.sendEmail(ownerEmail, 'new-payment')
+        this.emailService.sendEmail(employee.email, 'new-payment')
         // ...
     }
 }
@@ -51,6 +51,11 @@ const emailService = new SendGridEmailService(process.env.SENDGRID_API_KEY!);
 // Aqui o serviço é "injetado"
 const paymentService = new PaymentService(emailService);
 ```
+
+> NOTE: O que são classes abstratas?
+> Classes abstrata definem formatos a serem seguidos, mas por si só não podem ser instânciadas
+> No nosso caso, utilizamos para definir o "contrato" da abstração que vamos injetar,
+> sem preferir gerar uma implementação.
 
 Vale notar que Injeção de Dependência não é exclusiva da Orientação a Objetos.
 Também é muito popular na programação funcional:
@@ -83,7 +88,7 @@ createUser(consoleLogger, 'Renato')
 ```
 
 Uma das vantagens mais óbvias é a possibilidade de facilmente escrever testes
-injetando versões mocks:
+injetando versões mocks (implementações falsas criadas apenas para testes):
 
 ```ts
 
@@ -96,19 +101,25 @@ class TestEmailService extends EmailService {
 const paymentServiceTest = new PaymentService(new TestEmailService());
 
 // Podemos até testar o uso correto
-let testInbox: [string, string][] = [];
 class InMemoryInbox extends EmailService {
+  public sentEmails: [string, string][] = [];
+  
   async sendEmail(to: string, template: string) {
-    testInbox.push([to, template])
+    this.sentEmails.push([to, template])
   }
 }
 
-const inMemoryInbox = new InMemoryInbox();
-const paymentServiceInMemoryInbox = new PaymentService(inMemoryInbox);
+const inbox = new InMemoryInbox();
+const paymentService = new PaymentService(inbox);
 
-paymentServiceInMemoryInbox.processPayment('test')
-expect(testInbox).toEqual([
-  ['test@test.com', 'new-payment']
+const fakeEmployee = {
+  id: 1,
+  email: "test@company.com"
+}
+
+await paymentService.processPayment(fakeEmployee)
+expect(inbox.sentEmails).toEqual([
+  ['test@company.com', 'new-payment']
 ]);
 ```
 
@@ -123,9 +134,12 @@ exportar uma lista de pagamentos:
 
 ```ts
 class PaymentManager {
+
   exportToCSV(paymentRoll: PaymentRoll) {
     // Implementação
   }
+
+  // outros métodos
 }
 ```
 
@@ -172,7 +186,7 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator);
 ```
 
-Agora nós começamos a ter um possível problema de acomplamento. Precisamos mudar a definição da classe `PaymentManager`
+Agora nós começamos a ter um possível problema de acoplamento. Precisamos mudar a definição da classe `PaymentManager`
 por causa do método `exportToCSV`. E se agora precisamos incluir mais opções?
 
 ```ts
@@ -194,7 +208,7 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator, savedDateFormat);
 ```
 
-O código funciona, mas agora estamos cada vez mais acomplando um comportamento com esse classe.
+O código funciona, mas agora estamos cada vez mais acoplando um comportamento com essa classe.
 
 Podemos melhorar esse código utilizando Injeção de Dependência:
 
@@ -292,7 +306,7 @@ class PaymentManager {
 Esse padrão funciona muito bem com o padrão de estratégia ("Strategy Pattern"):
 
 ```ts
-function getExporter(format: 'csv' | 'json', prefs: typeof userPreferences): PaymentExporter {
+function getExporter(format: 'csv' | 'json', prefs: UserPreference): PaymentExporter {
   switch (format) {
     case 'csv':
       return new CSVPaymentExporter(prefs.separator, prefs.dateFormat);
@@ -359,7 +373,7 @@ class TaxInfoAPI extends TaxInfoService {
   }
 }
 
-const taxInfoServiceTest = new TaxInfoTest()
+const taxInfoServiceTest = new TaxInfoTestImpl()
 
 // Cache mais agressivo em dev, mais conservador em produção
 const taxInfoServiceLive = isDev() ? new TaxInfoAPI(36000) : new TaxInfoAPI(300);
@@ -369,7 +383,7 @@ Outra vantagem: ao depender de abstrações, você pode desenvolver serviços se
 Se você já tem `TaxInfoService`, pode continuar desenvolvendo sem se preocupar ainda como ele vai ser implementado.
 
 O interessante é que você consegue fazer um desenvolvimento "de dentro pra fora". Fica fácil seguir padrões
-de arquitetura comum, onde camadas externas dependem somente de camandas internas, mas nunca o contrário.
+como Arquitetura Hexagonal/Clean Architecture, onde camadas externas dependem somente de camadas internas, mas nunca o contrário.
 
 ```ts
 // Código de domínio puro. Esse código só vai mudar se o próprio domínio mudar
@@ -413,6 +427,7 @@ class PaymentService {
 Note que mesmo sem implementar `BonusPolicy`, já podemos escrever testes.
 
 ```ts
+// Mock simples para testes - sempre retorna 10% do salário
 class AlwaysEligibleBonus extends BonusPolicy {
   isEligible(): boolean {
     return true;
@@ -423,6 +438,7 @@ class AlwaysEligibleBonus extends BonusPolicy {
   }
 }
 
+// Mock simples para testes
 class NeverEligibleBonus extends BonusPolicy {
   isEligible(): boolean {
     return false;
@@ -481,4 +497,9 @@ mas é importante manter em mente suas vantagens e desvantagens:
 - Abstrações ruins complicam mais que ajudam
 - Pode levar a over-engineering em projetos simples
 
-Para mim, os cenários em que a Injeção de Dependência traz as maiores vantagens são em código com dependências externas, com múltiplas implementações, ou que precisa ser facilmente testável.
+Portanto, eu não usaria esse padrão em projetos pequenos ou em protótipos. Para mim, os cenários em que a Injeção de Dependência traz as maiores vantagens são:
+
+- Código com dependências externas (APIs, bancos de dados)
+- Sistemas com múltiplas implementações possíveis
+- Projetos que precisam ser facilmente testáveis
+- Aplicações de médio a grande porte com múltiplos desenvolvedores 

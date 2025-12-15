@@ -39,9 +39,9 @@ class PaymentService {
         this.emailService = emailService
     }
 
-    async processPayment(employee: string) {
+    async processPayment(employee: Employee) {
         // ...
-        this.emailService.sendEmail(ownerEmail, 'new-payment')
+        this.emailService.sendEmail(employee.email, 'new-payment')
         // ...
     }
 }
@@ -81,7 +81,7 @@ const consoleLogger = {
 createUser(consoleLogger, 'Renato')
 ```
 
-One of the most obvious advantages is the possibility to easily write tests injecting mock versions:
+One of the most obvious advantages is the possibility to easily write tests injecting mock versions (fake implementations created only for tests):
 
 ```ts
 
@@ -94,19 +94,25 @@ class TestEmailService extends EmailService {
 const paymentServiceTest = new PaymentService(new TestEmailService());
 
 // We can even test the correct usage
-let testInbox: [string, string][] = [];
 class InMemoryInbox extends EmailService {
+  public sentEmails: [string, string][] = [];
+  
   async sendEmail(to: string, template: string) {
-    testInbox.push([to, template])
+    this.sentEmails.push([to, template])
   }
 }
 
-const inMemoryInbox = new InMemoryInbox();
-const paymentServiceInMemoryInbox = new PaymentService(inMemoryInbox);
+const inbox = new InMemoryInbox();
+const paymentService = new PaymentService(inbox);
 
-paymentServiceInMemoryInbox.processPayment('test')
-expect(testInbox).toEqual([
-  ['test@test.com', 'new-payment']
+const fakeEmployee = {
+  id: 1,
+  email: "test@company.com"
+}
+
+await paymentService.processPayment(fakeEmployee)
+expect(inbox.sentEmails).toEqual([
+  ['test@company.com', 'new-payment']
 ]);
 ```
 
@@ -121,6 +127,8 @@ class PaymentManager {
   exportToCSV(paymentRoll: PaymentRoll) {
     // Implementation
   }
+
+  // other methods
 }
 ```
 
@@ -345,7 +353,7 @@ class TaxInfoAPI extends TaxInfoService {
   }
 }
 
-const taxInfoServiceTest = new TaxInfoTest()
+const taxInfoServiceTest = new TaxInfoTestImpl()
 
 // More aggressive cache in dev, more conservative in production
 const taxInfoServiceLive = isDev() ? new TaxInfoAPI(36000) : new TaxInfoAPI(300);
@@ -353,7 +361,8 @@ const taxInfoServiceLive = isDev() ? new TaxInfoAPI(36000) : new TaxInfoAPI(300)
 
 Another advantage: by depending on abstractions, you can develop services without implementing every detail.
 If you already have `TaxInfoService`, you can continue developing without worrying yet how it will be implemented.
-The interesting thing is that you can do "inside-out" development. It becomes easy to follow common architecture patterns, where outer layers depend only on inner layers, but never the opposite.
+
+The interesting thing is that you can do "inside-out" development. It becomes easy to follow patterns like Hexagonal/Clean Architecture, where outer layers depend only on inner layers, but never the opposite.
 
 ```ts
 
@@ -397,6 +406,7 @@ class PaymentService {
 Note: even without implementing `BonusPolicy`, we can already write tests.
 
 ```ts
+// Simple mock for tests - always returns 10% of salary
 class AlwaysEligibleBonus extends BonusPolicy {
   isEligible(): boolean {
     return true;
@@ -407,6 +417,7 @@ class AlwaysEligibleBonus extends BonusPolicy {
   }
 }
 
+// Simple mock for tests
 class NeverEligibleBonus extends BonusPolicy {
   isEligible(): boolean {
     return false;
@@ -464,4 +475,9 @@ You don't need a Dependency Injection framework to be able to use this pattern, 
 - Bad abstractions complicate more than they help
 - Can lead to over-engineering in simple projects
 
-For me, the scenarios where Dependency Injection brings the biggest advantages are in code with external dependencies, with multiple implementations, or that needs to be easily testable.
+Therefore, I would not use this pattern in small projects or prototypes. For me, the scenarios where Dependency Injection brings the biggest advantages are:
+
+- Code with external dependencies (APIs, databases)
+- Systems with multiple possible implementations
+- Projects that need to be easily testable
+- Medium to large applications with multiple developers
