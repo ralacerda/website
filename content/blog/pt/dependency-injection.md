@@ -15,12 +15,12 @@ Existem alguns frameworks de injeção de dependência, mas é algo muito fácil
 de truques:
 
 ```ts
-// Criamos uma classe abstrata, ela define como será o "Serviço" de enviar email
-abstract class EmailService {
-    abstract sendEmail(to: string, template: string): Promise<unknown>;
+// Criamos uma interface que define como será o "Serviço" de enviar email
+interface EmailService {
+    sendEmail(to: string, template: string): Promise<unknown>;
 }
 
-class SendGridEmailService extends EmailService {
+class SendGridEmailService implements EmailService {
     private apiKey: string;
 
     constructor(apiKey: string) {
@@ -52,10 +52,14 @@ const emailService = new SendGridEmailService(process.env.SENDGRID_API_KEY!);
 const paymentService = new PaymentService(emailService);
 ```
 
-> NOTE: O que são classes abstratas?
-> Classes abstrata definem formatos a serem seguidos, mas por si só não podem ser instânciadas
-> No nosso caso, utilizamos para definir o "contrato" da abstração que vamos injetar,
-> sem preferir gerar uma implementação.
+::more-info{title="O que são interfaces?"}
+Interfaces definem um "contrato" que especifica quais métodos e propriedades uma classe deve ter,
+sem fornecer a implementação. No TypeScript, usamos interfaces para definir a forma que um objeto deve ter.
+
+Para criar uma classe que segue esse contrato, utilizamos o `implements`. Quando uma classe implementa uma interface,
+ela precisa fornecer implementações para todos os métodos definidos na interface. 
+Isso garante que diferentes implementações tenham a mesma "forma".
+::
 
 Vale notar que Injeção de Dependência não é exclusiva da Orientação a Objetos.
 Também é muito popular na programação funcional:
@@ -92,7 +96,7 @@ injetando versões mocks (implementações falsas criadas apenas para testes):
 
 ```ts
 
-class TestEmailService extends EmailService {
+class TestEmailService implements EmailService {
   async sendEmail() {}
 }
 
@@ -101,7 +105,7 @@ class TestEmailService extends EmailService {
 const paymentServiceTest = new PaymentService(new TestEmailService());
 
 // Podemos até testar o uso correto
-class InMemoryInbox extends EmailService {
+class InMemoryInbox implements EmailService {
   public sentEmails: [string, string][] = [];
   
   async sendEmail(to: string, template: string) {
@@ -243,11 +247,11 @@ Agora, podemos livremente modificar a classe `CSVPaymentExporter`, sem se preocu
 o `PaymentManager`. Podemos até abstrair essa classe, permitindo outras formas de exportar:
 
 ```ts
-abstract class PaymentExporter {
-  abstract export(paymentRoll: PaymentRoll): void;
+interface PaymentExporter {
+  export(paymentRoll: PaymentRoll): void;
 }
 
-class CSVPaymentExporter extends PaymentExporter {
+class CSVPaymentExporter implements PaymentExporter {
   private separator: string;
   private dateFormat: string;
 
@@ -277,7 +281,7 @@ const csvExporter = new CSVPaymentExporter(savedSeparator, savedDateFormat);
 const paymentManager = new PaymentManager(csvExporter);
 
 // Podemos facilmente criar outro exporter com suas próprias configurações
-class JSONPaymentExporter extends PaymentExporter {
+class JSONPaymentExporter implements PaymentExporter {
   export(paymentRoll: PaymentRoll): void {
     // Implementação JSON
   }
@@ -333,19 +337,19 @@ do nosso código baseado no ambiente. Por exemplo, se precisamos de uma API para
 para conseguir algumas informações, podemos criar um serviço abstrato:
 
 ```ts
-abstract class TaxInfoService {
-  abstract async getTaxPercentage(salary: number): Promise<number>;
+interface TaxInfoService {
+  getTaxPercentage(salary: number): Promise<number>;
 }
 
 // Em produção, chamamos uma API real
-class TaxInfoAPI extends TaxInfoService {
+class TaxInfoAPI implements TaxInfoService {
   async getTaxPercentage(salary: number) {
     // fetch(...) 
   }
 }
 
 // Em testes, usamos um valor fixo para evitar chamadas reais
-class TaxInfoTestImpl extends TaxInfoService {
+class TaxInfoTestImpl implements TaxInfoService {
   async getTaxPercentage() {
     return 0.2;
   }
@@ -358,7 +362,7 @@ Mas não precisamos ficar presos em escolher qual classe vamos utilizar, podemos
 definir qual instância injetar, modificando configurações.
 
 ```ts
-class TaxInfoAPI extends TaxInfoService {
+class TaxInfoAPI implements TaxInfoService {
   // TTL = Time to Live
   // Utilizamos para definir por quanto tempo um valor vai ficar em cache
   private cacheTTL: number;
@@ -398,13 +402,13 @@ function getBonusValue(employee: Employee, bonusPolicy: BonusPolicy, bonusDate: 
 }
 
 // Abstrações para políticas de bônus
-abstract class BonusPolicy {
-  abstract isEligible(employee: Employee, bonusDate: Date): boolean;
-  abstract calculateBonus(employee: Employee): number;
+interface BonusPolicy {
+  isEligible(employee: Employee, bonusDate: Date): boolean;
+  calculateBonus(employee: Employee): number;
 }
 
-abstract class PaymentProcessor {
-  abstract process(employeeId: number, amount: number): Promise<PaymentResult>;
+interface PaymentProcessor {
+  process(employeeId: number, amount: number): Promise<PaymentResult>;
 }
 
 class PaymentService {
@@ -428,7 +432,7 @@ Note que mesmo sem implementar `BonusPolicy`, já podemos escrever testes.
 
 ```ts
 // Mock simples para testes - sempre retorna 10% do salário
-class AlwaysEligibleBonus extends BonusPolicy {
+class AlwaysEligibleBonus implements BonusPolicy {
   isEligible(): boolean {
     return true;
   }
@@ -439,7 +443,7 @@ class AlwaysEligibleBonus extends BonusPolicy {
 }
 
 // Mock simples para testes
-class NeverEligibleBonus extends BonusPolicy {
+class NeverEligibleBonus implements BonusPolicy {
   isEligible(): boolean {
     return false;
   }
@@ -449,7 +453,7 @@ class NeverEligibleBonus extends BonusPolicy {
   }
 }
 
-class MockPaymentProcessor extends PaymentProcessor {
+class MockPaymentProcessor implements PaymentProcessor {
   async process(employeeId: number, amount: number): Promise<PaymentResult> {
     console.log(`Processando pagamento de $${amount} para o funcionário ${employeeId}`);
     return { success: true, transactionId: 'mock-123' };

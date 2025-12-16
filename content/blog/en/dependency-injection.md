@@ -14,12 +14,12 @@ The idea is simple: instead of a component creating its own dependencies, they a
 There are some dependency injection frameworks, but it is something very easy to do "by hand", without any tricks:
 
 ```ts
-// We create an abstract class, it defines the shape of the EmailService
-abstract class EmailService {
-    abstract sendEmail(to: string, template: string): Promise<unknown>;
+// We create an interface that defines the shape of the EmailService
+interface EmailService {
+    sendEmail(to: string, template: string): Promise<unknown>;
 }
 
-class SendGridEmailService extends EmailService {
+class SendGridEmailService implements EmailService {
     private apiKey: string;
 
     constructor(apiKey: string) {
@@ -50,6 +50,15 @@ const emailService = new SendGridEmailService(process.env.SENDGRID_API_KEY!);
 // Here the service is "injected"
 const paymentService = new PaymentService(emailService);
 ```
+
+::more-info{title="What are interfaces?"}
+Interfaces define a "contract" that specifies which methods and properties a class must have,
+without providing the implementation. In TypeScript, we use interfaces to define the shape an object should have.
+
+To create a class that follows this contract, we use `implements`. When a class implements an interface,
+it must provide implementations for all methods defined in the interface.
+This ensures that different implementations have the same "shape".
+::
 
 It is worth noting that Dependency Injection is not exclusive to Object Oriented Programming.
 It is also very popular in functional programming:
@@ -85,7 +94,7 @@ One of the most obvious advantages is the possibility to easily write tests inje
 
 ```ts
 
-class TestEmailService extends EmailService {
+class TestEmailService implements EmailService {
   async sendEmail() {}
 }
 
@@ -94,7 +103,7 @@ class TestEmailService extends EmailService {
 const paymentServiceTest = new PaymentService(new TestEmailService());
 
 // We can even test the correct usage
-class InMemoryInbox extends EmailService {
+class InMemoryInbox implements EmailService {
   public sentEmails: [string, string][] = [];
   
   async sendEmail(to: string, template: string) {
@@ -228,11 +237,11 @@ const paymentManager = new PaymentManager(csvExporter);
 Now, we can freely modify the `CSVPaymentExporter` class, without worrying about modifying `PaymentManager`. We can even abstract this class, allowing other ways to export:
 
 ```ts
-abstract class PaymentExporter {
-  abstract export(paymentRoll: PaymentRoll): void;
+interface PaymentExporter {
+  export(paymentRoll: PaymentRoll): void;
 }
 
-class CSVPaymentExporter extends PaymentExporter {
+class CSVPaymentExporter implements PaymentExporter {
   private separator: string;
   private dateFormat: string;
 
@@ -262,7 +271,7 @@ const csvExporter = new CSVPaymentExporter(savedSeparator, savedDateFormat);
 const paymentManager = new PaymentManager(csvExporter);
 
 // We can easily create another exporter with its own configurations
-class JSONPaymentExporter extends PaymentExporter {
+class JSONPaymentExporter implements PaymentExporter {
   export(paymentRoll: PaymentRoll): void {
     // JSON Implementation
   }
@@ -314,19 +323,19 @@ paymentManager.export(jsonStrategy, paymentRoll);
 With these ideas, now it is also easy to see a way to modify the behavior of our code based on the environment. For example, if we need an external API to get some information, we can create an abstract service:
 
 ```ts
-abstract class TaxInfoService {
-  abstract async getTaxPercentage(salary: number): Promise<number>;
+interface TaxInfoService {
+  getTaxPercentage(salary: number): Promise<number>;
 }
 
 // In production, we call a real API
-class TaxInfoAPI extends TaxInfoService {
+class TaxInfoAPI implements TaxInfoService {
   async getTaxPercentage(salary: number) {
     // fetch(...) 
   }
 }
 
 // In tests, we use a fixed value to avoid real calls
-class TaxInfoTestImpl extends TaxInfoService {
+class TaxInfoTestImpl implements TaxInfoService {
   async getTaxPercentage() {
     return 0.2;
   }
@@ -338,7 +347,7 @@ const taxInfoService = isTesting() ? new TaxInfoTestImpl() : new TaxInfoAPI();
 But we don't need to be stuck in choosing which class we will use, we can also define which instance to inject, modifying configurations.
 
 ```ts
-class TaxInfoAPI extends TaxInfoService {
+class TaxInfoAPI implements TaxInfoService {
   // TTL = Time to Live
   // We use it to define how long a value will stay in cache
   private cacheTTL: number;
@@ -378,13 +387,13 @@ function getBonusValue(employee: Employee, bonusPolicy: BonusPolicy, bonusDate: 
 }
 
 // Abstractions for bonus policies
-abstract class BonusPolicy {
-  abstract isEligible(employee: Employee, bonusDate: Date): boolean;
-  abstract calculateBonus(employee: Employee): number;
+interface BonusPolicy {
+  isEligible(employee: Employee, bonusDate: Date): boolean;
+  calculateBonus(employee: Employee): number;
 }
 
-abstract class PaymentProcessor {
-  abstract process(employeeId: number, amount: number): Promise<PaymentResult>;
+interface PaymentProcessor {
+  process(employeeId: number, amount: number): Promise<PaymentResult>;
 }
 
 class PaymentService {
@@ -407,7 +416,7 @@ Note: even without implementing `BonusPolicy`, we can already write tests.
 
 ```ts
 // Simple mock for tests - always returns 10% of salary
-class AlwaysEligibleBonus extends BonusPolicy {
+class AlwaysEligibleBonus implements BonusPolicy {
   isEligible(): boolean {
     return true;
   }
@@ -418,7 +427,7 @@ class AlwaysEligibleBonus extends BonusPolicy {
 }
 
 // Simple mock for tests
-class NeverEligibleBonus extends BonusPolicy {
+class NeverEligibleBonus implements BonusPolicy {
   isEligible(): boolean {
     return false;
   }
@@ -428,7 +437,7 @@ class NeverEligibleBonus extends BonusPolicy {
   }
 }
 
-class MockPaymentProcessor extends PaymentProcessor {
+class MockPaymentProcessor implements PaymentProcessor {
   async process(employeeId: number, amount: number): Promise<PaymentResult> {
     console.log(`Processing payment of $${amount} for employee ${employeeId}`);
     return { success: true, transactionId: 'mock-123' };
