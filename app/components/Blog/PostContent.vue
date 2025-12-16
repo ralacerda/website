@@ -12,6 +12,7 @@ defineProps<{
       <h2>
         {{ post.title }}
       </h2>
+      <div class="article-description">{{ post.description }}</div>
       <div>
         <BlogPostDate :datetime="post.publishDate" />
       </div>
@@ -27,6 +28,11 @@ h2 {
   line-height: 1.2;
   max-width: 60ch;
   text-wrap: pretty;
+}
+
+.article-description {
+  margin-top: var(--space-s);
+  font-size: var(--step-1);
 }
 
 .article-info {
@@ -48,7 +54,6 @@ article {
   display: block;
   font-size: var(--step-1);
   color: var(--fg-details);
-  margin-top: var(--space-s);
 }
 
 :deep(.article-content) {
