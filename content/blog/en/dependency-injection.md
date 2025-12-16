@@ -51,41 +51,6 @@ const emailService = new SendGridEmailService(process.env.SENDGRID_API_KEY!);
 const paymentService = new PaymentService(emailService);
 ```
 
-::more-info{title="Types used in the examples"}
-Throughout this article, we will use some types to represent domain entities:
-
-```ts
-// Represents an employee
-interface Employee {
-  id: number;
-  name: string;
-  email: string;
-  baseSalary: number;
-  hireDate: Date;
-}
-
-// Represents a payroll
-interface PaymentRoll {
-  employees: Employee[];
-  period: { start: Date; end: Date };
-  totalAmount: number;
-}
-
-// User preferences for export
-interface UserPreference {
-  separator: string;
-  dateFormat: string;
-  jsonIndentation: number;
-}
-
-// Result of a payment operation
-interface PaymentResult {
-  success: boolean;
-  transactionId: string;
-}
-```
-::
-
 ::more-info{title="What are interfaces?"}
 Interfaces define a "contract" that specifies which methods and properties a class must have,
 without providing the implementation. In TypeScript, we use interfaces to define the shape an object should have.
@@ -125,11 +90,9 @@ const consoleLogger = {
 createUser(consoleLogger, 'Renato')
 ```
 
-This alone makes Dependency Injection worth it, especially when you are using external services, which can make testing difficult.
-
-However, the biggest advantages come from the idea that now we are depending on an abstraction, no longer on a single concrete implementation.
-
-Let's say you are working on a project that needs to export a list of payments:
+Now let's look at an example that doesn't use Dependency Injection, to understand the difference.
+Consider a scenario where you are working on a project that has a payment service.
+This service is responsible, among other things, for exporting a CSV version of payment reports.
 
 ```ts
 class PaymentManager {
@@ -140,6 +103,42 @@ class PaymentManager {
   // other methods
 }
 ```
+
+::more-info{title="Types used in the examples"}
+Throughout this article, we will use some types to represent domain entities:
+
+```ts
+// Represents an employee
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  baseSalary: number;
+  hireDate: Date;
+}
+
+// Represents a payroll
+interface PaymentRoll {
+  employees: Employee[];
+  period: { start: Date; end: Date };
+  totalAmount: number;
+}
+
+// User preferences for export
+interface UserPreference {
+  separator: string;
+  dateFormat: string;
+  jsonIndentation: number;
+}
+
+// Result of a payment operation
+interface PaymentResult {
+  success: boolean;
+  transactionId: string;
+}
+```
+::
+
 
 There is nothing wrong with this code. However, let's say we need to make a small change: give the option to choose which is the separator character. A simpler solution would be to include this as a method parameter:
 
@@ -268,7 +267,8 @@ class JSONPaymentExporter implements PaymentExporter {
 }
 ```
 
-With this change, we can modify `CSVPaymentExporter` or create new exporters without affecting `PaymentManager`. Another advantage is that it's now easier to write tests
+Now we can create new exporters without affecting `PaymentManager` or `CSVPaymentExporter`.
+Another advantage is that it's now easier to write tests
 injecting mock versions (fake implementations created only for tests):
 
 ```ts
@@ -486,13 +486,13 @@ for calling the necessary functions and methods, without worrying about how some
 
 However, everything in programming has its pros and cons, and Dependency Injection is no different:
 
-**Advantages:**
+Advantages:
 - More testable and decoupled code
 - Easy to swap implementations without modifying dependent classes
 - Cleaner and more organized architecture
 - More iterative development (abstractions first)
 
-**Disadvantages:**
+Disadvantages:
 - Complexity increases, especially with many dependencies
 - New developer needs to "hunt" for concrete implementations
 - Bad abstractions complicate more than they help

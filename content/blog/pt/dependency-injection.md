@@ -91,7 +91,7 @@ const consoleLogger = {
 createUser(consoleLogger, 'Renato')
 ```
 
-Vamos começar com um exemplo que não utiliza Injeção de dependência, para entender a diferença. 
+Agora vamos ver um exemplo que não utiliza Injeção de dependência, para entendermos a diferença. 
 Considere um cenário em que você está trabalhando em um projeto que possui um serviço de pagamento.
 Esse serviço é responsável, entre outras coisas, por exportar uma versão de CSV de relatórios de pagamento.
 
@@ -274,7 +274,8 @@ class JSONPaymentExporter implements PaymentExporter {
 }
 ```
 
-Com essa mudança, podemos modificar `CSVPaymentExporter` ou criar novos exportadores sem afetar `PaymentManager`. Outra vantagem é que agora fica mais fácil escrever testes
+Agora conseguimos criar novos exportadores sem afetar `PaymentManager` ou `CSVPaymentExporter`. 
+Outra vantagem é que agora fica mais fácil escrever testes
 injetando versões mocks (implementações falsas criadas apenas para testes):
 
 ```ts
@@ -497,13 +498,14 @@ O uso de Injeção de dependência permite a inversão de controle. Agora o serv
 por chamar as funções e métodos necessários, sem se preocupar como algo é feito. 
 
 Entretanto, tudo na programação tem seus prós e contras, e para Injeção de Dependência não é diferente:
-**Vantagens:**
+
+Vantagens:
 - Código mais testável e desacoplado
 - Fácil trocar implementações sem modificar classes dependentes
 - Arquitetura mais limpa e organizada
 - Desenvolvimento mais iterativo (abstrações primeiro)
 
-**Desvantagens:**
+Desvantagens:
 - Complexidade aumenta, especialmente com muitas dependências
 - Novo desenvolvedor precisa "caçar" implementações concretas
 - Abstrações ruins complicam mais que ajudam
