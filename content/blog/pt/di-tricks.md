@@ -1,3 +1,13 @@
+---
+title: "Padrões e Armadilhas de Injeção de Dependência"
+slug: "di-tricks-and-traps"
+publishDate: 2025-12-20
+draft: true
+tags: ["javascript", "typescript", "code patterns"]
+description: "Como evitar..."
+lang: "pt"
+---
+
 Armadilhas:
 
 - Não significa que não vai ter decisões a serem tomadas. Por exemplo, runtime vs env time
