@@ -50,7 +50,9 @@ body {
   font-weight: 700;
   font-size: var(--step-0);
 
-  transition: background-color 200ms, border-color 200ms;
+  transition:
+    background-color 200ms,
+    border-color 200ms;
 
   &:hover,
   &:focus-visible {

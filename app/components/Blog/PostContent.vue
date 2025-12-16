@@ -43,9 +43,9 @@ article {
   display: grid;
   grid-template-columns:
     [grid-start] 1fr
-    [breakout-start] 0
-    [content-start] minmax(min(100%, 70ch), 1fr)
-    [content-end] 4vw
+    [breakout-start] 1vw
+    [content-start] minmax(min(100%, 85ch), 1fr)
+    [content-end] 1vw
     [breakout-end] 1fr
     [grid-end];
 }
@@ -83,23 +83,42 @@ article {
   }
 
   p {
-    font-size: var(--step-0);
-    margin-top: var(--space-xs);
+    font-size: 1.15rem;
+    margin-top: var(--space-m);
     line-height: 1.7;
   }
 
   details {
     grid-column: breakout;
+
+    p {
+      font-size: var(--step-0);
+    }
   }
 
   pre {
     grid-column: breakout;
     background-color: var(--neutral-900);
     margin-block: var(--space-m);
-    padding: 1rem 1.5rem;
+    padding: 1rem 1vw;
     border-radius: 0.4rem;
     overflow-x: auto;
-    font-size: var(--step--1);
+    font-size: var(--step-0);
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--neutral-900);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--neutral-700);
+      border-radius: 3px;
+    }
   }
 
   :not(pre) > code {
@@ -107,27 +126,28 @@ article {
     padding-inline: 0.2rem;
     background-color: var(--neutral-900);
     color: var(--neutral-300);
-    font-size: inherit;
+    font-size: 0.9em;
     line-height: 1.4;
     border-radius: 0.2rem;
   }
 
   :where(li + li) {
-    margin-top: 0.2em;
+    margin-top: 0.4em;
   }
 
   ul li {
+    font-size: 1.15rem;
     list-style-type: "- ";
   }
 
   :where(ul, ol) {
-    margin-top: 0.4em;
+    margin-top: 0.6em;
     padding-left: 0;
     list-style-position: inside;
   }
 
   blockquote {
-    grid-column: breakout;
+    grid-column: content-start / breakout-end;
     margin-block: var(--space-m);
 
     p {
