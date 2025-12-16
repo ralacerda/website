@@ -88,6 +88,10 @@ article {
     line-height: 1.7;
   }
 
+  details {
+    grid-column: breakout;
+  }
+
   pre {
     grid-column: breakout;
     background-color: var(--neutral-900);
