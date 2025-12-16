@@ -51,6 +51,41 @@ const emailService = new SendGridEmailService(process.env.SENDGRID_API_KEY!);
 const paymentService = new PaymentService(emailService);
 ```
 
+::more-info{title="Types used in the examples"}
+Throughout this article, we will use some types to represent domain entities:
+
+```ts
+// Represents an employee
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  baseSalary: number;
+  hireDate: Date;
+}
+
+// Represents a payroll
+interface PaymentRoll {
+  employees: Employee[];
+  period: { start: Date; end: Date };
+  totalAmount: number;
+}
+
+// User preferences for export
+interface UserPreference {
+  separator: string;
+  dateFormat: string;
+  jsonIndentation: number;
+}
+
+// Result of a payment operation
+interface PaymentResult {
+  success: boolean;
+  transactionId: string;
+}
+```
+::
+
 ::more-info{title="What are interfaces?"}
 Interfaces define a "contract" that specifies which methods and properties a class must have,
 without providing the implementation. In TypeScript, we use interfaces to define the shape an object should have.
@@ -169,15 +204,19 @@ class CSVPaymentExporter {
   }
 
   export(paymentRoll: PaymentRoll) {
-    // Implementation, we use this.separator and this.dataFormat
+    // Implementation, we use this.separator and this.dateFormat
   }
 }
 
 class PaymentManager {
-  private CSVExporter: CSVPaymentExporter
+  private csvExporter: CSVPaymentExporter
 
-  exportToCSV(paymentRoll: PaymentRoll) {
-    this.CSVExporter.export(paymentRoll)
+  constructor(csvExporter: CSVPaymentExporter) {
+    this.csvExporter = csvExporter;
+  }
+
+  export(paymentRoll: PaymentRoll) {
+    this.csvExporter.export(paymentRoll)
   }
 }
 
@@ -229,9 +268,8 @@ class JSONPaymentExporter implements PaymentExporter {
 }
 ```
 
-Note the advantage: we can modify `CSVPaymentExporter` without affecting other code, and implement new exporters easily.
-
-Another advantage is the possibility to easily write tests injecting mock versions (fake implementations created only for tests):
+With this change, we can modify `CSVPaymentExporter` or create new exporters without affecting `PaymentManager`. Another advantage is that it's now easier to write tests
+injecting mock versions (fake implementations created only for tests):
 
 ```ts
 class TestPaymentExporter implements PaymentExporter {
@@ -424,6 +462,7 @@ const paymentService = new PaymentService(bonusPolicy, paymentProcessor);
 const employee = {
   id: 1,
   name: 'John',
+  email: 'john@example.com',
   baseSalary: 5000,
   hireDate: new Date('2020-01-15')
 };
@@ -442,7 +481,10 @@ We can write and iterate on real production code, without even needing to know w
 
 ## Final considerations
 
-You don't need a Dependency Injection framework to be able to use this pattern, but it is important to keep in mind its advantages and disadvantages:
+The use of Dependency Injection enables inversion of control. Now the service is only responsible
+for calling the necessary functions and methods, without worrying about how something is done.
+
+However, everything in programming has its pros and cons, and Dependency Injection is no different:
 
 **Advantages:**
 - More testable and decoupled code

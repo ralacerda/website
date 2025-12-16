@@ -106,6 +106,44 @@ class PaymentManager {
 }
 ```
 
+
+::more-info{title="Tipos utilizados nos exemplos"}
+Ao longo do artigo, vou utilizar alguns tipos para representar entidades do domínio.
+Eles não são o foco desse artigo, mas se você quiser ter uma ideia, eles poderiam
+ser representados da seguinte forma:
+
+```ts
+// Representa um funcionário
+interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  baseSalary: number;
+  hireDate: Date;
+}
+
+// Representa uma folha de pagamento
+interface PaymentRoll {
+  employees: Employee[];
+  period: { start: Date; end: Date };
+  totalAmount: number;
+}
+
+// Preferências do usuário para exportação
+interface UserPreference {
+  separator: string;
+  dateFormat: string;
+  jsonIndentation: number;
+}
+
+// Resultado de uma operação de pagamento
+interface PaymentResult {
+  success: boolean;
+  transactionId: string;
+}
+```
+::
+
 Não tem nada de errado com esse código. Entretanto, agora precisamos fazer uma pequena mudança:
 dar a opção de escolher qual é o caracter de separação. 
 Uma solução mais simples seria incluir isso como um parâmetro do método:
@@ -156,7 +194,7 @@ mas agora também precisa saber sobre regras de formatação CSV. Isso cria vár
 
 **Impossível Testar Isoladamente**: Você não consegue testar a lógica de formatação CSV sem envolver todo o `PaymentManager`.
 
-**Amplificação de Mudanças**: Quando o produto decide "Deveríamos ter uma opção para escolher formato de data," modificamos `PaymentManager` mesmo que a lógica de pagamento não tenha mudado.
+**Amplificação de Mudanças**: Quando temos uma nova feature, como: "Deveríamos ter uma opção para escolher formato de data," modificamos `PaymentManager` mesmo que a lógica de pagamento não tenha mudado.
 
 Podemos melhorar esse código utilizando Injeção de Dependência:
 
@@ -171,15 +209,19 @@ class CSVPaymentExporter {
   }
 
   export(paymentRoll: PaymentRoll) {
-    // Implementação, utilizamos this.separator e this.dataFormat
+    // Implementação, utilizamos this.separator e this.dateFormat
   }
 }
 
 class PaymentManager {
-  private CSVExporter: CSVPaymentExporter
+  private csvExporter: CSVPaymentExporter
 
-  exportToCSV(paymentRoll: PaymentRoll) {
-    this.CSVExporter.export(paymentRoll)
+  constructor(csvExporter: CSVPaymentExporter) {
+    this.csvExporter = csvExporter;
+  }
+
+  export(paymentRoll: PaymentRoll) {
+    this.csvExporter.export(paymentRoll)
   }
 }
 
@@ -232,10 +274,7 @@ class JSONPaymentExporter implements PaymentExporter {
 }
 ```
 
-Note que não somente abstraímos o serviço de exportar, como agora o `PaymentManager` tem uma dependência abstrata. 
-Podemos modificar `CSVPaymentExporter` sem afetar outro código, e implementar novos exportadores facilmente.
-
-Outra vantagem é a possibilidade de facilmente escrever testes
+Com essa mudança, podemos modificar `CSVPaymentExporter` ou criar novos exportadores sem afetar `PaymentManager`. Outra vantagem é que agora fica mais fácil escrever testes
 injetando versões mocks (implementações falsas criadas apenas para testes):
 
 ```ts
@@ -257,7 +296,7 @@ expect(testExporter.exportedRolls).toHaveLength(1);
 expect(testExporter.exportedRolls[0]).toBe(myPaymentRoll);
 ```
 
-Mas Injeção de Dependência não resolve todos os problemas. Nesse caso,
+Mas Injeção de Dependência não resolve todos nossos problemas. Nesse caso,
 precisamos definir o `exporter` assim que criamos uma instância de `PaymentManager`. Mas precisamos
 pensar na possibilidade que um mesmo usuário vai querer exportar como CSV e como JSON.
 
@@ -300,8 +339,8 @@ paymentManager.export(jsonStrategy, paymentRoll);
 ```
 
 Com essas ideias, agora também é fácil ver uma forma de modificar o comportamento
-do nosso código baseado no ambiente. Por exemplo, se precisamos de uma API para externa
-para conseguir algumas informações, podemos começar com uma interface:
+do nosso código baseado no ambiente. Por exemplo, se precisamos de uma API externa
+para obter algumas informações, podemos começar criando uma abstração com uma interface:
 
 ```ts
 interface TaxInfoService {
@@ -435,6 +474,7 @@ const paymentService = new PaymentService(bonusPolicy, paymentProcessor);
 const employee = {
   id: 1,
   name: 'John',
+  email: 'john@example.com',
   baseSalary: 5000,
   hireDate: new Date('2020-01-15')
 };
@@ -453,9 +493,10 @@ Podemos escrever e iterar em código de produção real, sem nem precisar saber 
 
 ## Considerações finais
 
-Não é necessário um framework de Injeção de Dependência para você conseguir utilizar esse padrão, 
-mas é importante manter em mente suas vantagens e desvantagens:
+O uso de Injeção de dependência permite a inversão de controle. Agora o serviço só é responsável
+por chamar as funções e métodos necessários, sem se preocupar como algo é feito. 
 
+Entretanto, tudo na programação tem seus prós e contras, e para Injeção de Dependência não é diferente:
 **Vantagens:**
 - Código mais testável e desacoplado
 - Fácil trocar implementações sem modificar classes dependentes
