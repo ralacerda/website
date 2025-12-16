@@ -1,17 +1,10 @@
 <script setup lang="ts">
-type ProjectMeta = {
-  title: string | { en: string; pt: string };
-  link: string;
-  repoLink: string;
-  tech: string[];
-  screenshots: string[];
-  slug: string;
-};
+import type { Project } from "~~/content.config";
 
 const { locale } = useI18n();
 
 const { meta } = defineProps<{
-  meta: ProjectMeta;
+  meta: Project;
 }>();
 
 const { data: content } = await useAsyncData(
@@ -19,7 +12,7 @@ const { data: content } = await useAsyncData(
   () =>
     queryCollection("projectDescription")
       .path(`/projects/descriptions/${locale.value}/${meta.slug}`)
-      .first()
+      .first(),
 );
 </script>
 
@@ -105,7 +98,9 @@ const { data: content } = await useAsyncData(
 
 .screenshot {
   height: auto;
-  transition: box-shadow 200ms, transform 200ms;
+  transition:
+    box-shadow 200ms,
+    transform 200ms;
   border-radius: 3px;
   background-color: var(--bg-secondary);
 

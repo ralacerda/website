@@ -8,11 +8,10 @@ const { data: post } = await useAsyncData(
   `post-${slug}-${locale.value}`,
   () => {
     return queryCollection("blog")
-      .select("title", "publishDate", "description", "body")
       .where("slug", "=", slug)
       .where("lang", "=", locale.value)
       .first();
-  }
+  },
 );
 
 if (!post.value) {

@@ -1,13 +1,8 @@
 <script setup lang="ts">
-type PostSummary = {
-  title: string;
-  description: string;
-  publishDate: string;
-  slug: string;
-};
+import type { BlogPost } from "~~/content.config";
 
 defineProps<{
-  postList: PostSummary[];
+  postList: BlogPost[];
 }>();
 </script>
 

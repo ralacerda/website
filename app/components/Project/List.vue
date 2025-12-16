@@ -1,10 +1,8 @@
 <script setup lang="ts">
 const { locale } = useI18n();
 
-const { data: metas } = await useAsyncData(
-  `projects-${locale.value}`,
-  () => queryCollection("project").order("weight", "DESC").all(),
-  {}
+const { data: metas } = await useAsyncData(`projects-${locale.value}`, () =>
+  queryCollection("project").order("weight", "DESC").all(),
 );
 </script>
 
