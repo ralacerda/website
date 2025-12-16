@@ -90,41 +90,6 @@ const consoleLogger = {
 createUser(consoleLogger, 'Renato')
 ```
 
-One of the most obvious advantages is the possibility to easily write tests injecting mock versions (fake implementations created only for tests):
-
-```ts
-
-class TestEmailService implements EmailService {
-  async sendEmail() {}
-}
-
-
-// We can write several tests, without fear of sending an email in production by mistake
-const paymentServiceTest = new PaymentService(new TestEmailService());
-
-// We can even test the correct usage
-class InMemoryInbox implements EmailService {
-  public sentEmails: [string, string][] = [];
-  
-  async sendEmail(to: string, template: string) {
-    this.sentEmails.push([to, template])
-  }
-}
-
-const inbox = new InMemoryInbox();
-const paymentService = new PaymentService(inbox);
-
-const fakeEmployee = {
-  id: 1,
-  email: "test@company.com"
-}
-
-await paymentService.processPayment(fakeEmployee)
-expect(inbox.sentEmails).toEqual([
-  ['test@company.com', 'new-payment']
-]);
-```
-
 This alone makes Dependency Injection worth it, especially when you are using external services, which can make testing difficult.
 
 However, the biggest advantages come from the idea that now we are depending on an abstraction, no longer on a single concrete implementation.
@@ -182,28 +147,14 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator);
 ```
 
-Now we start to have a possible coupling problem. We need to change the `PaymentManager` class definition because of the `exportToCSV` method. And what if we need to include more options?
+Now we start to have a coupling problem. We're mixing concerns: `PaymentManager` is responsible for payment logic,
+but now it also needs to know about CSV formatting rules. This creates several issues:
 
-```ts
-class PaymentManager {
-  private separator: string;
-  private dateFormat: string;
+**Single Responsibility Principle**: Why should `PaymentManager` care about CSV separators? That's a formatting concern, not a payment concern.
 
-  constructor(separator: string, dateFormat: string) {
-    this.separator = separator;
-    this.dateFormat = dateFormat;
-  }
+**Can't Test in Isolation**: You can't unit test the CSV formatting logic without involving the entire `PaymentManager`.
 
-  exportToCSV(paymentRoll: PaymentRoll) {
-    // Implementation, we use this.separator and this.dataFormat
-  }
-
-}
-
-const paymentManager = new PaymentManager(savedSeparator, savedDateFormat);
-```
-
-The code works, but now we are increasingly coupling a behavior with this class.
+**Change Amplification**: When product decides "We should have an option to pick date format," we modify `PaymentManager` even though payment logic hasn't changed.
 
 We can improve this code using Dependency Injection:
 
@@ -214,7 +165,7 @@ class CSVPaymentExporter {
 
   constructor(separator: string, dateFormat: string) {
     this.separator = separator;
-    this.dateFormat: dateFormat;
+    this.dateFormat = dateFormat;
   }
 
   export(paymentRoll: PaymentRoll) {
@@ -279,6 +230,27 @@ class JSONPaymentExporter implements PaymentExporter {
 ```
 
 Note the advantage: we can modify `CSVPaymentExporter` without affecting other code, and implement new exporters easily.
+
+Another advantage is the possibility to easily write tests injecting mock versions (fake implementations created only for tests):
+
+```ts
+class TestPaymentExporter implements PaymentExporter {
+  public exportedRolls: PaymentRoll[] = [];
+
+  export(paymentRoll: PaymentRoll): void {
+    this.exportedRolls.push(paymentRoll);
+  }
+}
+
+const testExporter = new TestPaymentExporter();
+const paymentManager = new PaymentManager(testExporter);
+
+paymentManager.export(myPaymentRoll);
+
+// We can verify that export was called with the correct data
+expect(testExporter.exportedRolls).toHaveLength(1);
+expect(testExporter.exportedRolls[0]).toBe(myPaymentRoll);
+```
 
 But Dependency Injection does not solve all problems. In this case, we need to define the `exporter` as soon as we create an instance of `PaymentManager`. But we need to think about the possibility that the same user will want to export as CSV and as JSON.
 

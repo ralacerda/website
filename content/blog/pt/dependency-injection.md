@@ -91,50 +91,9 @@ const consoleLogger = {
 createUser(consoleLogger, 'Renato')
 ```
 
-Uma das vantagens mais óbvias é a possibilidade de facilmente escrever testes
-injetando versões mocks (implementações falsas criadas apenas para testes):
-
-```ts
-
-class TestEmailService implements EmailService {
-  async sendEmail() {}
-}
-
-
-// Podemos escrever vários testes, sem medo de enviar um email em produção sem querer
-const paymentServiceTest = new PaymentService(new TestEmailService());
-
-// Podemos até testar o uso correto
-class InMemoryInbox implements EmailService {
-  public sentEmails: [string, string][] = [];
-  
-  async sendEmail(to: string, template: string) {
-    this.sentEmails.push([to, template])
-  }
-}
-
-const inbox = new InMemoryInbox();
-const paymentService = new PaymentService(inbox);
-
-const fakeEmployee = {
-  id: 1,
-  email: "test@company.com"
-}
-
-await paymentService.processPayment(fakeEmployee)
-expect(inbox.sentEmails).toEqual([
-  ['test@company.com', 'new-payment']
-]);
-```
-
-Isso por si só já faz a Injeção de Dependência valer a pena, principalmente
-quando você está utilizando serviços externos, que podem dificultar os testes.
-
-Entretanto, as maiores vantagens vem da ideia de que agora estamos dependendo de uma
-abstração, não mais de uma única implementação concreta.
-
-Vamos dizer que você está trabalhando em um projeto que precisa
-exportar uma lista de pagamentos:
+Vamos começar com um exemplo que não utiliza Injeção de dependência, para entender a diferença. 
+Considere um cenário em que você está trabalhando em um projeto que possui um serviço de pagamento.
+Esse serviço é responsável, entre outras coisas, por exportar uma versão de CSV de relatórios de pagamento.
 
 ```ts
 class PaymentManager {
@@ -190,29 +149,14 @@ class PaymentManager {
 const paymentManager = new PaymentManager(savedSeparator);
 ```
 
-Agora nós começamos a ter um possível problema de acoplamento. Precisamos mudar a definição da classe `PaymentManager`
-por causa do método `exportToCSV`. E se agora precisamos incluir mais opções?
+Agora começamos a ter um problema de acoplamento. Estamos misturando responsabilidades: `PaymentManager` é responsável pela lógica de pagamentos,
+mas agora também precisa saber sobre regras de formatação CSV. Isso cria vários problemas:
 
-```ts
-class PaymentManager {
-  private separator: string;
-  private dateFormat: string;
+**Princípio da Responsabilidade Única**: Por que `PaymentManager` deveria se preocupar com separadores CSV? Isso é uma preocupação de formatação, não de pagamento.
 
-  constructor(separator: string, dateFormat: string) {
-    this.separator = separator;
-    this.dateFormat = dateFormat;
-  }
+**Impossível Testar Isoladamente**: Você não consegue testar a lógica de formatação CSV sem envolver todo o `PaymentManager`.
 
-  exportToCSV(paymentRoll: PaymentRoll) {
-    // Implementação, utilizamos this.separator e this.dataFormat
-  }
-
-}
-
-const paymentManager = new PaymentManager(savedSeparator, savedDateFormat);
-```
-
-O código funciona, mas agora estamos cada vez mais acoplando um comportamento com essa classe.
+**Amplificação de Mudanças**: Quando o produto decide "Deveríamos ter uma opção para escolher formato de data," modificamos `PaymentManager` mesmo que a lógica de pagamento não tenha mudado.
 
 Podemos melhorar esse código utilizando Injeção de Dependência:
 
@@ -223,7 +167,7 @@ class CSVPaymentExporter {
 
   constructor(separator: string, dateFormat: string) {
     this.separator = separator;
-    this.dateFormat: dateFormat;
+    this.dateFormat = dateFormat;
   }
 
   export(paymentRoll: PaymentRoll) {
@@ -288,7 +232,30 @@ class JSONPaymentExporter implements PaymentExporter {
 }
 ```
 
-Note a vantagem: podemos modificar `CSVPaymentExporter` sem afetar outro código, e implementar novos exportadores facilmente.
+Note que não somente abstraímos o serviço de exportar, como agora o `PaymentManager` tem uma dependência abstrata. 
+Podemos modificar `CSVPaymentExporter` sem afetar outro código, e implementar novos exportadores facilmente.
+
+Outra vantagem é a possibilidade de facilmente escrever testes
+injetando versões mocks (implementações falsas criadas apenas para testes):
+
+```ts
+class TestPaymentExporter implements PaymentExporter {
+  public exportedRolls: PaymentRoll[] = [];
+
+  export(paymentRoll: PaymentRoll): void {
+    this.exportedRolls.push(paymentRoll);
+  }
+}
+
+const testExporter = new TestPaymentExporter();
+const paymentManager = new PaymentManager(testExporter);
+
+paymentManager.export(myPaymentRoll);
+
+// Podemos verificar que export foi chamado com os dados corretos
+expect(testExporter.exportedRolls).toHaveLength(1);
+expect(testExporter.exportedRolls[0]).toBe(myPaymentRoll);
+```
 
 Mas Injeção de Dependência não resolve todos os problemas. Nesse caso,
 precisamos definir o `exporter` assim que criamos uma instância de `PaymentManager`. Mas precisamos
@@ -334,7 +301,7 @@ paymentManager.export(jsonStrategy, paymentRoll);
 
 Com essas ideias, agora também é fácil ver uma forma de modificar o comportamento
 do nosso código baseado no ambiente. Por exemplo, se precisamos de uma API para externa
-para conseguir algumas informações, podemos criar um serviço abstrato:
+para conseguir algumas informações, podemos começar com uma interface:
 
 ```ts
 interface TaxInfoService {
@@ -486,7 +453,7 @@ Podemos escrever e iterar em código de produção real, sem nem precisar saber 
 
 ## Considerações finais
 
-Não é necessário um framework de Injeção de Dependência para vocẽ conseguir utilizar esse padrão, 
+Não é necessário um framework de Injeção de Dependência para você conseguir utilizar esse padrão, 
 mas é importante manter em mente suas vantagens e desvantagens:
 
 **Vantagens:**
