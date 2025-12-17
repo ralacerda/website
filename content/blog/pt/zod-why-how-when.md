@@ -28,8 +28,9 @@ async function getPost(id: number): Promise<Post> {
 
 const post = await getPost(1);
 
-// Quebra nosso código se a resposta da API mudar
-post.title
+// Se a API retornar "postTitle" no lugar de "title"
+const title = post.title // undefined
+// Para o typescript, title ainda é `string`, porque a gente falou que seria.
 ```
 
 Existe uma diferença entre verificação de tipos e verificação em runtime.
@@ -75,9 +76,8 @@ async function getPost(id: number): Promise<Post> {
 
 const post = await getPost(1);
 
-// Se a API retornar "postTitle" no lugar de "title"
-const title = post.title // undefined
-// Para o typescript, title ainda é `string`, porque a gente falou que seria.
+// Seguro de acessar
+post.title 
 ```
 
 ::more-info{title="type Post vs const Post"}
