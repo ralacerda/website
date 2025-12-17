@@ -1,7 +1,7 @@
 ---
 title: "Zod: Por quê? Como? Quando?"
 slug: "zod-why-how-when"
-publishDate: 2025-17-20
+publishDate: 2025-12-17
 draft: false
 tags: ["javascript", "typescript", "zod"]
 description: "Como criar schemas e tipos robustos"
