@@ -104,6 +104,12 @@ article {
     overflow-x: auto;
     font-size: var(--step-0);
 
+    code .highlighted {
+      &.error {
+        background-color: color-mix(in srgb, #ff000030 50%, var(--neutral-700));
+      }
+    }
+
     &::-webkit-scrollbar {
       width: 4px;
       height: 8px;
