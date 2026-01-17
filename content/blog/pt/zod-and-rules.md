@@ -1,7 +1,7 @@
 ---
 title: "Zod e Regras de Negócio"
 slug: "zod-and-rules"
-publishDate: 2025-17-20
+publishDate: 2025-01-20
 draft: true
 tags: ["javascript", "typescript", "zod"]
 description: ""
@@ -141,31 +141,106 @@ Você pode utilizar a função `z.union` para criar uniões simples, mas nesse c
 ## Branding
 
 Typescript possui uma validação estrutural, ou seja, os tipos são verificados baseados em suas estruturas, e não em nomes ou origem.
-Entretanto, para alguns casos, 
+Entretanto, no contexto de um domínio, valores com a mesma estrutura, tem usos e significados completamente diferentes:
 
 ```ts
-type ProjectId: string;
-type UserId: string;
+type Project = {
+  name: string;
+  id: string;
+};
 
-function deleteUser(userId: UserId) {
+type User = {
+  name: string;
+  id: string;
+}
+
+function deleteUser(user: User) {
   ///
 }
 
-function createProject(name: string): ProjectId {
+function createProject(name: string): Project {
   ///
 }
 
 // project1 é do tipo ProjectId
 const project1 = createProject("New Project");
 
-// Typescript não vai reclamar, porque ProjectId e UserId possuem
+// Typescript não vai reclamar, porque Project e User possuem
 // a mesma estrutura
 deleteUser(project1);
 ```
 
+Branding é a uma estratégia para simular verificação nominal:
 
+```ts
+declare const __brand: unique symbol;
 
+type Brand<B, T> = T & { [__brand]: B };
 
+type Project = Brand<"Project", {
+  name: string;
+  id: string;
+}>;
+
+type User = Brand<"User", {
+  name: string;
+  id: string;
+}>
+```
+
+::more-info{title="Explicação da sintaxe de Brand e __brand"}
+```ts
+declare const __brand: unique symbol;
+export type Brand<B, T> = T & { [__brand]: B };
+```
+
+Essa sintaxe pode parecer estranha à primeira vista. Vamos quebrá-la em 3 partes:
+
+**` T & { ... }`**:
+   O operador `&` cria um tipo de interseção. Isso diz ao TypeScript que o resultado é tudo que `T` é, **E** mais o que estiver dentro das chaves. Em runtime (javascript), o valor continua sendo apenas `T`. 
+
+**`[__brand]`**:
+   Em JavaScript, chaves de objetos geralmente são strings, mas também podem ser Símbolos (`Symbol`). Usar colchetes `[]` nos permite definir uma propriedade onde o nome da chave é uma variável. Aqui, estamos dizendo que o objeto tem uma propriedade identificada pelo símbolo único `__brand`.
+    Como `__brand` não vai ser exportado, isso significa que você não consegue acessar o valor de `__brand` em runtime.
+
+**`unique symbol`**:
+   O tipo `unique symbol` é um subtipo especial de `symbol`. Cada declaração de um `unique symbol` cria uma identidade única vinculada a uma variável específica.
+
+Ou seja, juntamos um valor `T` com um "phantom type", um tipo que existe somente para ser utilizado na verificação de tipos,
+sem uma definição runtime.
+::
+
+Agora, se tentamos utilizar um `Project` onde é esperado um `User`:
+
+```ts
+
+function deleteUser(user: User) {
+  ///
+}
+
+function createProject(name: string): Project {
+  ///
+}
+
+// project1 é do tipo ProjectId
+const project1 = createProject("New Project");
+
+deleteUser(project1); // [!code error]
+// Argument of type 'Project' is not assignable to parameter of type 'User'.
+//   Type 'Project' is not assignable to type '{ [__brand]: "User"; }'.
+//     Types of property '[__brand]' are incompatible.
+//       Type '"Project"' is not assignable to type '"User"'.
+```
+
+::note
+#title
+Por que não utilizar o `.brand` do Zod?
+
+#content
+Se você ainda não conhece o Zod, eu escrevi um artigo explicando seu papel e uso mais comum: "Zod: Por quê? Como? Quando?"
+::
 
 - Branding
 - CODECs para criar uma camada de anti-corrupção
+
+
