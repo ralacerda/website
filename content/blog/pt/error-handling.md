@@ -4,7 +4,7 @@ slug: "err-as-values"
 publishDate: 2026-01-18
 draft: true
 tags: ["javascript", "typescript", "error-handling"]
-description: ""
+description: "Como substituir blocos try/catch pelo padrão Result"
 lang: "pt"
 ---
 
@@ -16,16 +16,33 @@ inclui grandes blocos de `try/catch`, onde multiplos erros são tratados de form
 e muitas informações são perdidas.
 
 ```ts
+async function getUser(id: string) {
+  try {
+    const response = await fetch(`/api/users/${id}`);
+    
+    if (!response.ok) {
+      // Erro 1: A resposta HTTP indica falha (ex: 404, 500)
+      throw new Error(`Request failed: ${response.status}`);
+    }
 
-// Exemplo com Fetch mostrando que geralmente fazemos um grande try/catch
-// mas três erros diferentes podem acontecer:
-// Um throw DO FETCH
-// Um throw de um resultado NOT OKAY
-// Um throw do parse do body
-// Muito é perdido.
+    // Erro 2: O corpo da resposta não é um JSON válido
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Erro 3: Erro de rede (ex: DNS falhou, sem internet)
+    
+    // Aqui, 'error' mistura os três cenários acima.
+    // É difícil saber programaticamente qual falha ocorreu e como reagir 
+    // especificamente a cada uma delas sem muita verificação de tipos.
+    console.error("Failed to fetch user", error);
+  }
+}
 ```
 
 ::more-info={title="Porque o erro do catch é sempre `unknown`"}
+No JavaScript, o `throw` permite lançar qualquer tipo de valor, não apenas `Error`. É perfeitamente válido escrever `throw "deu ruim"`, `throw 404`, ou até mesmo `throw null`.
+
+Devido a essa flexibilidade, o TypeScript adota uma postura segura e tipa a variável de erro no bloco `catch` como `unknown`. Isso força o desenvolvedor a verificar o tipo do erro (usando `typeof` ou `instanceof`) antes de tentar acessar propriedades como `.message` ou `.stack`, garantindo que o valor existe e é do tipo esperado.
 ::
 
 Uma alternativa possível é o padrão de utilizar Erro como valor. Essa abordagem
@@ -55,12 +72,35 @@ indica de que se trata de um erro ou de um sucesso.
 ```
 
 O objetivo não é eliminar completamente o uso do `throw/catch`, mas sim reservalo para situações de falha extrema, situações
-em que a execução deve ser parada imediatamente. Por exemplo ..., ..., ... Em outras linguagens, esse comportamento 
+em que a execução deve ser parada imediatamente. Por exemplo, quando uma variável de ambiente obrigatória não está presente na inicialização, ou quando a conexão com o banco de dados falha irremediavelmente durante o boot. Em outras linguagens, esse comportamento 
 é realizado através do `panic`.
 
-Exemplos de outras linguagens utilizando Panic e Result.
+### Comparando com outras linguagens
 
-Assim, temos uma separação entre erros esperados (..., ..., ...) e erros não esperados (crashes, ..., ..., ...).
+Em **Rust**, existe uma distinção clara entre erros recuperáveis (`Result`) e irrecuperáveis (`panic!`):
+
+```rust
+// Result: Algo deu errado, mas o chamador deve decidir o que fazer
+fn open_file() -> Result<File, Error> { ... }
+
+// Panic: Estado impossível ou corrompido, a aplicação deve abortar
+panic!("Out of memory");
+```
+
+Em **Go**, o padrão é retornar erros como valores, e `panic` é desencorajado exceto para falhas reais de sistema:
+
+```go
+// Erro como valor (Padrão)
+f, err := os.Open("filename.ext")
+if err != nil {
+    return err
+}
+
+// Panic (Falha crítica)
+panic("something bad happened")
+```
+
+Assim, temos uma separação entre erros esperados (usuário não encontrado, saldo insuficiente, falha de validação) e erros não esperados (estouro de memória, erros de sintaxe SQL, null pointer exceptions).
 Além disso, podemos adicionar metadados aos erros esperados, que facilitam debugação e observabilidade do sistema.
 
 Nesse artigo, eu gostaria de mostrar uma abordagem de error handling utilizando a biblioteca `Typescript Result`,
@@ -80,10 +120,10 @@ os seguintes erros são os mesmos:
 
 Em alguns casos, o Typescript pode "colapsar" os tipos em um só, quando na verdade eles
 possuem significados semânticos diferentes. Você pode ler mais sobre a verificaçõa estrutural do
-typescript no meu artigo: ....
+typescript no meu artigo: [Entendendo Structural Typing no TypeScript](/blog/pt/structural-typing).
 
 Além disso, ter uma propriedade como `_tag` facilita a distinção dos erros em runtime,
-evitando o uso de `instanceof`, que pode gerar problemas de ....
+evitando o uso de `instanceof`. Em aplicações modernas (grandes monorepos, micro-frontends ou quando há dependências npm duplicadas), o `instanceof` pode falhar. Isso acontece porque a classe `Error` instanciada pode vir de um contexto ou bundle diferente da classe que você está usando para a comparação (`CatchError !== ThrowError`), mesmo que elas tenham o mesmo nome e código. Uma string literal (`_tag`) é imune a esse problema.
 ::
 
 ## Criando um Result
@@ -113,10 +153,8 @@ const result = calculateDiscountPercentage(30);
 ```
 
 ::note
-Você pode explicitamente definir o returno como Result<>,
-... (explicar como fazer isso, e que não é estritamente necessário),
-mas é boas práticas se você está fazendo uma função
-que vai ser usados por outros.
+Você pode explicitamente definir o retorno como `Result<number, DomainError>`, por exemplo.
+Apesar do TypeScript inferir os tipos automaticamente, definir o retorno explicitamente é considerado uma boa prática se você está criando uma função pública (biblioteca ou API), pois garante que o contrato da função seja respeitado e evita que tipos internos "vazem" acidentalmente.
 ::
 
 Para facilitar a geração de Results a partir de funções que podem fazer um `throw`,
@@ -129,6 +167,8 @@ você pode utilizar o `try` ou `wrap`.
 // Ambas podem receber um segundo argumento que transforma o erro
 // Bom para mapear para nossos erros com _tag
 ```
+
+Essas funções utilitárias são fundamentais quando precisamos interagir com bibliotecas externas ou código legado ("legacy code") que não utilizam o padrão Result. Elas funcionam como uma barreira de proteção nas bordas da sua aplicação, encapsulando exceções imprevisíveis e trazendo-as para dentro do fluxo controlado e tipado do Result.
 
 ## Tratando erros como Go
 
@@ -155,13 +195,12 @@ Uma das vantagens dessa abordagem é que ela é extremamente simples
 de entender, mesmo se alguém nao estiver familhiarizado com essa biblioteca ou padrão. Ele
 deixa explícito os pontos de tomada de decisão.
 
-Entretanto, um problema é a verbosidade. Por exemplo, um erro precisa `bubble up` (pensar em tradução
-para esse termo) até atingir a camada adequada que vai lidar com ele. 
+Entretanto, um problema é a verbosidade. Por exemplo, um erro precisa se propagar (*bubble up*) até atingir a camada adequada que vai lidar com ele. 
 
 ## Tratando erros como Haskell
 
 E se, em vez de verificar o conteúdo de um Result, a gente tivesse um método que aplicasse
-uma função no Result somente se ele fosse um sucesso, retornando o result imediamente se
+uma função no Result somente se ele fosse um sucesso, retornando o result imediatamente se
 ele na verdade for um erro?
 
 Toda instância de `Result` possui alguns métodos que permitem trabalhar com o conteúdo de um Result
@@ -184,11 +223,9 @@ Um uso comum é para adicionar observabilidade e logs:
 ```
 
 
-Esse padrão também é chamado de Rails Development, porque temos duas "trilhas", a de sucesso e de falha,
-e aplicamos funções em trilhas diferentes. O caminho comum é seguir tratando as trilhas separadamente,
-escrevendo funções que direcionam para a trilha de erro. 
+Esse padrão também é conhecido como **Railway Oriented Programming (ROP)**, porque temos duas "trilhas", a de sucesso e de falha, e aplicamos funções em trilhas diferentes. O caminho comum é seguir tratando as trilhas separadamente, escrevendo funções que direcionam para a trilha de erro. 
 
-<!-- Imagem ou ilustração mostrando Rails Development -->
+<!-- Imagem ou ilustração mostrando Railway Oriented Programming -->
 
 Entretanto, em alguns casos, você pode
 querer fazer o caminho inverso, uma função que, baseada em um erro, tenta retornar um sucesso. Para esse
@@ -223,12 +260,12 @@ O `Result` também fornece uma outra forma de gerar um Result, com um generator:
 Generators permitem uma forma de inversão de controle, onde o fluxo de uma função é controlado
 de forma externa. 
 
-Eles são geralmente utilizados para ...
+Eles são geralmente utilizados para criar iteradores personalizados de forma preguiçosa ("lazy") ou para implementar máquinas de estado complexas.
 
-No momento que um o `generator` é consumido, também é póssível retornar um valor.
-Dessa forma o `yield` ....
+No momento que um o `generator` é consumido, também é possível injetar valores de volta para dentro da função.
+Dessa forma o `yield` pausa a execução da função, envia um valor para fora e aguarda um comando para continuar.
 
-O `yield*` permite que generators passem o controle para outros generators internos.
+O `yield*` permite que generators passem o controle para outros generators internos, delegando a iteração.
 ::
 
 Generators é um conceito complexo, mas você não precisa entender em detalhes como
@@ -280,6 +317,8 @@ Além disso, você pode utilizar o `.else()` para lidar com todos os outros erro
 ```ts
 // Outros tipos de erros
 ```
+
+Utilizar o combinador `.match()` é ideal para lógicas de domínio onde cada erro exige uma reação específica (ex: erro de saldo -> mostrar modal; erro de sessão -> redirecionar login). Já o uso de `.else()` ou o tratamento genérico serve bem como um *catch-all*, garantindo que erros inesperados não quebrem a aplicação, mas tratando-os de forma unificada (ex: mostrar um "tente novamente mais tarde").
 
 ::note
 O `.match()` funciona somente em falhas, é necessário verificar o valor de `.ok` antes. 
