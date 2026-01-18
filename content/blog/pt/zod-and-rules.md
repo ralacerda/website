@@ -1,7 +1,7 @@
 ---
 title: "Zod e Regras de Negócio"
 slug: "zod-and-rules"
-publishDate: 2025-01-20
+publishDate: 2025-01-14
 draft: true
 tags: ["javascript", "typescript", "zod"]
 description: ""
