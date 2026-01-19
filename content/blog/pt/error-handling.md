@@ -145,7 +145,7 @@ Assim, temos uma separação entre erros esperados
 (estouro de memória, erros de sintaxe SQL).
 Além disso, podemos adicionar metadados aos erros esperados, que facilitam debugação e observabilidade do sistema.
 
-Nesse artigo, eu gostaria de mostrar uma abordagem de error handling utilizando a biblioteca [`Typescript Result`](https://www.typescript-result.dev/),
+Nesse artigo, eu gostaria de mostrar uma abordagem de error handling utilizando a biblioteca [`typescript-result`](https://www.typescript-result.dev/),
 e discutir três padrões distintos para tratar melhor os erros nas suas aplicações.
 
 ::more-info
@@ -181,7 +181,7 @@ evitando o uso de `instanceof`. Em aplicações modernas (grandes monorepos, mic
 ## Criando um Result
 
 Antes de poder consumir um Result, nós precisamos adaptar nossas funções para gerar um Result.
-O `Typescript Result` expõe algumas APIs para isso.
+O `typescript-result` expõe algumas APIs para isso.
 
 `Result.ok` e `Result.error` geram, respectivamente, um resultado de uma operação bem sucedida e um resultado de um erro.
 
@@ -248,7 +248,7 @@ const safeFetch = Result.wrap(fetch, (error) => ({
 
 Essas funções utilitárias são fundamentais quando precisamos interagir com bibliotecas externas ou código legado que não utilizam o padrão Result. Elas funcionam como uma barreira de proteção nas bordas da sua aplicação, encapsulando exceções imprevisíveis e trazendo-as para dentro do fluxo controlado e tipado do Result.
 
-Até agora, vimos exemplos que retornam `Promise<Result<T, E>>`. Entretanto, a biblioteca `Typescript Result` fornece um tipo especializado chamado `AsyncResult<T, E>`, que é essencialmente um alias para `Promise<Result<T, E>>`.
+Até agora, vimos exemplos que retornam `Promise<Result<T, E>>`. Entretanto, a biblioteca `typescript-result` fornece um tipo especializado chamado `AsyncResult<T, E>`, que é essencialmente um alias para `Promise<Result<T, E>>`.
 
 ```ts
 // Ao invés de Promise<Result<T, E>>
@@ -346,10 +346,11 @@ E se, em vez de verificar o conteúdo de um Result, a gente tivesse um método q
 uma função no Result somente se ele fosse um sucesso, retornando o result imediatamente se
 ele na verdade for um erro?
 
-Toda instância de `Result` possui alguns métodos que permitem trabalhar com o conteúdo de um Result
+Toda instância de `Result` possui alguns métodos que permitem trabalhar com o conteúdo de um Result,
+sem a necessidade de verificar seu conteúdo.
 
-O `map()` aplica uma função somente se o resultado corresponder com um sucesso (que pode retornar um valor, ou até mesmo um outro Result),
-enquanto que o `mapError()` aplica a função somente se o resultado for um erro:
+O `.map()` aplica uma função somente se o resultado corresponder com um sucesso (que pode retornar um valor, ou até mesmo um outro Result), enquanto que o `.mapError()` aplica a função somente se o resultado for um erro. Note que essas funções retornam outro `Result`,
+o que possibilita encadear multiplas chamadas.
 
 ```ts
 async function getUserEmail(
@@ -420,11 +421,11 @@ const result = await loginUser("user@example.com", "password");
 // result continua sendo Result<User, LoginError>
 ```
 
-Esse padrão também é conhecido como **Railway Oriented Programming (ROP)**, porque temos duas "trilhas", a de sucesso e de falha, e aplicamos funções em trilhas diferentes. O caminho comum é seguir tratando as trilhas separadamente, escrevendo funções que direcionam para a trilha de erro.
+Esse padrão também é conhecido como **Railway Oriented Programming (ROP)**, porque temos duas "trilhas", a de sucesso e de falha, e aplicamos funções em trilhas diferentes. O caminho comum é focar na trilha do sucesso (happy path), direcionando para a outra trilha quando encontramos um erro.
 
 Entretanto, em alguns casos, você pode
-querer fazer o caminho inverso, uma função que, baseada em um erro, tenta retornar um sucesso. Para esse
-caso, temos a função `.recover`
+querer fazer o caminho inverso, uma função que, baseada em um erro, tenta "voltar" para a trilha de sucessos. Para esse
+caso, temos a função `.recover()`
 
 ```ts
 type ApiError = { _tag: "PrimaryApiDown" } | { _tag: "SecondaryApiDown" };
@@ -445,11 +446,7 @@ async function fetchDataWithFallback(id: string): AsyncResult<Data, ApiError> {
 ```
 
 Esse padrão de encadeamento (chaining) é muito comum na programação funcional, tratando o Result como um `monad`.
-Esse padrão é semelhante ao uso de `pipelines`, e deixa explícita as etapas. Entretanto,
-ele pode fugir do formato típico de funções do Javascript/Typescript. Ele também pode
-causar problemas de readabilidade quando todas as lógicas precisam estar implementadas em funções.
-
-Em Rust, o padrão é muito semelhante:
+Esse padrão é semelhante ao uso de `pipelines`, e deixa explícita as etapas. Em Rust, existe um padrão muito semelhante:
 
 ```rust
 fn process_user_data(id: &str) -> Result<String, AppError> {
@@ -459,6 +456,10 @@ fn process_user_data(id: &str) -> Result<String, AppError> {
         .map_err(|err| AppError::from(err))
 }
 ```
+
+Entretanto,
+ele pode fugir do formato típico de funções do Javascript/Typescript. Ele também pode
+causar problemas de readabilidade quando todas as lógicas precisam estar implementadas em funções.
 
 ## Usando Generators
 
@@ -480,8 +481,11 @@ function calculateTotal(items: Item[]): Result<number, ValidationError> {
 
 Uma vantagem interessante do `Result.gen()` é que o TypeScript consegue inferir automaticamente todos os tipos de erro possíveis. Se `validateItems` pode retornar um `InvalidItemError`, `calculateSubtotal` pode retornar um `CalculationError`, e `applyDiscount` pode retornar um `DiscountError`, o TypeScript automaticamente deduz que a função retorna `Result<number, InvalidItemError | CalculationError | DiscountError>`, sem você precisar declarar explicitamente essa união de tipos. Isso torna o código mais conciso e reduz a chance de esquecer de documentar um tipo de erro.
 
-::more-info{title="Entendendo generators e yield\*"}
+::more-info
+#title
+Entendendo generators e `yield*`
 
+#content
 Generators permitem uma forma de inversão de controle, onde o fluxo de uma função é controlado
 de forma externa.
 
@@ -497,7 +501,7 @@ Generators é um conceito complexo, mas você não precisa entender em detalhes 
 essas funções funcionam. O importante é que, dentro do corpo de um generator,
 quando fazemos um `yield*` de um Result, é verificado o resultado. Em caso de um erro, a execução
 para imediatamente, e `gen()` retorna o erro. Em caso de sucesso, a execução continua, recebendo
-o valor como Resultado (note que não recebemos um Result de volta, mas já recebemos um valor direto)
+o valor (note que não recebemos um Result de volta, mas já recebemos um valor direto)
 
 Inicialmente, pode parecer confuso e difícil de entender essa sintaxe, mas ele é bem
 semelhante ao padrão de `async/await`, onde "esperamos" a execução de uma função
@@ -675,11 +679,11 @@ O `.match()` funciona somente em falhas, é necessário verificar o valor de `.o
 
 ## Conclusão
 
-Mesmo que você não utilize especificamente a biblioteca `Typescript Result` ou o padrão Result,
+Mesmo que você não utilize especificamente a biblioteca `typescript-result` ou o padrão Result,
 eu acredito que é importante você estar ciente dessas formas de tratar erros, e parar para pensar
 em como você está lidando com erros na sua aplicação.
 
-Se você tem interesse, eu recomendo ler a documentação do `Typescript Result`, que possui
+Se você tem interesse, eu recomendo ler a documentação do `typescript-result`, que possui
 outros métodos e informações de como melhor utilizar a biblioteca.
 
 Além disso, você pode explorar outras bibliotecas `neverthrow` e `fp-ts`. A biblioteca `Effect` vai além,
