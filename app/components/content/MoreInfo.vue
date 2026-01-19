@@ -6,7 +6,11 @@ const { title } = defineProps<{
 
 <template>
   <details class="more-info">
-    <summary>{{ title }}</summary>
+    <summary>
+      <slot name="title" mdc-unwrap="p" />
+      {{ title }}
+    </summary>
+    <slot name="content" />
     <slot />
   </details>
 </template>
