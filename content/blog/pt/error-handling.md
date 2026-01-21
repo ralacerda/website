@@ -12,8 +12,9 @@ O uso de `try/catch` é o padrão mais comum para lidar com erros no Javascript.
 Entretanto, essa abordagem possui algumas desvantagens. Não existe uma forma de verificar
 se uma função possivelmente faz um `throw`. Também não é possível verificar
 quais os erros que o `catch` vai receber. Isso tudo favorece um código que geralmente
-inclui grandes blocos de `try/catch`, onde multiplos erros são tratados de forma igual,
-e muitas informações são perdidas.
+inclui grandes blocos de `try/catch`, onde múltiplos erros são tratados de forma igual, e muitas informações são perdidas.
+
+Além disso, o uso de `throw` prejudica o entendimento do código porque muda o fluxo do código. Nesse caso, para entender qual código vai ser executado depois do erro ser lançado, é necessário navegar por todo o código em busca do `catch` mais próximo, o que pode ser difícil e confuso.
 
 ```ts
 async function getUser(id: string) {
@@ -145,38 +146,9 @@ Assim, temos uma separação entre erros esperados
 (estouro de memória, erros de sintaxe SQL).
 Além disso, podemos adicionar metadados aos erros esperados, que facilitam debugação e observabilidade do sistema.
 
-Nesse artigo, eu gostaria de mostrar uma abordagem de error handling utilizando a biblioteca [`typescript-result`](https://www.typescript-result.dev/),
-e discutir três padrões distintos para tratar melhor os erros nas suas aplicações.
+Embora seja possível definir seu próprio tipo `Result` e funções auxiliares manualmente, para aplicações reais é recomendado utilizar uma solução com mais recursos. A partir daqui, utilizaremos a biblioteca [`typescript-result`](https://www.typescript-result.dev/).
 
-::more-info
-#title
-Por que os erros possuem a propriedade `_tag`?
-
-#content
-Typescript possui verificação estrutural, o que significa que, para fins de verificação,
-os seguintes erros são os mesmos:
-
-```ts
-class ValidationError {
-  constructor(public message: string) {}
-}
-
-class DatabaseError {
-  constructor(public message: string) {}
-}
-
-// TypeScript considera esses tipos compatíveis!
-const error1: ValidationError = new DatabaseError("Connection failed");
-const error2: DatabaseError = new ValidationError("Invalid input");
-```
-
-Em alguns casos, o Typescript pode "colapsar" os tipos em um só, quando na verdade eles
-possuem significados semânticos diferentes. Você pode ler mais sobre a verificação estrutural do
-typescript no meu artigo: [Entendendo Structural Typing no TypeScript](/blog/typescript-checking).
-
-Além disso, ter uma propriedade como `_tag` facilita a distinção dos erros em runtime,
-evitando o uso de `instanceof`. Em aplicações modernas (grandes monorepos, micro-frontends ou quando há dependências npm duplicadas), o `instanceof` pode falhar. Isso acontece porque a classe `Error` instanciada pode vir de um contexto ou bundle diferente da classe que você está usando para a comparação (`CatchError !== ThrowError`), mesmo que elas tenham o mesmo nome e código. Uma string literal (`_tag`) é imune a esse problema.
-::
+A seguir, discutiremos três padrões distintos para tratar melhor os erros nas suas aplicações.
 
 ## Criando um Result
 
@@ -221,30 +193,77 @@ você pode utilizar o `try` ou `wrap`.
 ```ts
 import { Result } from "typescript-result";
 
-// Result.try executa a função imediatamente e captura exceções
-const parseResult = Result.try(() => JSON.parse(jsonString));
-// parseResult: Result<any, Error>
+function divide(a: number, b: number) {
+  if (b === 0) throw new Error("Cannot divide by zero");
+  return a / b;
+}
 
-// Com transformação de erro
-const parseWithTag = Result.try(
-  () => JSON.parse(jsonString),
-  (error) => ({ _tag: "ParseError" as const, message: String(error) }),
+// Result.try executa a função imediatamente e captura exceções
+const immediateResult = Result.try(() => divide(10, 0));
+// immediateResult: Result<number, Error>
+
+// Com transformação de erro (opcional)
+const taggedResult = Result.try(
+  () => divide(10, 0),
+  (error) => ({ _tag: "MathError", message: String(error) }),
 );
-// parseWithTag: Result<any, { _tag: "ParseError", message: string }>
 
 // Result.wrap retorna uma nova função que sempre retorna Result
-const safeJSONParse = Result.wrap(JSON.parse);
-const result1 = safeJSONParse('{"valid": true}');
-const result2 = safeJSONParse("invalid json");
-// Ambos: Result<any, Error>
-
-// wrap com transformação de erro customizada
-const safeFetch = Result.wrap(fetch, (error) => ({
-  _tag: "NetworkError" as const,
-  message: String(error),
-}));
-// Agora fetch sempre retorna Result com erro tipado
+// Útil para converter funções existentes
+const safeDivide = Result.wrap(divide);
+const result = safeDivide(10, 0);
+// result: Result<number, Error>
 ```
+
+::more-info
+#title
+Por que os erros possuem a propriedade `_tag`?
+
+#content
+Typescript possui verificação estrutural, o que significa que, para fins de verificação,
+os seguintes erros são os mesmos:
+
+```ts
+class ValidationError {
+  constructor(public message: string) {}
+}
+
+class DatabaseError {
+  constructor(public message: string) {}
+}
+
+// TypeScript considera esses tipos compatíveis!
+const error1: ValidationError = new DatabaseError("Connection failed");
+const error2: DatabaseError = new ValidationError("Invalid input");
+```
+
+Em alguns casos, o Typescript pode "colapsar" os tipos em um só, quando na verdade eles
+possuem significados semânticos diferentes.
+
+```ts
+import { Result } from "typescript-result";
+
+function readData(name: string) {
+  if (name === "db") {
+    return Result.error(new DatabaseError("Connection failed"));
+  }
+  if (name === "invalid") {
+    return Result.error(new ValidationError("Invalid data"));
+  }
+  return Result.ok({ data: `Data for ${name}` });
+}
+
+const result = readData("something");
+//    ^? Result.Error<DatabaseError> | Result.Ok<{ data: string; }>
+// Typescript não infere o possível erro `ValidationError`
+```
+
+Você pode ler mais sobre a verificação estrutural do
+typescript no meu artigo: [Entendendo Structural Typing no TypeScript](/blog/typescript-checking).
+
+Além disso, ter uma propriedade como `_tag` facilita a distinção dos erros em runtime,
+evitando o uso de `instanceof`. Em aplicações modernas (grandes monorepos, micro-frontends, etc), o `instanceof` pode falhar. Isso acontece porque a classe instanciada pode vir de um contexto ou bundle diferente da classe que você está usando para a comparação, mesmo que elas tenham o mesmo nome e código. Uma string literal (`_tag`) é imune a esse problema.
+::
 
 Essas funções utilitárias são fundamentais quando precisamos interagir com bibliotecas externas ou código legado que não utilizam o padrão Result. Elas funcionam como uma barreira de proteção nas bordas da sua aplicação, encapsulando exceções imprevisíveis e trazendo-as para dentro do fluxo controlado e tipado do Result.
 
@@ -303,33 +322,38 @@ async function processOrder(
 
 Esse padrão é muito semelhante ao padrão utilizado em Go,
 onde funções, por convenção, retornam sempre um possível resultado
-e um possível erro:
+e um possível erro. Em Go, em vez de usar `throw/catch`, as funções retornam
+múltiplos valores: o resultado esperado e um erro (se houver). É como se JavaScript tivesse:
+`[resultado, erro] = await minhaFuncao()` em cada chamada.
 
 ```go
 func processOrder(orderId string) (*Order, error) {
-    // Buscar o pedido
+    // Em Go, a função retorna dois valores: order e err
+    // Se err é diferente de nil, significa que houve um erro
     order, err := fetchOrder(orderId)
     if err != nil {
-        // Propaga o erro para cima
+        // Semelhante ao "se o erro existe, retorna para o chamador"
         return nil, err
     }
 
     // Validar o pedido
+    // Novamente, verificamos se houve erro nessa operação
     err = validateOrder(order)
     if err != nil {
-        // Trata erro específico ou propaga
+        // Registra o erro e propaga para o chamador
         log.Printf("Validation failed: %v", err)
         return nil, err
     }
 
     // Salvar no banco
+    // Go força a sempre verificar se um erro ocorreu
     savedOrder, err := saveToDatabase(order)
     if err != nil {
-        // Propaga erro de banco de dados
+        // Erro de banco de dados, propaga para o chamador
         return nil, err
     }
 
-    // Sucesso! Retorna o pedido processado
+    // Sucesso! Retorna o pedido e nil (sem erro)
     return savedOrder, nil
 }
 ```
@@ -450,7 +474,10 @@ Esse padrão é semelhante ao uso de `pipelines`, e deixa explícita as etapas. 
 
 ```rust
 fn process_user_data(id: &str) -> Result<String, AppError> {
+    // Em Rust, Result é nativo da linguagem e possui os mesmos métodos
     fetch_user(id)
+        // |user| é uma closure (equivalente a arrow functions)
+        // Em Javascript, seria (user) => user.email
         .map(|user| user.email)
         .map(|email| email.to_lowercase())
         .map_err(|err| AppError::from(err))
@@ -459,7 +486,7 @@ fn process_user_data(id: &str) -> Result<String, AppError> {
 
 Entretanto,
 ele pode fugir do formato típico de funções do Javascript/Typescript. Ele também pode
-causar problemas de readabilidade quando todas as lógicas precisam estar implementadas em funções.
+causar problemas de legibilidade quando todas as lógicas precisam estar implementadas em funções.
 
 ## Usando Generators
 
@@ -479,33 +506,85 @@ function calculateTotal(items: Item[]): Result<number, ValidationError> {
 }
 ```
 
-Uma vantagem interessante do `Result.gen()` é que o TypeScript consegue inferir automaticamente todos os tipos de erro possíveis. Se `validateItems` pode retornar um `InvalidItemError`, `calculateSubtotal` pode retornar um `CalculationError`, e `applyDiscount` pode retornar um `DiscountError`, o TypeScript automaticamente deduz que a função retorna `Result<number, InvalidItemError | CalculationError | DiscountError>`, sem você precisar declarar explicitamente essa união de tipos. Isso torna o código mais conciso e reduz a chance de esquecer de documentar um tipo de erro.
+Generators permitem uma forma de inversão de controle (IoC). O `Result.gen()` recebe o generator que você escreveu e o executa. Para cada `yield*`, ele verifica o Result: se houver um erro, a execução para imediatamente e retorna o erro. Caso contrário, ele extrai o valor de sucesso e passa esse valor de volta para o generator, permitindo que a execução continue. Essa sintaxe é muito semelhante ao `async/await`, onde "esperamos" a execução de uma função e recebemos o seu resultado.
+
+::note
+Note o asterisco necessário no fim de `yield*`.  
+::
+
+Uma vantagem interessante do `Result.gen()` é que o TypeScript consegue inferir automaticamente todos os tipos de erro possíveis. Se `validateItems` pode retornar um `InvalidItemError`, `calculateSubtotal` pode retornar um `CalculationError`, e `applyDiscount` pode retornar um `DiscountError`, o TypeScript automaticamente deduz que a função retorna `Result<number, InvalidItemError | CalculationError | DiscountError>`, sem você precisar declarar explicitamente essa união de tipos.
 
 ::more-info
 #title
-Entendendo generators e `yield*`
+Entendendo generators e `yield*` em detalhes
 
 #content
-Generators permitem uma forma de inversão de controle, onde o fluxo de uma função é controlado
-de forma externa.
+Generators permitem uma forma de inversão de controle, onde o fluxo de uma função é controlado de forma externa. Eles são geralmente utilizados para criar iteradores personalizados de forma preguiçosa ("lazy") ou para implementar máquinas de estado complexas.
 
-Eles são geralmente utilizados para criar iteradores personalizados de forma preguiçosa ("lazy") ou para implementar máquinas de estado complexas.
+O `yield` pausa a execução da função, envia um valor para fora e aguarda um comando para continuar. No momento que um generator é consumido, também é possível injetar valores de volta para dentro da função.
 
-No momento que um o `generator` é consumido, também é possível injetar valores de volta para dentro da função.
-Dessa forma o `yield` pausa a execução da função, envia um valor para fora e aguarda um comando para continuar.
+Para entender melhor como generators funcionam, considere três exemplos:
 
-O `yield*` permite que generators passem o controle para outros generators internos, delegando a iteração.
+```ts
+// Generator 1: um generator simples que rende (yield) valores
+function* simpleGenerator() {
+  yield "primeiro";
+  yield "segundo";
+  yield "terceiro";
+}
+
+// Executando o generator chamando next() repetidas vezes
+const gen1 = simpleGenerator();
+console.log(gen1.next()); // { value: "primeiro", done: false }
+console.log(gen1.next()); // { value: "segundo", done: false }
+console.log(gen1.next()); // { value: "terceiro", done: false }
+console.log(gen1.next()); // { value: undefined, done: true }
+
+// Generator 2: um generator que delega para outro generator usando yield*
+function* innerGenerator() {
+  yield "A";
+  yield "B";
+}
+
+function* outerGenerator() {
+  yield* innerGenerator(); // Delega para innerGenerator
+  yield "C";
+}
+
+// Executando o generator externo
+const gen2 = outerGenerator();
+console.log(gen2.next()); // { value: "A", done: false }
+console.log(gen2.next()); // { value: "B", done: false }
+console.log(gen2.next()); // { value: "C", done: false }
+console.log(gen2.next()); // { value: undefined, done: true }
+
+// Generator 3: um generator que RECEBE valores de volta
+function* twoWayGenerator() {
+  // Quando você chama next(valor), esse valor é retornado pelo yield
+  const firstValue = yield "qual é seu nome?";
+  console.log(`Você respondeu: ${firstValue}`);
+
+  const secondValue = yield "qual é sua idade?";
+  console.log(`Você respondeu: ${secondValue}`);
+
+  return "fim!";
+}
+
+// Executando o generator com comunicação bidirecional
+const gen3 = twoWayGenerator();
+console.log(gen3.next()); // { value: "qual é seu nome?", done: false }
+console.log(gen3.next("João")); // Envia "João" de volta para a variável firstValue
+// Saída do console: "Você respondeu: João"
+// { value: "qual é sua idade?", done: false }
+console.log(gen3.next("25")); // Envia "25" de volta para a variável secondValue
+// Saída do console: "Você respondeu: 25"
+// { value: "fim!", done: true }
+```
+
+O `yield*` permite que generators **deleguem** toda a iteração para outros generators internos. Isso é exatamente o que acontece com `Result.gen()` e `yield*` - quando você faz `yield* fetchOrder(orderId)`, você está delegando para aquela operação, e o `Result.gen()` extrai o resultado automaticamente.
+
+Note também que você pode passar um argumento para `.next()`, e esse valor será retornado pela expressão `yield` anterior. Esse mecanismo de comunicação bidirecional é o que permite que `Result.gen()` funcione - quando você faz `const order = yield* fetchOrder(orderId)`, o `Result.gen()` verifica o Result, e injeta o valor de sucesso de volta no generator (ou retorna o erro imediatamente).
 ::
-
-Generators é um conceito complexo, mas você não precisa entender em detalhes como
-essas funções funcionam. O importante é que, dentro do corpo de um generator,
-quando fazemos um `yield*` de um Result, é verificado o resultado. Em caso de um erro, a execução
-para imediatamente, e `gen()` retorna o erro. Em caso de sucesso, a execução continua, recebendo
-o valor (note que não recebemos um Result de volta, mas já recebemos um valor direto)
-
-Inicialmente, pode parecer confuso e difícil de entender essa sintaxe, mas ele é bem
-semelhante ao padrão de `async/await`, onde "esperamos" a execução de uma função
-e recebemos o seu resultado.
 
 ```ts
 // Usando generators com Result.gen()
@@ -615,28 +694,32 @@ async function processPayment(amount: number): Promise<string> {
   const result = await attemptPayment(amount);
 
   if (!result.ok) {
-    // .match() exige tratamento para cada tipo de erro
-    return result.error.match({
-      InsufficientFunds: (err) =>
-        `Saldo insuficiente. Necessário: R$${err.required}, Disponível: R$${err.available}`,
-
-      InvalidCard: (err) =>
-        `Cartão inválido: ${err.reason}. Por favor, verifique os dados.`,
-
-      NetworkError: (err) =>
-        `Erro de conexão: ${err.message}. Tente novamente.`,
-
-      SessionExpired: () => `Sua sessão expirou. Faça login novamente.`,
-    });
+    // .match() permite encadear tratamentos para cada tipo de erro
+    return result
+      .match()
+      .when(
+        "InsufficientFunds",
+        (err) =>
+          `Saldo insuficiente. Necessário: R$${err.required}, Disponível: R$${err.available}`,
+      )
+      .when(
+        "InvalidCard",
+        (err) =>
+          `Cartão inválido: ${err.reason}. Por favor, verifique os dados.`,
+      )
+      .when(
+        "NetworkError",
+        (err) => `Erro de conexão: ${err.message}. Tente novamente.`,
+      )
+      .when("SessionExpired", () => `Sua sessão expirou. Faça login novamente.`)
+      .run();
   }
 
   return `Pagamento de R$${amount} processado com sucesso!`;
 }
 ```
 
-Graças ao Typescript, o `.match()` permite verificar que todos os erros são tratados, o que
-resultaria em erros de Typescript no caso de você fazer uma modificação que adiciona um novo tipo de erro,
-mas que não foi tratado.
+Graças ao Typescript, o `.match()` permite verificar que todos os erros são tratados, o que resultaria em erros de Typescript no caso de você fazer uma modificação que adiciona um novo tipo de erro, mas que não foi tratado.
 
 Além disso, você pode utilizar o `.else()` para lidar com todos os outros erros da mesma forma.
 
@@ -653,18 +736,25 @@ async function fetchResource(id: string): Promise<string> {
 
   if (!result.ok) {
     // Trata alguns erros especificamente, outros genericamente com .else()
-    return result.error.match({
-      NotFound: (err) => `Recurso "${err.resource}" não encontrado.`,
-
-      Unauthorized: () => `Você não tem permissão para acessar este recurso.`,
-
-      RateLimited: (err) =>
-        `Muitas requisições. Tente novamente em ${err.retryAfter} segundos.`,
-
-      // .else() captura todos os outros erros (ServerError, NetworkError, etc)
-      else: (err) =>
-        `Erro inesperado: ${err._tag}. Tente novamente mais tarde.`,
-    });
+    return (
+      result
+        .match()
+        .when("NotFound", (err) => `Recurso "${err.resource}" não encontrado.`)
+        .when(
+          "Unauthorized",
+          () => `Você não tem permissão para acessar este recurso.`,
+        )
+        .when(
+          "RateLimited",
+          (err) =>
+            `Muitas requisições. Tente novamente em ${err.retryAfter} segundos.`,
+        )
+        // .else() captura todos os outros erros (ServerError, NetworkError, etc)
+        .else(
+          (err) => `Erro inesperado: ${err._tag}. Tente novamente mais tarde.`,
+        )
+        .run()
+    );
   }
 
   return result.value;
