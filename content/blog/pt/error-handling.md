@@ -2,7 +2,7 @@
 title: "Utilizando o padrão Result para lidar com erros"
 slug: "err-handling"
 publishDate: 2026-01-18
-draft: true
+draft: false
 tags: ["javascript", "typescript", "error-handling"]
 description: "Como substituir o uso de blocos try/catch"
 lang: "pt"
