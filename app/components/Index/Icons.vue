@@ -9,7 +9,7 @@ const icons = [
   ["React", "react"],
   ["Vue", "vuedotjs"],
   ["Nuxt", "nuxtdotjs"],
-  ["Python", "python"],
+  ["Go", "go"],
   ["Google Cloud", "googlecloud"],
   ["Docker", "docker"],
 ] as const;
