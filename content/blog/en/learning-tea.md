@@ -212,3 +212,56 @@ render(view(model), root);
 ```
 
 `Title` is now a very basic component with some custom logic. Notice that it does not have any state of it's own.
+
+Now we need to work with messages instead of mutating our model. We will create two functions, `update` takes a `Model` and an `Event` and returns a new `Model`. `dispatch` takes an `Event`, calls `update`, replace the old model with the new model, and re-renders the view. We are also defining the `Event` type to implement the reset behaviour:
+
+```ts
+import { html, render } from "lit-html";
+
+type Model = {
+  counter: number;
+  title: string;
+};
+
+type Event = { type: "INCREASE_COUNTER" } | { type: "RESET_COUNTER" };
+
+const model: Model = {
+  counter: 0,
+  title: "Hello, World",
+};
+
+function Title(text: string, count: number) {
+  return html`<h1>${text}${"!".repeat(count)}</h1>`;
+}
+
+function view(model: Model) {
+  return html`
+    ${Title(model.title, model.counter)}
+    <p>Counter is at ${model.counter}</p>
+    <button @click=${() => dispatch({ type: "INCREASE_COUNTER" })}>
+      Click me
+    </button>
+    <button @click=${() => dispatch({ type: "RESET_COUNTER" })}>Reset</button>
+  `;
+}
+
+function update(model: Model, event: Event): Model {
+  switch (event.type) {
+    case "INCREASE_COUNTER":
+      return { ...model, counter: model.counter + 1 };
+    case "RESET_COUNTER":
+      return { ...model, counter: 0 };
+    default:
+      return model;
+  }
+}
+
+function dispatch(event: Event) {
+  const newModel = update(model, event);
+  Object.assign(model, newModel);
+  render(view(newModel), root);
+}
+
+const root = document.getElementById("app")!;
+render(view(model), root);
+```
