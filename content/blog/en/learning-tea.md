@@ -213,7 +213,7 @@ render(view(model), root);
 
 `Title` is now a very basic component with some custom logic. Notice that it does not have any state of it's own.
 
-Now we need to work with messages instead of mutating our model. We will create two functions, `update` takes a `Model` and an `Event` and returns a new `Model`. `dispatch` takes an `Event`, calls `update`, replace the old model with the new model, and re-renders the view. We are also defining the `Event` type to implement the reset behaviour:
+Now we need to work with messages instead of mutating our model. We will create two functions, `update` takes a `Model` and an `Event` and returns a new `Model`. `dispatch` takes an `Event`, calls `update`, replace the old model with the new model, and re-renders the view. We are also defining the `Event` type and implementing a way to reset the counter:
 
 ```ts
 import { html, render } from "lit-html";
@@ -223,7 +223,7 @@ type Model = {
   title: string;
 };
 
-type Event = { type: "INCREASE_COUNTER" } | { type: "RESET_COUNTER" };
+type Event = { type: "SET_COUNTER"; value: number };
 
 const model: Model = {
   counter: 0,
@@ -238,19 +238,22 @@ function view(model: Model) {
   return html`
     ${Title(model.title, model.counter)}
     <p>Counter is at ${model.counter}</p>
-    <button @click=${() => dispatch({ type: "INCREASE_COUNTER" })}>
+    <button
+      @click=${() =>
+        dispatch({ type: "SET_COUNTER", value: model.counter + 1 })}
+    >
       Click me
     </button>
-    <button @click=${() => dispatch({ type: "RESET_COUNTER" })}>Reset</button>
+    <button @click=${() => dispatch({ type: "SET_COUNTER", value: 0 })}>
+      Reset
+    </button>
   `;
 }
 
 function update(model: Model, event: Event): Model {
   switch (event.type) {
-    case "INCREASE_COUNTER":
-      return { ...model, counter: model.counter + 1 };
-    case "RESET_COUNTER":
-      return { ...model, counter: 0 };
+    case "SET_COUNTER":
+      return { ...model, counter: event.value };
     default:
       return model;
   }
@@ -265,3 +268,79 @@ function dispatch(event: Event) {
 const root = document.getElementById("app")!;
 render(view(model), root);
 ```
+
+> NOTE
+> Does the `distach` and `update` look familiar? If you've used Redux you might recognize the pattern.
+> This not a coincidence, Redux was inspired by The Elm Architecture.
+> useReducer is also ... (check history for it)
+
+This works, but we are forced to handle events in a syncronous way. Let's learn a new concept: Commands. In TEA, commands are just
+functions that return an Event. Based on the `event` and a `model`, `update` can now return the new model and possibily a command. `dispatch` is responsible for running the command and calling itself after it resolves:
+
+```ts
+import { html, render } from "lit-html";
+
+type Model = {
+  counter: number;
+  title: string;
+};
+
+type Event = { type: "SET_COUNTER"; value: number } | { type: "RESET_COUNTER" };
+
+const model: Model = {
+  counter: 0,
+  title: "Hello, World",
+};
+
+function Title(text: string, count: number) {
+  return html`<h1>${text}${"!".repeat(count)}</h1>`;
+}
+
+function view(model: Model) {
+  return html`
+    ${Title(model.title, model.counter)}
+    <p>Counter is at ${model.counter}</p>
+    <button
+      @click=${() =>
+        dispatch({ type: "SET_COUNTER", value: model.counter + 1 })}
+    >
+      Click me
+    </button>
+    <button @click=${() => dispatch({ type: "RESET_COUNTER" })}>Reset</button>
+  `;
+}
+
+type Command = () => Promise<Event>;
+
+function update(model: Model, event: Event): [Model, Command?] {
+  switch (event.type) {
+    case "SET_COUNTER":
+      return [{ ...model, counter: event.value }];
+    case "RESET_COUNTER":
+      return [model, resetCounter];
+    default:
+      return [model];
+  }
+}
+
+async function resetCounter(): Promise<Event> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return { type: "SET_COUNTER", value: 0 };
+}
+
+function dispatch(event: Event) {
+  const [newModel, command] = update(model, event);
+  Object.assign(model, newModel);
+  render(view(newModel), root);
+  if (command) {
+    command().then((event) => dispatch(event));
+  }
+}
+
+const root = document.getElementById("app")!;
+render(view(model), root);
+```
+
+This should give you an overview of how the The Elm Architecture works.
+With those building blocks we can create some really complex applications.
+And that is what I hope to show in the next article.
