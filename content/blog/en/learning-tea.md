@@ -8,67 +8,207 @@ description: ""
 lang: "en"
 ---
 
+This is the first part of a series of article about writing a TEA based framework in Typescript.
+
+The Elm Arquitecture...
+It's being used in Lustre for Gleam, Bubbletea in Go and Iced in Rust.
+
+So let's learn by creating a project using The Elm Arquitecture, that we can later migrate
+to our own typescript framework. After all, there are not enough Javascript frameworks for web.
+
+We can start with a simple vite project, using the Vanilla template and Typescript:
+
+```sh
+❯ pnpm create vite
+│
+◇  Project name:
+│  tea
+│
+◇  Select a framework:
+│  Vanilla
+│
+◇  Select a variant:
+│  TypeScript
+│
+◇  Install with pnpm and start now?
+│  Yes
+```
+
 For this article we are going to be using `lit-html` so we don't have to implement two key features ourselves: html generation and efficient rendering.
-But don't worry, all you need to know is that when using `html` you can provide html as a javascript string. This means you can include javascript expression inside it using `${}`. And you bind functions to dom events by using `@evetname`. This is similar to how Vue works, and the equivalent of `onEventname` in React:
+But don't worry, all you need to know is that when using `html` you can provide html as a javascript string. This means you can include javascript expression inside it using `${}`. And you bind functions to dom events by using `@eventname`. This is similar to how Vue works, and the equivalent of `onEventName` in React.
 
-```ts
-import { html } from "lit-html";
+> TIP
+> If you want syntax highligithing inside the html tag string, you can
+> install the vs code plugin for lit.
 
-const text = "Click me";
-const view = html` <button @click=${() => alert("I was clicked")}>
-  ${text}
-</button>`;
+```sh
+pnpm add lit-html
 ```
 
-Now, once we create this string that represents the DOM, we need to render it. We can do it using the \_ named function `render`, provinding a mounting point. We can modify our content and call `render` again, and it'll try to efficiently update only the changed values.
+We remove everything in `main.ts` and write a basic `view` for our app:
 
 ```ts
-import { render } from "lit-html";
+import { html, render } from "lit-html";
 
-render(view, document.querySelector<HTMLElement>("#app")!);
+// We create our representation of the UI as a template literal using the `html` function from lit-html.
+const view = html`
+  <h1>Hello, World</h1>
+  <p>Counter is at 0</p>
+  <button>Click me</button>
+`;
+
+// We render the view into the DOM. The `render` function takes the view and a DOM element to render into.
+const root = document.getElementById("app")!;
+render(view, root);
 ```
 
-Let's recreate our Vite basic app using `lit-html`:
+We are finding the `#app` element and changing it's internal HTML. While this works, we are going to
+swap for `lit-html` to get some better performance and more features for out HTML template.
+
+Let's use some interpolation and extract some of that content:
 
 ```ts
+import { html, render } from "lit-html";
 
+let counter = 0;
+const title = "Hello, World";
+
+// We create our representation of the UI as a template literal using the `html` function from lit-html.
+const view = html`
+  <h1>${title}</h1>
+  <p>Counter is at ${counter}</p>
+  <button>Click me</button>
+`;
+
+// We render the view into the DOM. The `render` function takes the view and a DOM element to render into.
+const root = document.getElementById("app")!;
+render(view, root);
 ```
 
-Okay, you should start your server and check if everything looks the same.
-The problem is that now are lost the button behaviour. It would update the text inside the button everytime it was clicked.
-
-Let's implement that. Instead of having our view being static, let's start by making it a function that takes a number:
+Now, let's make a function that increases the counter and bind that to the button:
 
 ```ts
+import { html, render } from "lit-html";
 
+let counter = 0;
+const title = "Hello, World";
+
+const view = html`
+  <h1>${title}</h1>
+  <p>Counter is at ${counter}</p>
+  <button @click=${increaseCounter}>Click me</button>
+`;
+
+const root = document.getElementById("app")!;
+render(view, root);
+
+function increaseCounter() {
+  counter++;
+}
 ```
 
-Create, now let's create a variable to keep track of the current value for this number, we'll call it a `counter`
+But this won't work. Why? Because when the call the `increaseCounter` the `view` was already created and rendered. We are updating the `counter` but we are not changing the value for `view` nor rendering it again. Let's fix that by making our `view` a function that takes the counter value as an argument, and by creating a new function that updates the counter, calculate the new `view` and render it again:
 
 ```ts
+import { html, render } from "lit-html";
 
-```
+let counter = 0;
+const title = "Hello, World";
 
-Now, we can create a function that increases the value of the counter and renders the new view:
+function view(counterAmount: number) {
+  return html`
+    <h1>${title}</h1>
+    <p>Counter is at ${counterAmount}</p>
+    <button @click=${increaseCounter}>Click me</button>
+  `;
+}
 
-```ts
+const root = document.getElementById("app")!;
+render(view(counter), root);
 
-```
-
-Now all we need to do is bind this `increaseCounter` function to our button:
-
-```ts
-
+function increaseCounter() {
+  counter++;
+  render(view(counter), root);
+}
 ```
 
 If you check your browser, it should be working again. We have the same static content, but now when you click the button, it'll
 increase it's count and udpate it's value.
 
-I hope you can there is nothing new here, this is the basis for every framework. React and Solid uses JSX instead of `html`, while Vue and Svelte uses Single File Componets with `<template>` tags. React and Vue use a Virtual DOM to efficienly patch the rendered content, while Solid and Svelte tracks signals or mutations to make direct updates to the DOM.
+I hope you see can that there is nothing new here, this is the basis for every framework. React and Solid uses JSX instead of `html`, while Vue and Svelte uses Single File Componets with `<template>` tags. React and Vue use a Virtual DOM to efficienly patch the rendered content, while Solid and Svelte tracks signals or mutations to make direct updates to the DOM.
 
-> What is the DOM? And what is a Virtual DOM?
+> The DOM (Document Object Model) is a tree-like representation of your HTML page that the browser maintains in memory. Each element, attribute, and piece of text is a node in this tree, and JavaScript can read or modify it to make pages interactive. The problem is that directly manipulating the DOM can be slow — especially when many changes happen at once, since the browser may need to recalculate layouts and repaint the screen.
+>
+> A Virtual DOM is a lightweight copy of that tree kept in JavaScript memory. Instead of touching the real DOM immediately, a framework first applies changes to this virtual copy, then compares it with the previous snapshot (a process called "diffing"), and finally applies only the minimal set of real DOM updates needed. This batching and diffing strategy is what makes frameworks like React and Vue fast despite frequent state changes.
 
-> The next step is really what separates The Elm Architecture from others: every state change is expressed as a message declarative value describing what should happen. This is what unlocks some powerful capabilities — which we'll get to shortly.
+However, we are going tio apply two ideias that separate The Elm Architecture from others: a single state that flow downstream, and state changes expressed as messages. This is what unlocks some powerful capabilities we will take a look at.
 
-> Declarative vs Imperative
-> But let's remember that this is a scale, while React is more declarative then JQuery, messaging is more declarative then React.
+First, let's start by making a type called `Model` that represents the whole state of the app:
+
+```ts
+import { html, render } from "lit-html";
+
+type Model = {
+  counter: number;
+  title: string;
+};
+
+const model: Model = {
+  counter: 0,
+  title: "Hello, World",
+};
+
+function view(model: Model) {
+  return html`
+    <h1>${model.title}</h1>
+    <p>Counter is at ${model.counter}</p>
+    <button @click=${increaseCounter}>Click me</button>
+  `;
+}
+
+const root = document.getElementById("app")!;
+render(view(model), root);
+
+function increaseCounter() {
+  model.counter++;
+  render(view(model), root);
+}
+```
+
+If we want our title to have a little bit more logic, we can just write a function:
+
+```ts
+import { html, render } from "lit-html";
+
+type Model = {
+  counter: number;
+  title: string;
+};
+
+const model: Model = {
+  counter: 0,
+  title: "Hello, World",
+};
+
+function Title(text: string, count: number) {
+  return html`<h1>${text}${"!".repeat(count)}</h1>`;
+}
+
+function view(model: Model) {
+  return html`
+    ${Title(model.title, model.counter)}
+    <p>Counter is at ${model.counter}</p>
+    <button @click=${increaseCounter}>Click me</button>
+  `;
+}
+
+function increaseCounter() {
+  model.counter++;
+  render(view(model), root);
+}
+
+const root = document.getElementById("app")!;
+render(view(model), root);
+```
+
+`Title` is now a very basic component with some custom logic. Notice that it does not have any state of it's own.
