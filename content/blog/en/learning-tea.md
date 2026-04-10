@@ -274,8 +274,10 @@ render(view(model), root);
 > This not a coincidence, Redux was inspired by The Elm Architecture.
 > useReducer is also ... (check history for it)
 
-This works, but we are forced to handle events in a syncronous way. Let's learn a new concept: Commands. In TEA, commands are just
-functions that return an Event. Based on the `event` and a `model`, `update` can now return the new model and possibily a command. `dispatch` is responsible for running the command and calling itself after it resolves:
+This works, but we are forced to handle events in a syncronous way. Let's learn a new concept: 
+Commands. In TEA, commands are just functions that return an Event. 
+Based on the `event` and a `model`, `update` can now return the new model and possibily a command. 
+`dispatch` is responsible for running the command and calling itself after it resolves:
 
 ```ts
 import { html, render } from "lit-html";
