@@ -2,7 +2,7 @@
 title: "Intl: Native Solutions for Formatting in JavaScript"
 slug: "intl-native-javascript"
 publishDate: 2025-05-01
-draft: true
+draft: false
 tags: ["javascript", "intl"]
 description: "Converting JavaScript values to text, without needing an external library"
 lang: "en"
