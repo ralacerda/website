@@ -4,19 +4,19 @@ slug: "learning-tea"
 publishDate: 2026-09-03
 draft: true
 tags: ["javascript", "typescript", "elm", "functional programming"]
-description: ""
+description: "Learn the core ideas of The Elm Architecture in TypeScript with lit-html: model, view, update, messages, and commands."
 lang: "en"
 ---
 
-This is the first part of a series of article about writing a TEA based framework in Typescript.
+This is the first part of a series of articles about writing a TEA-based framework in TypeScript.
 
-The Elm Arquitecture...
-It's being used in Lustre for Gleam, Bubbletea in Go and Iced in Rust.
+The Elm Architecture is used in many places: Lustre in Gleam, Bubble Tea in Go, and Iced in Rust.
 
-So let's learn by creating a project using The Elm Arquitecture, that we can later migrate
-to our own typescript framework. After all, there are not enough Javascript frameworks for web.
+So let’s learn by creating a small project using The Elm Architecture, which we can later migrate to our own TypeScript framework. After all, there are not enough JavaScript frameworks for the web.
 
-We can start with a simple vite project, using the Vanilla template and Typescript:
+You don’t need prior Elm knowledge, but you should have a basic understanding of TypeScript and DOM events.
+
+We can start with a simple Vite project, using the Vanilla template and TypeScript:
 
 ```sh
 ❯ pnpm create vite
@@ -34,12 +34,12 @@ We can start with a simple vite project, using the Vanilla template and Typescri
 │  Yes
 ```
 
-For this article we are going to be using `lit-html` so we don't have to implement two key features ourselves: html generation and efficient rendering.
-But don't worry, all you need to know is that when using `html` you can provide html as a javascript string. This means you can include javascript expression inside it using `${}`. And you bind functions to dom events by using `@eventname`. This is similar to how Vue works, and the equivalent of `onEventName` in React.
+For this article we are going to use `lit-html` so we don’t have to implement two key features ourselves: HTML generation and efficient rendering.
+
+We can create templates with JavaScript interpolation by using the `html` tag (for example, `${...}` inside the template), and we can bind DOM events with `@event` syntax, similar to Vue, and conceptually similar to `onEvent` props in React.
 
 > TIP
-> If you want syntax highligithing inside the html tag string, you can
-> install the vs code plugin for lit.
+> If you want syntax highlighting inside `html` template literals, install the VS Code plugin for Lit.
 
 ```sh
 pnpm add lit-html
@@ -50,22 +50,17 @@ We remove everything in `main.ts` and write a basic `view` for our app:
 ```ts
 import { html, render } from "lit-html";
 
-// We create our representation of the UI as a template literal using the `html` function from lit-html.
 const view = html`
   <h1>Hello, World</h1>
   <p>Counter is at 0</p>
   <button>Click me</button>
 `;
 
-// We render the view into the DOM. The `render` function takes the view and a DOM element to render into.
 const root = document.getElementById("app")!;
 render(view, root);
 ```
 
-We are finding the `#app` element and changing it's internal HTML. While this works, we are going to
-swap for `lit-html` to get some better performance and more features for out HTML template.
-
-Let's use some interpolation and extract some of that content:
+We render into `#app` using `lit-html`. Next, let’s make this dynamic using interpolation:
 
 ```ts
 import { html, render } from "lit-html";
@@ -73,19 +68,17 @@ import { html, render } from "lit-html";
 let counter = 0;
 const title = "Hello, World";
 
-// We create our representation of the UI as a template literal using the `html` function from lit-html.
 const view = html`
   <h1>${title}</h1>
   <p>Counter is at ${counter}</p>
   <button>Click me</button>
 `;
 
-// We render the view into the DOM. The `render` function takes the view and a DOM element to render into.
 const root = document.getElementById("app")!;
 render(view, root);
 ```
 
-Now, let's make a function that increases the counter and bind that to the button:
+Now, let’s make a function that increases the counter and bind it to the button:
 
 ```ts
 import { html, render } from "lit-html";
@@ -107,7 +100,11 @@ function increaseCounter() {
 }
 ```
 
-But this won't work. Why? Because when the call the `increaseCounter` the `view` was already created and rendered. We are updating the `counter` but we are not changing the value for `view` nor rendering it again. Let's fix that by making our `view` a function that takes the counter value as an argument, and by creating a new function that updates the counter, calculate the new `view` and render it again:
+But this won’t work. Why?
+
+When `increaseCounter` runs, the `view` was already created and rendered. We update `counter`, but we don’t create a new `view` or render again.
+
+Let’s fix that by making `view` a function that receives state, and re-rendering after each update:
 
 ```ts
 import { html, render } from "lit-html";
@@ -132,18 +129,15 @@ function increaseCounter() {
 }
 ```
 
-If you check your browser, it should be working again. We have the same static content, but now when you click the button, it'll
-increase it's count and udpate it's value.
+Now clicking the button updates the UI again.
 
-I hope you see can that there is nothing new here, this is the basis for every framework. React and Solid uses JSX instead of `html`, while Vue and Svelte uses Single File Componets with `<template>` tags. React and Vue use a Virtual DOM to efficienly patch the rendered content, while Solid and Svelte tracks signals or mutations to make direct updates to the DOM.
+At a high level, this idea appears in many frameworks: UI as a function of state. The details differ (Virtual DOM, fine-grained reactivity, compile-time optimizations), but the core loop is familiar.
 
-> The DOM (Document Object Model) is a tree-like representation of your HTML page that the browser maintains in memory. Each element, attribute, and piece of text is a node in this tree, and JavaScript can read or modify it to make pages interactive. The problem is that directly manipulating the DOM can be slow — especially when many changes happen at once, since the browser may need to recalculate layouts and repaint the screen.
->
-> A Virtual DOM is a lightweight copy of that tree kept in JavaScript memory. Instead of touching the real DOM immediately, a framework first applies changes to this virtual copy, then compares it with the previous snapshot (a process called "diffing"), and finally applies only the minimal set of real DOM updates needed. This batching and diffing strategy is what makes frameworks like React and Vue fast despite frequent state changes.
+Now we’ll apply two core ideas from The Elm Architecture: a single state that flows downstream, and state changes expressed as messages.
 
-However, we are going tio apply two ideias that separate The Elm Architecture from others: a single state that flow downstream, and state changes expressed as messages. This is what unlocks some powerful capabilities we will take a look at.
+## Step 1: one `Model`
 
-First, let's start by making a type called `Model` that represents the whole state of the app:
+First, let’s define a `Model` that represents all app state. We’ll mutate it in this step for simplicity, then switch to immutable updates in the next step:
 
 ```ts
 import { html, render } from "lit-html";
@@ -175,7 +169,7 @@ function increaseCounter() {
 }
 ```
 
-If we want our title to have a little bit more logic, we can just write a function:
+If we want the title to have extra logic, we can extract a function:
 
 ```ts
 import { html, render } from "lit-html";
@@ -211,9 +205,13 @@ const root = document.getElementById("app")!;
 render(view(model), root);
 ```
 
-`Title` is now a very basic component with some custom logic. Notice that it does not have any state of it's own.
+`Title` is now a small component-like function with no internal state.
 
-Now we need to work with messages instead of mutating our model. We will create two functions, `update` takes a `Model` and an `Event` and returns a new `Model`. `dispatch` takes an `Event`, calls `update`, replace the old model with the new model, and re-renders the view. We are also defining the `Event` type and implementing a way to reset the counter:
+## Step 2: messages + `update`
+
+Now we switch from direct mutation in handlers to message-driven updates.
+
+In Elm terminology this is usually `Msg`, but in this article we’ll use the more explicit name `Message`.
 
 ```ts
 import { html, render } from "lit-html";
@@ -223,9 +221,9 @@ type Model = {
   title: string;
 };
 
-type Event = { type: "SET_COUNTER"; value: number };
+type Message = { type: "SET_COUNTER"; value: number };
 
-const model: Model = {
+let model: Model = {
   counter: 0,
   title: "Hello, World",
 };
@@ -250,19 +248,18 @@ function view(model: Model) {
   `;
 }
 
-function update(model: Model, event: Event): Model {
-  switch (event.type) {
+function update(model: Model, message: Message): Model {
+  switch (message.type) {
     case "SET_COUNTER":
-      return { ...model, counter: event.value };
+      return { ...model, counter: message.value };
     default:
       return model;
   }
 }
 
-function dispatch(event: Event) {
-  const newModel = update(model, event);
-  Object.assign(model, newModel);
-  render(view(newModel), root);
+function dispatch(message: Message) {
+  model = update(model, message);
+  render(view(model), root);
 }
 
 const root = document.getElementById("app")!;
@@ -270,14 +267,18 @@ render(view(model), root);
 ```
 
 > NOTE
-> Does the `distach` and `update` look familiar? If you've used Redux you might recognize the pattern.
-> This not a coincidence, Redux was inspired by The Elm Architecture.
-> useReducer is also ... (check history for it)
+> Does `dispatch` + `update` look familiar? If you’ve used Redux, this pattern may look very similar.
+> That is not a coincidence: Redux was heavily inspired by The Elm Architecture.
 
-This works, but we are forced to handle events in a syncronous way. Let's learn a new concept: 
-Commands. In TEA, commands are just functions that return an Event. 
-Based on the `event` and a `model`, `update` can now return the new model and possibily a command. 
-`dispatch` is responsible for running the command and calling itself after it resolves:
+## Step 3: commands for async work
+
+So far, updates are synchronous.
+
+Now let’s add commands. In TEA terms, commands represent effects that eventually produce a new message. In real applications, commands can also fail, and you can model that by returning error messages (for example, `RESET_FAILED`).
+
+`update` now returns the next `model` and, optionally, a `command` to run.
+
+`dispatch` applies the model, renders, runs the command, and dispatches the resulting message.
 
 ```ts
 import { html, render } from "lit-html";
@@ -287,9 +288,13 @@ type Model = {
   title: string;
 };
 
-type Event = { type: "SET_COUNTER"; value: number } | { type: "RESET_COUNTER" };
+type Message =
+  | { type: "SET_COUNTER"; value: number }
+  | { type: "RESET_COUNTER" };
 
-const model: Model = {
+type Command = () => Promise<Message>;
+
+let model: Model = {
   counter: 0,
   title: "Hello, World",
 };
@@ -312,12 +317,10 @@ function view(model: Model) {
   `;
 }
 
-type Command = () => Promise<Event>;
-
-function update(model: Model, event: Event): [Model, Command?] {
-  switch (event.type) {
+function update(model: Model, message: Message): [Model, Command?] {
+  switch (message.type) {
     case "SET_COUNTER":
-      return [{ ...model, counter: event.value }];
+      return [{ ...model, counter: message.value }];
     case "RESET_COUNTER":
       return [model, resetCounter];
     default:
@@ -325,17 +328,18 @@ function update(model: Model, event: Event): [Model, Command?] {
   }
 }
 
-async function resetCounter(): Promise<Event> {
+async function resetCounter(): Promise<Message> {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   return { type: "SET_COUNTER", value: 0 };
 }
 
-function dispatch(event: Event) {
-  const [newModel, command] = update(model, event);
-  Object.assign(model, newModel);
-  render(view(newModel), root);
+function dispatch(message: Message) {
+  const [newModel, command] = update(model, message);
+  model = newModel;
+  render(view(model), root);
+
   if (command) {
-    command().then((event) => dispatch(event));
+    command().then(dispatch);
   }
 }
 
@@ -343,6 +347,10 @@ const root = document.getElementById("app")!;
 render(view(model), root);
 ```
 
-This should give you an overview of how the The Elm Architecture works.
-With those building blocks we can create some really complex applications.
-And that is what I hope to show in the next article.
+## Recap
+
+At this point, we have a single `Model` as the source of truth for app state, and a `view(model)` function that describes the UI from that state. We apply changes with a pure `update(model, message)` function, and `dispatch` acts as the central loop that updates the model, re-renders, and runs commands when needed.
+
+This should give you a practical overview of how The Elm Architecture works.
+
+In the next article, we’ll build on this with more realistic examples (form input, async data, and composition patterns).
