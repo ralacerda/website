@@ -223,7 +223,7 @@ Uma vez que inicializamos a variável com o valor `0` e nenhum elemento dentro d
 Deixar `largestNumber` sem um valor inicial não funciona, já que a comparação `numbersArray[i] > largestNumber` sempre retornará `false`. Definir `largestNumber` como `null` também não resolve nosso problema:
 
 ::note
-Para entender melhor o comportamento de `null` quando comparado a um número, confira este artigo: :lang-link{href="/blog/null-greater-than-zero" pt="Javascript: O Curioso Caso de Null >= 0" en="Javascript: The Curious Case of Null >= 0"}
+Para entender melhor o comportamento de `null` quando comparado a um número, confira este artigo: :lang-link{href="https://blog.campvanilla.com/javascript-the-curious-case-of-null-0-7b131644e274" pt="Javascript: O Curioso Caso de Null >= 0" en="Javascript: The Curious Case of Null >= 0"}
 ::
 ::
 
@@ -233,7 +233,7 @@ Since we initialize the variable with the value of `0` and no element within the
 Not defining an initial value for `largestNumber` does not work, since the comparison `numbersArray[i] > largestNumber` will always return `false`. Defining `largestNumber` as `null` also does not solve our problem:
 
 ::note
-To better understand the behavior of null when compared to a number, check out this article: :lang-link{href="/blog/null-greater-than-zero" pt="Javascript: O Curioso Caso de Null >= 0" en="Javascript: The Curious Case of Null >= 0"}
+To better understand the behavior of null when compared to a number, check out this article: :lang-link{href="https://blog.campvanilla.com/javascript-the-curious-case-of-null-0-7b131644e274" pt="Javascript: O Curioso Caso de Null >= 0" en="Javascript: The Curious Case of Null >= 0"}
 ::
 ::
 
