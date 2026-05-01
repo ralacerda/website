@@ -2,12 +2,13 @@ import { defineCollection, defineContentConfig } from "@nuxt/content";
 import { z } from "zod";
 
 const blogSchema = z.object({
-  title: z.string(),
+  title_pt: z.string(),
+  title_en: z.string().optional(),
   publishDate: z.string(),
   draft: z.boolean(),
   tags: z.array(z.string()),
-  description: z.string(),
-  lang: z.string(),
+  description_pt: z.string(),
+  description_en: z.string().optional(),
   slug: z.string(),
 });
 
@@ -28,7 +29,7 @@ export type Project = z.infer<typeof projectSchema>;
 export default defineContentConfig({
   collections: {
     blog: defineCollection({
-      source: "blog/*/*.md",
+      source: "blog/*.md",
       type: "page",
       schema: blogSchema,
     }),

@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import type { BlogPost } from "~~/content.config";
 
-defineProps<{
+const props = defineProps<{
   post: BlogPost;
 }>();
+
+const { locale } = useI18n();
+
+const title = computed(() => locale.value === "en" && props.post.title_en ? props.post.title_en : props.post.title_pt);
+const description = computed(() => locale.value === "en" && props.post.description_en ? props.post.description_en : props.post.description_pt);
 </script>
 
 <template>
   <article>
     <div class="article-info">
       <h2>
-        {{ post.title }}
+        {{ title }}
       </h2>
-      <div class="article-description">{{ post.description }}</div>
+      <div class="article-description">{{ description }}</div>
       <div>
         <BlogPostDate :datetime="post.publishDate" />
       </div>
@@ -172,14 +177,6 @@ article {
   }
   sup a {
     margin-inline: 0.1em;
-  }
-
-  .footnotes ol {
-    margin-top: var(--space-s);
-
-    li {
-      margin-top: var(--space-xs);
-    }
   }
 
   .code-iframe {

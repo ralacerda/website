@@ -1,8 +1,35 @@
+<script setup lang="ts">
+const props = defineProps<{
+  title?: string;
+  titlePt?: string;
+  titleEn?: string;
+}>();
+
+const { locale } = useI18n();
+
+const displayTitle = computed(() => {
+  if (locale.value === "en") {
+    return props.titleEn || props.title || props.titlePt;
+  }
+  return props.titlePt || props.title || props.titleEn;
+});
+</script>
+
 <template>
   <div class="note breakout">
-    <strong v-if="$slots.title"><slot name="title" /></strong>
-    <slot />
-    <slot name="content" />
+    <strong
+      v-if="displayTitle || $slots.title || $slots.title_pt || $slots.title_en"
+    >
+      <slot name="title" mdc-unwrap="p" />
+      <slot v-if="locale === 'pt'" name="title_pt" mdc-unwrap="p" />
+      <slot v-else-if="locale === 'en'" name="title_en" mdc-unwrap="p" />
+      <template v-if="!$slots.title && !$slots.title_pt && !$slots.title_en">
+        {{ displayTitle }}
+      </template>
+    </strong>
+
+    <slot v-if="$slots[locale]" :name="locale" />
+    <slot v-else />
   </div>
 </template>
 

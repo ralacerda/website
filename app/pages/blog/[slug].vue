@@ -5,11 +5,10 @@ const slug = route.params.slug;
 const { locale } = useI18n();
 
 const { data: post } = await useAsyncData(
-  `post-${slug}-${locale.value}`,
+  `post-${slug}`,
   () => {
     return queryCollection("blog")
       .where("slug", "=", slug)
-      .where("lang", "=", locale.value)
       .first();
   },
 );
@@ -18,15 +17,18 @@ if (!post.value) {
   throw new Error("Post not found");
 }
 
+const postTitle = computed(() => locale.value === "en" && post.value?.title_en ? post.value.title_en : post.value?.title_pt);
+const postDescription = computed(() => locale.value === "en" && post.value?.description_en ? post.value.description_en : post.value?.description_pt);
+
 useSeoMeta({
-  title: post.value.title,
-  description: post.value.description,
+  title: postTitle,
+  description: postDescription,
   ogType: "article",
 });
 
 defineOgImageComponent("BlogPost", {
-  title: post.value.title,
-  description: post.value.description,
+  title: postTitle.value,
+  description: postDescription.value,
 });
 </script>
 

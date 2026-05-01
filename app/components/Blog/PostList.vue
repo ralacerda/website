@@ -4,6 +4,11 @@ import type { BlogPost } from "~~/content.config";
 defineProps<{
   postList: BlogPost[];
 }>();
+
+const { locale } = useI18n();
+
+const getTitle = (post: BlogPost) => locale.value === "en" && post.title_en ? post.title_en : post.title_pt;
+const getDescription = (post: BlogPost) => locale.value === "en" && post.description_en ? post.description_en : post.description_pt;
 </script>
 
 <template>
@@ -11,11 +16,11 @@ defineProps<{
     <li v-for="post in postList" :key="post.slug">
       <h3>
         <NuxtLinkLocale :to="'/blog/' + post.slug"
-          >{{ post.title }}
+          >{{ getTitle(post) }}
         </NuxtLinkLocale>
       </h3>
       <BlogPostDate :datetime="post.publishDate" />
-      <p>{{ post.description }}</p>
+      <p>{{ getDescription(post) }}</p>
     </li>
   </ul>
 </template>
