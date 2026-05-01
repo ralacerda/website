@@ -17,7 +17,12 @@ Cassidy Williams has an excellent [newsletter](https://cassidoo.co/newsletter), 
 A Cassidy Williams tem uma excelente [newsletter](https://cassidoo.co/newsletter), que sempre inclui uma “Pergunta de entrevista da semana”. A pergunta dessa semana era:
 ::
 
-> ::lang-block{lang="en"}Given an array of strings representing a sequence of traffic light states ("red" for stop, "green" for go, "yellow" for slow), write a function that returns true if the sequence could represent a valid state machine for a standard traffic light. The only valid transitions are: red to green, green to yellow, and yellow to red.:: ::lang-block{lang="pt"}Dado um array de strings que representa uma sequência de estados de semáforo, escreva uma função que verifique se a sequência pode representar estados válidos para um semáforo padrão. As únicas transições válidas são: de vermelho para verde, de verde para amarelo e de amarelo para vermelho.::
+::lang-quote
+#en
+Given an array of strings representing a sequence of traffic light states ("red" for stop, "green" for go, "yellow" for slow), write a function that returns true if the sequence could represent a valid state machine for a standard traffic light. The only valid transitions are: red to green, green to yellow, and yellow to red.
+#pt
+Dado um array de strings que representa uma sequência de estados de semáforo, escreva uma função que verifique se a sequência pode representar estados válidos para um semáforo padrão. As únicas transições válidas são: de vermelho para verde, de verde para amarelo e de amarelo para vermelho.
+::
 
 ::lang-block{lang="en"}
 To make it clear, here are some examples:

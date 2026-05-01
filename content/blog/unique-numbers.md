@@ -17,7 +17,12 @@ description_pt: "Filtrando e somando números únicos usando filter, set e reduc
 [Cassidy Williams](https://cassidoo.co/) tem uma newsletter incrível que inclui, entre outras coisas, perguntas de entrevista. Na última edição, ela incluiu a seguinte pergunta:
 ::
 
-> ::lang-block{lang="en"}Given an array of numbers, add all of the values together but only if the number doesn't repeat a digit.:: ::lang-block{lang="pt"}Dado um array de números, some todos os valores, mas apenas se o número não repete um dígito.::
+::lang-quote
+#en
+Given an array of numbers, add all of the values together but only if the number doesn't repeat a digit.
+#pt
+Dado um array de números, some todos os valores, mas apenas se o número não repete um dígito.
+::
 
 ::lang-block{lang="en"}
 Example:
