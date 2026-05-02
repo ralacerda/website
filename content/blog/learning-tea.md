@@ -2,8 +2,8 @@
 title_en: "Learning and understanding The Elm Architecture"
 title_pt: "Aprendendo e entendendo a Elm Architecture"
 slug: "learning-tea"
-publishDate: 2026-09-03
-draft: true
+publishDate: 2026-05-01
+draft: false
 tags: ["javascript", "typescript", "elm", "functional programming"]
 description_en: "Learn the core ideas of The Elm Architecture in TypeScript with lit-html: model, view, update, messages, and commands."
 description_pt: "Aprenda as ideias centrais da Elm Architecture em TypeScript com lit-html: model, view, update, messages e commands."
@@ -19,6 +19,18 @@ So let’s learn by creating a small project using The Elm Architecture, which w
 You don’t need prior Elm knowledge, but you should have a basic understanding of TypeScript and DOM events.
 
 We can start with a simple Vite project, using the Vanilla template and TypeScript:
+::
+
+::lang-block{lang="pt"}
+Esta é a primeira parte de uma série de artigos sobre como escrever um framework baseado em TEA (The Elm Architecture) em TypeScript.
+
+A Elm Architecture é utilizada em muitos lugares: Lustre em Gleam, Bubble Tea em Go e Iced em Rust.
+
+Então vamos aprender criando um pequeno projeto usando a Elm Architecture, que poderemos migrar posteriormente para o nosso próprio framework TypeScript. Afinal, nunca existem frameworks JavaScript suficientes para a web.
+
+Você não precisa de conhecimento prévio de Elm, mas deve ter um entendimento básico de TypeScript e eventos do DOM.
+
+Podemos começar com um projeto Vite simples, usando o template Vanilla e TypeScript:
 ::
 
 ```sh
@@ -44,7 +56,16 @@ We can create templates with JavaScript interpolation by using the `html` tag (f
 
 > TIP
 > If you want syntax highlighting inside `html` template literals, install the VS Code plugin for Lit.
-::
+> ::
+
+::lang-block{lang="pt"}
+Para este artigo, vamos usar `lit-html` para não termos que implementar duas funcionalidades principais nós mesmos: geração de HTML e renderização eficiente.
+
+Podemos criar templates com interpolação JavaScript usando a tag `html` (por exemplo, `${...}` dentro do template), e podemos vincular eventos do DOM com a sintaxe `@event`, semelhante ao Vue, e conceitualmente parecida com as props `onEvent` no React.
+
+> DICA
+> Se você quiser realce de sintaxe dentro de literais de template `html`, instale o plugin do VS Code para Lit.
+> ::
 
 ```sh
 pnpm add lit-html
@@ -52,6 +73,10 @@ pnpm add lit-html
 
 ::lang-block{lang="en"}
 We remove everything in `main.ts` and write a basic `view` for our app:
+::
+
+::lang-block{lang="pt"}
+Removemos tudo no `main.ts` e escrevemos uma `view` básica para o nosso app:
 ::
 
 ```ts
@@ -69,6 +94,10 @@ render(view, root);
 
 ::lang-block{lang="en"}
 We render into `#app` using `lit-html`. Next, let’s make this dynamic using interpolation:
+::
+
+::lang-block{lang="pt"}
+Renderizamos no `#app` usando `lit-html`. Em seguida, vamos tornar isso dinâmico usando interpolação:
 ::
 
 ```ts
@@ -89,6 +118,10 @@ render(view, root);
 
 ::lang-block{lang="en"}
 Now, let’s make a function that increases the counter and bind it to the button:
+::
+
+::lang-block{lang="pt"}
+Agora, vamos criar uma função que aumenta o contador e vinculá-la ao botão:
 ::
 
 ```ts
@@ -119,6 +152,14 @@ When `increaseCounter` runs, the `view` was already created and rendered. We upd
 Let’s fix that by making `view` a function that receives state, and re-rendering after each update:
 ::
 
+::lang-block{lang="pt"}
+Mas isso não vai funcionar. Por quê?
+
+Quando o `increaseCounter` é executado, a `view` já foi criada e renderizada. Atualizamos o `counter`, mas não criamos uma nova `view` nem renderizamos novamente.
+
+Vamos corrigir isso tornando a `view` uma função que recebe o estado e renderizando novamente após cada atualização:
+::
+
 ```ts
 import { html, render } from "lit-html";
 
@@ -147,233 +188,169 @@ Now clicking the button updates the UI again.
 
 At a high level, this idea appears in many frameworks: UI as a function of state. The details differ (Virtual DOM, fine-grained reactivity, compile-time optimizations), but the core loop is familiar.
 
-Now we’ll apply two core ideas from The Elm Architecture: a single state that flows downstream, and state changes expressed as messages.
+Now we’ll apply the core ideas from The Elm Architecture but encapsulated in a class, similar to how the `iced` library works in Rust.
 
-## Step 1: one `Model`
+## The `Counter` Application
 
-First, let’s define a `Model` that represents all app state. We’ll mutate it in this step for simplicity, then switch to immutable updates in the next step:
+Instead of loose functions and variables, we’ll encapsulate our application logic in a class. This class will hold our application state and define how to update and view it.
+
+First, let's define our state and messages:
+::
+
+::lang-block{lang="pt"}
+Agora, clicar no botão atualiza a UI novamente.
+
+Em um nível macro, essa ideia aparece em muitos frameworks: a UI como uma função do estado. Os detalhes diferem (Virtual DOM, reatividade granular, otimizações em tempo de compilação), mas o loop principal é familiar.
+
+Agora vamos aplicar as ideias centrais da Elm Architecture, mas encapsuladas em uma classe, semelhante a como a biblioteca `iced` funciona em Rust.
+
+## A Aplicação `Counter`
+
+Em vez de funções e variáveis soltas, vamos encapsular a lógica da nossa aplicação em uma classe. Essa classe manterá o estado da nossa aplicação e definirá como atualizá-lo e visualizá-lo.
+
+Primeiro, vamos definir nosso estado e mensagens:
 ::
 
 ```ts
-import { html, render } from "lit-html";
-
-type Model = {
-  counter: number;
-  title: string;
+type State = {
+  value: number;
 };
 
-const model: Model = {
-  counter: 0,
-  title: "Hello, World",
-};
-
-function view(model: Model) {
-  return html`
-    <h1>${model.title}</h1>
-    <p>Counter is at ${model.counter}</p>
-    <button @click=${increaseCounter}>Click me</button>
-  `;
-}
-
-const root = document.getElementById("app")!;
-render(view(model), root);
-
-function increaseCounter() {
-  model.counter++;
-  render(view(model), root);
-}
+type Message = "Increment" | "Decrement";
 ```
 
 ::lang-block{lang="en"}
-If we want the title to have extra logic, we can extract a function:
+Now, let's create the `Counter` class:
+::
+
+::lang-block{lang="pt"}
+Agora, vamos criar a classe `Counter`:
 ::
 
 ```ts
 import { html, render } from "lit-html";
 
-type Model = {
-  counter: number;
-  title: string;
-};
+class Counter {
+  // We use an internal state object
+  state: State = {
+    value: 0,
+  };
 
-const model: Model = {
-  counter: 0,
-  title: "Hello, World",
-};
+  // The update method describes how state changes in response to messages
+  update(message: Message) {
+    // We capture a snapshot of the current state before the update logic starts.
+    let state = this.state;
 
-function Title(text: string, count: number) {
-  return html`<h1>${text}${"!".repeat(count)}</h1>`;
-}
+    switch (message) {
+      case "Increment":
+        this.state = { ...state, value: state.value + 1 };
+        break;
+      case "Decrement":
+        this.state = { ...state, value: state.value - 1 };
+        break;
+    }
+  }
 
-function view(model: Model) {
-  return html`
-    ${Title(model.title, model.counter)}
-    <p>Counter is at ${model.counter}</p>
-    <button @click=${increaseCounter}>Click me</button>
-  `;
-}
+  // The view method describes how the UI should look based on the current state
+  view() {
+    return html`
+      <h1>Counter App</h1>
+      <p>Count: ${this.state.value}</p>
+      <button @click=${() => this.dispatch("Increment")}>+</button>
+      <button @click=${() => this.dispatch("Decrement")}>-</button>
+    `;
+  }
 
-function increaseCounter() {
-  model.counter++;
-  render(view(model), root);
-}
+  // The runtime logic
+  private root = document.getElementById("app")!;
 
-const root = document.getElementById("app")!;
-render(view(model), root);
-```
+  dispatch(message: Message) {
+    this.update(message);
+    this.render();
+  }
 
-::lang-block{lang="en"}
-`Title` is now a small component-like function with no internal state.
-
-## Step 2: messages + `update`
-
-Now we switch from direct mutation in handlers to message-driven updates.
-
-In Elm terminology this is usually `Msg`, but in this article we’ll use the more explicit name `Message`.
-::
-
-```ts
-import { html, render } from "lit-html";
-
-type Model = {
-  counter: number;
-  title: string;
-};
-
-type Message = { type: "SET_COUNTER"; value: number };
-
-let model: Model = {
-  counter: 0,
-  title: "Hello, World",
-};
-
-function Title(text: string, count: number) {
-  return html`<h1>${text}${"!".repeat(count)}</h1>`;
-}
-
-function view(model: Model) {
-  return html`
-    ${Title(model.title, model.counter)}
-    <p>Counter is at ${model.counter}</p>
-    <button
-      @click=${() =>
-        dispatch({ type: "SET_COUNTER", value: model.counter + 1 })}
-    >
-      Click me
-    </button>
-    <button @click=${() => dispatch({ type: "SET_COUNTER", value: 0 })}>
-      Reset
-    </button>
-  `;
-}
-
-function update(model: Model, message: Message): Model {
-  switch (message.type) {
-    case "SET_COUNTER":
-      return { ...model, counter: message.value };
-    default:
-      return model;
+  render() {
+    render(this.view(), this.root);
   }
 }
 
-function dispatch(message: Message) {
-  model = update(model, message);
-  render(view(model), root);
-}
-
-const root = document.getElementById("app")!;
-render(view(model), root);
+const app = new Counter();
+app.render();
 ```
 
 ::lang-block{lang="en"}
-> NOTE
-> Does `dispatch` + `update` look familiar? If you’ve used Redux, this pattern may look very similar.
-> That is not a coincidence: Redux was heavily inspired by The Elm Architecture.
 
-## Step 3: commands for async work
+## Why avoid mutation?
 
-So far, updates are synchronous.
+In the `update` method, notice we didn't do `this.state.value++`. Instead, we created a whole new object: `this.state = { ...state, value: state.value + 1 }`.
 
-Now let’s add commands. In TEA terms, commands represent effects that eventually produce a new message. In real applications, commands can also fail, and you can model that by returning error messages (for example, `RESET_FAILED`).
+By reassigning the `state` instead of mutating its properties, we preserve the previous state in memory (as long as something holds a reference to it). This is the foundation for features like **Time Traveling**.
 
-`update` now returns the next `model` and, optionally, a `command` to run.
+## Time Traveling
 
-`dispatch` applies the model, renders, runs the command, and dispatches the resulting message.
+Because our `update` logic is based on transition from one immutable state to another, we can easily keep track of every state our application has ever been in.
+
+Imagine adding a history array to our class:
+::
+
+::lang-block{lang="pt"}
+
+## Por que evitar mutação?
+
+No método `update`, observe que não fizemos `this.state.value++`. Em vez disso, criamos um objeto totalmente novo: `this.state = { ...state, value: state.value + 1 }`.
+
+Ao reatribuir o `state` em vez de mutar suas propriedades, preservamos o estado anterior na memória (desde que algo mantenha uma referência a ele). Esta é a base para funcionalidades como **Time Traveling** (Viagem no Tempo).
+
+## Time Traveling
+
+Como nossa lógica de `update` é baseada na transição de um estado imutável para outro, podemos facilmente rastrear todos os estados em que nossa aplicação já esteve.
+
+Imagine adicionar um array de histórico à nossa classe:
 ::
 
 ```ts
-import { html, render } from "lit-html";
+class Counter {
+  state: State = { value: 0 };
+  history: State[] = [];
 
-type Model = {
-  counter: number;
-  title: string;
-};
+  dispatch(message: Message) {
+    // Save current state to history before updating
+    this.history.push(this.state);
 
-type Message =
-  | { type: "SET_COUNTER"; value: number }
-  | { type: "RESET_COUNTER" };
+    this.update(message);
+    this.render();
+  }
 
-type Command = () => Promise<Message>;
-
-let model: Model = {
-  counter: 0,
-  title: "Hello, World",
-};
-
-function Title(text: string, count: number) {
-  return html`<h1>${text}${"!".repeat(count)}</h1>`;
-}
-
-function view(model: Model) {
-  return html`
-    ${Title(model.title, model.counter)}
-    <p>Counter is at ${model.counter}</p>
-    <button
-      @click=${() =>
-        dispatch({ type: "SET_COUNTER", value: model.counter + 1 })}
-    >
-      Click me
-    </button>
-    <button @click=${() => dispatch({ type: "RESET_COUNTER" })}>Reset</button>
-  `;
-}
-
-function update(model: Model, message: Message): [Model, Command?] {
-  switch (message.type) {
-    case "SET_COUNTER":
-      return [{ ...model, counter: message.value }];
-    case "RESET_COUNTER":
-      return [model, resetCounter];
-    default:
-      return [model];
+  undo() {
+    const previousState = this.history.pop();
+    if (previousState) {
+      this.state = previousState;
+      this.render();
+    }
   }
 }
-
-async function resetCounter(): Promise<Message> {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return { type: "SET_COUNTER", value: 0 };
-}
-
-function dispatch(message: Message) {
-  const [newModel, command] = update(model, message);
-  model = newModel;
-  render(view(model), root);
-
-  if (command) {
-    command().then(dispatch);
-  }
-}
-
-const root = document.getElementById("app")!;
-render(view(model), root);
 ```
 
 ::lang-block{lang="en"}
+With this pattern, implementing "Undo" or a full "Time Travel Debugger" becomes trivial. You can just store an array of states and jump between them.
+
 ## Recap
 
-At this point, we have a single `Model` as the source of truth for app state, and a `view(model)` function that describes the UI from that state. We apply changes with a pure `update(model, message)` function, and `dispatch` acts as the central loop that updates the model, re-renders, and runs commands when needed.
+At this point, we have a single class as the source of truth for app state and logic. We apply changes by reassigning an immutable state object, and `dispatch` acts as the central loop.
 
-This should give you a practical overview of how The Elm Architecture works.
+This should give you a practical overview of how The Elm Architecture works in a more structured, object-oriented way.
 
 In the next article, we’ll build on this with more realistic examples (form input, async data, and composition patterns).
+::
+
+::lang-block{lang="pt"}
+Com esse padrão, implementar "Desfazer" (Undo) ou um "Depurador de Viagem no Tempo" completo torna-se trivial. Você pode apenas armazenar um array de estados e saltar entre eles.
+
+## Recapitulação
+
+Neste ponto, temos uma única classe como fonte da verdade para o estado e a lógica do app. Aplicamos mudanças reatribuindo um objeto de estado imutável, e o `dispatch` atua como o loop central.
+
+Isso deve te dar uma visão prática de como a Elm Architecture funciona de uma maneira mais estruturada e orientada a objetos.
+
+No próximo artigo, construiremos sobre isso com exemplos mais realistas (input de formulário, dados assíncronos e padrões de composição).
 ::
