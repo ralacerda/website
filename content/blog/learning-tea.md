@@ -53,19 +53,20 @@ Podemos começar com um projeto Vite simples, usando o template Vanilla e TypeSc
 For this article we are going to use `lit-html` so we don’t have to implement two key features ourselves: HTML generation and efficient rendering.
 
 We can create templates with JavaScript interpolation by using the `html` tag (for example, `${...}` inside the template), and we can bind DOM events with `@event` syntax, similar to Vue, and conceptually similar to `onEvent` props in React.
-
-> TIP
-> If you want syntax highlighting inside `html` template literals, install the VS Code plugin for Lit.
-> ::
+::
 
 ::lang-block{lang="pt"}
 Para este artigo, vamos usar `lit-html` para não termos que implementar duas funcionalidades principais nós mesmos: geração de HTML e renderização eficiente.
 
 Podemos criar templates com interpolação JavaScript usando a tag `html` (por exemplo, `${...}` dentro do template), e podemos vincular eventos do DOM com a sintaxe `@event`, semelhante ao Vue, e conceitualmente parecida com as props `onEvent` no React.
+::
 
-> DICA
-> Se você quiser realce de sintaxe dentro de literais de template `html`, instale o plugin do VS Code para Lit.
-> ::
+::more-info{title_en="Tip" title_pt="Dica"}
+#en
+If you want syntax highlighting inside `html` template literals, install the VS Code plugin for Lit.
+#pt
+Se você quiser realce de sintaxe dentro de literais de template `html`, instale o plugin do VS Code para Lit.
+::
 
 ```sh
 pnpm add lit-html
