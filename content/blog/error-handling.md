@@ -451,7 +451,7 @@ and leave failures untouched.
 - `.map()` runs only on success
 - `.mapError()` runs only on failure
 - both return new `Result`, so they can be chained
-  ::
+::
 
 ```ts
 async function getUserEmail(
@@ -679,7 +679,7 @@ At some boundary (HTTP handler/UI/etc.), you usually need a final value no matte
 
 - `getOrDefault()`
 - `getOrElse()`
-  ::
+::
 
 ```ts
 async function getUserName(userId: string): Promise<string> {
