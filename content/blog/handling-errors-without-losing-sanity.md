@@ -2,7 +2,7 @@
 title_en: "Handling errors without losing sanity"
 slug: "handling-errors-without-losing-sanity"
 publishDate: 2026-05-17
-draft: false
+draft: true
 tags: ["javascript", "typescript", "error-handling"]
 description_en: "How to improve error handling in a codebase full of try/catch blocks without alienating your team."
 ---
@@ -49,7 +49,9 @@ async function fetchUserProfile(userId: string) {
     return await api.get(`/users/${userId}`);
   } catch (error) {
     // We add context, but preserve the original stack trace via `cause`
-    throw new Error(`Failed to load profile for user ${userId}`, { cause: error });
+    throw new Error(`Failed to load profile for user ${userId}`, {
+      cause: error,
+    });
   }
 }
 ```
@@ -60,9 +62,9 @@ When we learn about advanced error handling, we are tempted to create elaborate 
 
 But context matters: **Application code is different from library code.**
 
-When you are writing application code (e.g., a specific screen in your UI or a specific business workflow), you often don't care *what* specifically went wrong at the network layer. Whether it was a DNS failure, a 500 internal server error, or a timeout, the outcome is the same: you show a generic error message to the user. In these cases, **opaque errors are fine**. You don't need to over-engineer error types.
+When you are writing application code (e.g., a specific screen in your UI or a specific business workflow), you often don't care _what_ specifically went wrong at the network layer. Whether it was a DNS failure, a 500 internal server error, or a timeout, the outcome is the same: you show a generic error message to the user. In these cases, **opaque errors are fine**. You don't need to over-engineer error types.
 
-However, if you are writing shared *library* code (like an internal API client or a complex utility), your consumers *do* care. They might need to branch their logic: if the error is a 404, do X; if it's a 401, redirect to login. Here, specific error types and clear contracts are crucial.
+However, if you are writing shared _library_ code (like an internal API client or a complex utility), your consumers _do_ care. They might need to branch their logic: if the error is a 404, do X; if it's a 401, redirect to login. Here, specific error types and clear contracts are crucial.
 
 ## Making Code Easier to Use (Without `Result<T, E>`)
 
@@ -87,13 +89,16 @@ function getUser(id: string): User | null { ... }
 If an operation can fail in a few distinct, expected ways, you can use a lightweight discriminated union instead of throwing errors. It gives you the benefits of the `Result` pattern without adding external dependencies or scary generic types.
 
 ```ts
-type UpdateEmailResult = 
+type UpdateEmailResult =
   | { success: true }
-  | { success: false, reason: "email_taken" | "invalid_format" };
+  | { success: false; reason: "email_taken" | "invalid_format" };
 
-async function updateEmail(userId: string, newEmail: string): Promise<UpdateEmailResult> {
+async function updateEmail(
+  userId: string,
+  newEmail: string,
+): Promise<UpdateEmailResult> {
   if (!isValid(newEmail)) return { success: false, reason: "invalid_format" };
-  
+
   const isTaken = await checkEmailInUse(newEmail);
   if (isTaken) return { success: false, reason: "email_taken" };
 
@@ -118,16 +123,16 @@ If you implement a generic retry mechanism at a high-level orchestration functio
 
 ## When to Actually Throw
 
-By avoiding `throw`, you give the consumer the power to decide what to do. But sometimes, you *want* to make that decision for them. 
+By avoiding `throw`, you give the consumer the power to decide what to do. But sometimes, you _want_ to make that decision for them.
 
-If your application relies on a fundamental service (like a database connection string on boot, or a core auth provider being up) and it's missing or down, **just throw**. There is no way to recover gracefully. Crashing early and loudly is much better than limping along in an invalid state. 
+If your application relies on a fundamental service (like a database connection string on boot, or a core auth provider being up) and it's missing or down, **just throw**. There is no way to recover gracefully. Crashing early and loudly is much better than limping along in an invalid state.
 
 ## Conclusion
 
-At the end of the day, error handling is not just about your code. It's about your fellow developers, the domain, and most importantly, the business. 
+At the end of the day, error handling is not just about your code. It's about your fellow developers, the domain, and most importantly, the business.
 
-Sometimes, the right way to handle an error isn't a technical decision at all. You won't always have the answer in the codebase. You have to talk to your UX/UI designers and business partners: *What should the user see if the payment fails? Can they retry? Should we send them an email?*
+Sometimes, the right way to handle an error isn't a technical decision at all. You won't always have the answer in the codebase. You have to talk to your UX/UI designers and business partners: _What should the user see if the payment fails? Can they retry? Should we send them an email?_
 
-Improving error handling in an existing codebase doesn't mean you have to rewrite everything in a functional style or prepare for every possible scenario. **Don't try to hug the world.** You can't prepare for every possible unexpected error, because by definition, they are unexpected. Focus your energy on handling the *expected* failures gracefully, and rely on global error boundaries and good monitoring to catch the rest.
+Improving error handling in an existing codebase doesn't mean you have to rewrite everything in a functional style or prepare for every possible scenario. **Don't try to hug the world.** You can't prepare for every possible unexpected error, because by definition, they are unexpected. Focus your energy on handling the _expected_ failures gracefully, and rely on global error boundaries and good monitoring to catch the rest.
 
 By applying the Rust philosophy of "handle it now or never," stopping the practice of catching just to log, using native TypeScript features, and knowing when to strategically throw or default, you can drastically improve the predictability of your application. You get all the benefits of robust error handling, keep your codebase readable, and most importantly, you keep your sanity.
