@@ -1,7 +1,7 @@
-My history with technology started early, as an enthusiast of Linux and Open Source culture. What was a hobby became my profession in 2020, when I began working as a freelance developer. Being self-taught, I learned by doing, taking responsibility for the entire project lifecycle, from client conception to final delivery.
+My tech journey began early as a Linux and open-source enthusiast. Always liking the freedom of Linux, I spent significant time customizing environments, learning the command line, and exploring Unix systems.
 
-Today, I am a Fullstack Developer at Skylar, where I work end-to-end on building digital products. My role is balanced: I handle everything from optimizing backends (Node, Python) and cloud infrastructure (GCP) to developing high-performance Landing Pages and SPAs (Single Page Applications) with Vue.js.
+In 2020, I transitioned to a professional path as a freelance developer. Working independently, I learned by doing and took full ownership of project lifecycles—from client conception and architecture design to coding and cloud deployment.
 
-I am passionate about learning and teaching. I believe knowledge only has value when shared, which is why I maintain this blog, contribute to open-source projects, and lead technical workshops (on DDD, Git, etc.) for my team.
+In 2023, I joined Skylar as a Fullstack Developer. I worked end-to-end building digital products, handling backend optimization (Node, Python), cloud infrastructure (GCP), and high-performance Vue.js frontends.
 
-To continue evolving and blending engineering practice with business strategy, I am currently pursuing an MBA in Software Engineering at USP/ESALQ.
+In 2026, I started at CI&T alocated to one of the world's largest investment management firms. Within the Login, Security, and Fraud division of their digital platform, I build the BFF (Backend-For-Frontend) layer, designing secure, high-performance APIs and orchestrating authentication in collaboration with UX and app teams.

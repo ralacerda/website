@@ -2,7 +2,7 @@
 const { locale } = useI18n();
 
 const { data: page } = useAsyncData(`about-me-${locale.value}`, () =>
-  queryCollection("pages").path(`/pages/${locale.value}/about-me`).first()
+  queryCollection("pages").path(`/pages/${locale.value}/about-me`).first(),
 );
 </script>
 
@@ -16,16 +16,24 @@ const { data: page } = useAsyncData(`about-me-${locale.value}`, () =>
     </div>
     <div class="about">
       <AboutBioCard
+        :name="$t('about-me.cards.cit.name') as string"
+        :location="$t('about-me.cards.cit.location') as string"
+        icon="logos:cit"
+        start-date="2026"
+      />
+      <AboutBioCard
         :name="$t('about-me.cards.MBA.name') as string"
         :location="$t('about-me.cards.MBA.location') as string"
         icon="logos:usp"
         start-date="2024"
+        end-date="2026"
       />
       <AboutBioCard
         :name="$t('about-me.cards.skylar.name') as string"
         :location="$t('about-me.cards.skylar.location') as string"
         icon="logos:skylar"
         start-date="2023"
+        end-date="2026"
       />
       <AboutBioCard
         :name="$t('about-me.cards.desenvolve.name') as string"
@@ -33,20 +41,6 @@ const { data: page } = useAsyncData(`about-me-${locale.value}`, () =>
         icon="logos:desenvolva"
         start-date="2023"
         end-date="2023"
-      />
-      <AboutBioCard
-        :name="$t('about-me.cards.csf.name') as string"
-        :location="$t('about-me.cards.csf.location') as string"
-        icon="logos:southampton"
-        start-date="2013"
-        end-date="2014"
-      />
-      <AboutBioCard
-        :name="$t('about-me.cards.graduation.name') as string"
-        :location="$t('about-me.cards.graduation.location') as string"
-        icon="logos:usp"
-        start-date="2010"
-        end-date="2015"
       />
     </div>
   </div>

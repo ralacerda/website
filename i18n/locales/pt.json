@@ -8,7 +8,7 @@
   },
   "index": {
     "intro": "Olá, eu sou o Renato",
-    "position": "Desenvolvedor web entusiasta de código aberto e focado em soluções simples e eficientes."
+    "position": "Engenheiro de Software focado em backends escaláveis, arquitetura limpa e produtividade de desenvolvimento."
   },
   "projects": {
     "title": "Projetos",
@@ -18,6 +18,10 @@
     "title": "Sobre mim",
     "current": "Atual",
     "cards": {
+      "cit": {
+        "name": "Engenheiro de Software",
+        "location": "CI&T"
+      },
       "MBA": {
         "name": "MBA - Engenharia de Software",
         "location": "Universidade de São Paulo"
@@ -29,29 +33,21 @@
       "desenvolve": {
         "name": "Programa Desenvolve Fullstack",
         "location": "Grupo Boticário - Alura"
-      },
-      "csf": {
-        "name": "Ciências Sem Fronteiras",
-        "location": "University of Southampton"
-      },
-      "graduation": {
-        "name": "Ciências Biológicas - Bacharelado",
-        "location": "Universidade de São Paulo"
       }
     }
   },
   "skills": {
-    "language": {
-      "title": "Fluência em Línguas Estrangeiras",
-      "content": "Durante um ano, vivi e estudei na Inglaterra, o que me possibilitou alcançar fluência no idioma Inglês."
+    "teaching": {
+      "title": "Ensino & Mentoria",
+      "content": "Tenho paixão por compartilhar conhecimento e mentorar pessoas, realizando workshops técnicos com frequência e ajudando desenvolvedores a crescerem."
     },
-    "linux": {
-      "title": "Linux e Linha de Comando",
-      "content": "Utilizo GNU/Linux como sistema operacional, o que me forneceu familiariedade com Linha de Comando, Bash e Docker."
+    "communication": {
+      "title": "Comunicação & Inglês",
+      "content": "Comunicação clara e eficaz é um dos meus pontos fortes. Com inglês fluente, estou pronto para colaborar em equipes internacionais."
     },
-    "learning": {
-      "title": "Aprendizado Contínuo",
-      "content": "Gosto de estar sempre atualizado e aprender novas tecnologias e habilidades. Por isso, sempre procuro fazer cursos online para expandir meus conhecimentos."
+    "ai": {
+      "title": "Multiplicação com IA",
+      "content": "Utilizo ferramentas de IA para acelerar entregas enquanto foco minha energia em padrões de código, design de sistemas e arquitetura limpa."
     }
   }
 }

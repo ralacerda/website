@@ -1,21 +1,21 @@
 <template>
   <div id="habilidades" class="skills">
     <div class="block card">
-      <Icon name="mdi:lightbulb-variant-outline" class="icon" />
-      <h2>{{ $t("skills.language.title") }}</h2>
-      <p>{{ $t("skills.language.content") }}</p>
+      <Icon name="mdi:teach" class="icon" />
+      <h2>{{ $t("skills.teaching.title") }}</h2>
+      <p>{{ $t("skills.teaching.content") }}</p>
     </div>
 
     <div class="block card">
-      <Icon name="mdi:console-line" class="icon" />
-      <h2>{{ $t("skills.linux.title") }}</h2>
-      <p>{{ $t("skills.linux.content") }}</p>
+      <Icon name="mdi:forum-outline" class="icon" />
+      <h2>{{ $t("skills.communication.title") }}</h2>
+      <p>{{ $t("skills.communication.content") }}</p>
     </div>
 
     <div class="block card">
-      <Icon name="mdi:airplane" class="icon" />
-      <h2>{{ $t("skills.learning.title") }}</h2>
-      <p>{{ $t("skills.learning.content") }}</p>
+      <Icon name="mdi:robot-outline" class="icon" />
+      <h2>{{ $t("skills.ai.title") }}</h2>
+      <p>{{ $t("skills.ai.content") }}</p>
     </div>
   </div>
 </template>

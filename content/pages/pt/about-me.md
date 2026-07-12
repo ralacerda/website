@@ -1,7 +1,7 @@
-Minha história com tecnologia começou cedo, como um entusiasta de Linux e da cultura Open Source. O que era um hobby se tornou minha profissão em 2020, quando comecei a atuar como desenvolvedor autônomo. Sendo autodidata, aprendi na prática ao ser responsável por todo o ciclo dos projetos, desde a concepção com o cliente até a entrega final.
+Minha jornada com tecnologia começou cedo, como entusiasta de Linux e do open source. Atraído pela liberdade do Linux, dediquei bastante tempo personalizando ambientes, aprendendo linha de comando e explorando o funcionamento de sistemas operacionais.
 
-Hoje, sou Desenvolvedor Fullstack na Skylar, onde trabalho de ponta a ponta na construção de produtos digitais. Minha atuação é balanceada: vou desde a otimização de backends (Node, Python) e infraestrutura em nuvem (GCP), até o desenvolvimento de Landing Pages e SPAs (Single Page Applications) de alta performance com Vue.js.
+Em 2020, iniciei minha carreira como desenvolvedor freelancer. Como autodidata, aprendi na prática e assumi a responsabilidade por todo o ciclo de vida dos projetos, da concepção e arquitetura ao desenvolvimento e deploy na nuvem.
 
-Sou apaixonado por aprender e ensinar. Acredito que o conhecimento só tem valor quando compartilhado, por isso mantenho este blog, contribuo para projetos open source e ministro workshops técnicos (sobre DDD, Git, etc.) para minha equipe.
+Em 2023, entrei na Skylar como Desenvolvedor Fullstack. Atuei de ponta a ponta na construção de produtos digitais, englobando desde a otimização de backends (Node, Python) e infraestrutura GCP até frontends de alta performance com Vue.js.
 
-Para continuar evoluindo e unindo a prática da engenharia com a estratégia de negócios, estou cursando o MBA em Engenharia de Software da USP/ESALQ.
+Em 2026, comecei na CI&T alocado em uma das maiores gestoras de investimentos do mundo. Na divisão de Login, Segurança e Fraude de sua plataforma digital, atuo desenvolvendo a camada BFF (Backend-For-Frontend), criando integrações e endpoints seguros de alta performance junto a times de UX e mobile/web.
